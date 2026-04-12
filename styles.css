@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+
+/* ═══════════════════════════════════
+   TOKENS
+═══════════════════════════════════ */
+:root {
+  --bg:    #0c0a07;
+  --s1:    #111009;
+  --s2:    #181510;
+  --gold:  #d4920e;
+  --gold2: #f0b030;
+  --rust:  #b84c1e;
+  --cream: #f0e6cc;
+  --dim:   #7c6e56;
+  --green: #2a5520;
+  --gl:    #70ae50;
+  --bord:  rgba(212,146,14,.16);
+  --bord2: rgba(212,146,14,.30);
+  --nav:   52px;
+}
+
+/* ═══════════════════════════════════
+   RESET
+═══════════════════════════════════ */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--bg);
+  color:var(--cream);
+  font-family:'Alegreya Sans',serif;
+  font-size:16px;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  height:var(--nav);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 1.25rem;
+  background:rgba(12,10,7,.96);
+  border-bottom:1px solid var(--bord);
+  backdrop-filter:blur(8px);
+}
+.nav-logo {
+  font-weight:900; font-style:italic; font-size:1.35rem;
+  color:var(--gold); text-decoration:none; white-space:nowrap;
+}
+.nav-mid { display:flex; gap:1.25rem; list-style:none; }
+.nav-mid a {
+  color:var(--dim); text-decoration:none;
+  font-size:.68rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-mid a:hover { color:var(--cream); }
+.nav-mid a.active { color:var(--gold); }
+.nav-btn {
+  background:var(--gold); color:#0c0a07;
+  padding:.42rem 1rem;
+  font-weight:900; font-style:italic; font-size:.85rem;
+  text-decoration:none; white-space:nowrap;
+  transition:background .2s;
+}
+.nav-btn:hover { background:var(--gold2); }
+
+/* ═══════════════════════════════════
+   PAGE HERO (archive, about)
+   data-label on .page-hero drives the
+   large watermark text via attr()
+═══════════════════════════════════ */
+.page-hero {
+  padding: calc(var(--nav) + 3.5rem) 2rem 3rem;
+  border-bottom: 1px solid var(--bord);
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: attr(data-label);
+  position: absolute;
+  right: -0.05em; bottom: -0.15em;
+  font-weight: 900; font-style: italic;
+  font-size: clamp(5rem, 16vw, 14rem);
+  color: rgba(212,146,14,.05);
+  line-height: 1; pointer-events: none;
+  letter-spacing: -.04em; white-space: nowrap;
+}
+.hero-lbl {
+  font-size: .62rem; font-weight: 500; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: .45rem;
+}
+.hero-title {
+  font-weight: 900; font-style: italic;
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  line-height: .9; letter-spacing: -.03em;
+  color: var(--cream);
+}
+.hero-title .g { color: var(--gold); }
+.hero-sub {
+  font-size: .88rem; font-weight: 300; color: var(--dim);
+  margin-top: .85rem; max-width: 480px; line-height: 1.72;
+}
+.hero-rule { width: 48px; height: 2px; background: var(--gold); margin: 1.25rem 0; }
+
+/* ═══════════════════════════════════
+   FOOTER BAR
+═══════════════════════════════════ */
+.f-bot {
+  background:var(--bg); text-align:center; padding:.85rem;
+  border-top:1px solid var(--bord); font-size:.72rem; color:var(--dim);
+}
+
+/* ═══════════════════════════════════
+   NAV – right cluster & hamburger
+═══════════════════════════════════ */
+.nav-right { display: flex; align-items: center; gap: .75rem; }
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px;
+  width: 36px; height: 36px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--cream);
+  transition: transform .25s, opacity .25s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Slide-down drawer — always fixed+flex on mobile, hidden via visibility */
+.nav-drawer {
+  display: flex;
+  position: fixed; top: var(--nav); left: 0; right: 0; z-index: 199;
+  background: rgba(12,10,7,.98);
+  border-bottom: 1px solid var(--bord);
+  padding: 1.5rem 1.25rem;
+  flex-direction: column; gap: 1.25rem;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity .2s, transform .2s, visibility .2s;
+}
+.nav-drawer.open {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translateY(0);
+}
+.nav-drawer ul {
+  list-style: none; display: flex; flex-direction: column; gap: 1rem;
+}
+.nav-drawer ul a {
+  color: var(--dim); text-decoration: none;
+  font-size: .85rem; font-weight: 500; letter-spacing: .15em; text-transform: uppercase;
+  transition: color .2s;
+}
+.nav-drawer ul a:hover, .nav-drawer ul a.active { color: var(--gold); }
+.nav-drawer .nav-btn { align-self: flex-start; }
+
+/* ═══════════════════════════════════
+   RESPONSIVE – nav collapses ≤ 900px
+═══════════════════════════════════ */
+@media (max-width: 900px) {
+  .nav-mid { display: none; }
+  .nav-hamburger { display: flex; }
+}
+/* Hide drawer entirely on desktop */
+@media (min-width: 901px) {
+  .nav-drawer { display: none; }
+}

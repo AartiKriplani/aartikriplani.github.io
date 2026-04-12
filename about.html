@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About · Dub&amp;Dal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ═══════════════════════════════════
+           ABOUT BODY
+        ═══════════════════════════════════ */
+        .about-section {
+          padding: 3.5rem 2rem;
+          border-bottom: 1px solid var(--bord);
+          max-width: 860px;
+        }
+
+        .section-lbl {
+          font-size: .62rem; font-weight: 700; letter-spacing: .25em;
+          text-transform: uppercase; color: var(--gold);
+          display: flex; align-items: center; gap: 1rem;
+          margin-bottom: 1.75rem;
+        }
+        .section-lbl::after {
+          content: '';
+          width: 48px; height: 1px; background: var(--bord2);
+        }
+
+        .about-text {
+          font-size: 1.05rem; font-weight: 300; color: rgba(240,230,204,.82);
+          line-height: 1.82; max-width: 680px;
+        }
+        .about-text p + p { margin-top: 1.1rem; }
+
+        .cta-row {
+          margin-top: 2rem;
+          display: flex; gap: .75rem; flex-wrap: wrap; align-items: center;
+        }
+
+        .btn-gold {
+          background: var(--gold); color: #0c0a07;
+          padding: .6rem 1.4rem;
+          font-weight: 900; font-style: italic; font-size: .9rem;
+          text-decoration: none; display: inline-block;
+          transition: background .2s;
+        }
+        .btn-gold:hover { background: var(--gold2); }
+
+        /* ═══════════════════════════════════
+           REFUGE INTERVIEW PREVIEW
+        ═══════════════════════════════════ */
+        .interview-section {
+          padding: 3.5rem 2rem 4rem;
+          border-bottom: 1px solid var(--bord);
+        }
+
+        .interview-card {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0;
+          max-width: 860px;
+          overflow: hidden;
+          border: 1px solid var(--bord);
+        }
+
+        .interview-img-wrap {
+          position: relative;
+          overflow: hidden;
+          background: var(--s2);
+          min-height: 300px;
+        }
+        .interview-img-wrap img {
+          width: 100%; height: 100%;
+          object-fit: cover; object-position: center top;
+          display: block;
+          filter: saturate(.8) brightness(.82);
+          transition: transform .5s ease, filter .4s ease;
+        }
+        .interview-card:hover .interview-img-wrap img {
+          transform: scale(1.03);
+          filter: saturate(1) brightness(.75);
+        }
+        .interview-img-ov {
+          position: absolute; inset: 0;
+          background: linear-gradient(to right, transparent 60%, rgba(12,10,7,.5) 100%);
+          pointer-events: none;
+        }
+
+        .interview-body {
+          background: var(--s1);
+          padding: 2rem;
+          display: flex; flex-direction: column; justify-content: space-between;
+          border-left: 1px solid var(--bord);
+        }
+
+        .interview-source {
+          font-size: .58rem; font-weight: 700; letter-spacing: .2em;
+          text-transform: uppercase; color: var(--gold);
+          margin-bottom: .5rem;
+        }
+        .interview-title {
+          font-weight: 900; font-style: italic;
+          font-size: clamp(1.1rem, 2vw, 1.45rem);
+          line-height: 1.05; letter-spacing: -.02em;
+          color: var(--cream); margin-bottom: .85rem;
+        }
+        .interview-rule { width: 28px; height: 2px; background: var(--gold); margin-bottom: .85rem; }
+        .interview-excerpt {
+          font-size: .84rem; font-weight: 300; color: rgba(240,230,204,.65);
+          line-height: 1.78; flex: 1;
+        }
+        .interview-excerpt p + p { margin-top: .65rem; }
+        .interview-meta {
+          font-size: .6rem; font-weight: 500; letter-spacing: .1em;
+          text-transform: uppercase; color: var(--dim);
+          margin-top: 1.5rem; margin-bottom: 1rem;
+        }
+        .interview-cta {
+          display: inline-block;
+          background: transparent; color: var(--gold);
+          border: 1px solid var(--bord2);
+          padding: .48rem 1rem;
+          font-weight: 700; font-style: italic; font-size: .82rem;
+          text-decoration: none;
+          align-self: flex-start;
+          transition: border-color .2s, color .2s, background .2s;
+        }
+        .interview-cta:hover {
+          border-color: var(--gold);
+          background: rgba(212,146,14,.07);
+          color: var(--gold2);
+        }
+
+        /* ═══════════════════════════════════
+           PEOPLE
+        ═══════════════════════════════════ */
+        .people-section {
+          padding: 3rem 2rem 4rem;
+        }
+
+        .people-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+          gap: 2px;
+        }
+
+        .profile-card {
+          background: var(--s2);
+          border: 1px solid var(--bord);
+          overflow: hidden;
+          transition: border-color .3s;
+        }
+        .profile-card:hover { border-color: var(--bord2); }
+
+        .profile-img-wrap {
+          width: 100%; aspect-ratio: 4/3;
+          overflow: hidden; position: relative;
+          background: var(--s1);
+        }
+        .profile-img-wrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          display: block;
+          filter: saturate(.85) brightness(.88);
+          transition: transform .5s ease, filter .4s ease;
+        }
+        .profile-card:hover .profile-img-wrap img {
+          transform: scale(1.03);
+          filter: saturate(1) brightness(.82);
+        }
+
+        .profile-placeholder {
+          width: 100%; height: 100%;
+          display: flex; align-items: center; justify-content: center;
+          font-weight: 900; font-style: italic; font-size: 3rem;
+          color: var(--gold); opacity: .15;
+        }
+        .profile-img-ov {
+          position: absolute; inset: 0;
+          background: linear-gradient(to top, rgba(12,10,7,.7) 0%, transparent 50%);
+          pointer-events: none;
+        }
+        .profile-body { padding: 1.5rem 1.5rem 1.75rem; }
+        .profile-role {
+          font-size: .58rem; font-weight: 700; letter-spacing: .18em;
+          text-transform: uppercase; color: var(--gold); margin-bottom: .35rem;
+        }
+        .profile-name {
+          font-weight: 900; font-style: italic;
+          font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+          line-height: .95; letter-spacing: -.02em;
+          color: var(--cream); margin-bottom: .15rem;
+        }
+        .profile-alias {
+          font-size: .72rem; color: var(--dim); font-weight: 300; margin-bottom: 1rem;
+        }
+        .profile-alias a {
+          color: var(--dim); text-decoration: none;
+          border-bottom: 1px solid var(--bord);
+          transition: color .2s, border-color .2s;
+        }
+        .profile-alias a:hover { color: var(--gold); border-color: var(--bord2); }
+        .profile-rule { width: 30px; height: 2px; background: var(--gold); margin-bottom: 1rem; }
+        .profile-bio {
+          font-size: .88rem; font-weight: 300; color: rgba(240,230,204,.72);
+          line-height: 1.78;
+        }
+        .profile-bio a {
+          color: var(--gold); text-decoration: none;
+          border-bottom: 1px solid var(--bord2);
+          transition: border-color .2s;
+        }
+        .profile-bio a:hover { border-color: var(--gold); }
+
+        /* ═══════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════ */
+        @media (max-width: 640px) {
+          .page-hero { padding-top: calc(var(--nav) + 2rem); }
+          .interview-card { grid-template-columns: 1fr; }
+          .interview-img-wrap { min-height: 220px; }
+          .interview-img-ov { background: linear-gradient(to bottom, transparent 60%, rgba(12,10,7,.5) 100%); }
+          .interview-body { border-left: none; border-top: 1px solid var(--bord); }
+          .people-grid { grid-template-columns: 1fr; }
+          .cta-row { flex-direction: column; align-items: flex-start; }
+        }
+        @media (min-width:641px) and (max-width:900px) {
+          .people-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<script src="nav.js"></script>
+
+<!-- ═══ HERO ═══ -->
+<div class="page-hero" data-label="ABOUT">
+    <img src="./images/logo.png" width="100" height="100">
+    <div class="hero-sub">Celebrating roots and community, creating spaces around the world that feel like home but are accessible to everyone.</div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<div class="about-section">
+    <div class="about-text">
+        <p>Food is communal. It's at the centre of festivals, holidays, celebrations and rituals since ancient times. At Dub &amp; Dal, we all eat the same food, smell the same flavors, and feel that same warmth inside us. It softens the atmosphere: people look at each other, smile, and talk while eating, whether they're old friends or meeting for the first time. And sharing Indian food is more than a meal; it's a way of telling our stories and honoring our roots.</p>
+        <p>The culture around soundsystems, with the big stacks, dubplate exclusivity, and a lot of macho energy, is overwhelmingly male-dominated. On the other hand, the modern bass music scene is much more diverse, but often disconnected from the warmth of soundsystems and the roots of the music, reggae, dub. Dub &amp; Dal grew out of wanting to bridge that gap. To build a space for soundsystem culture that is diverse, honours its roots, and still carries the same welcoming vibe of home.</p>
+    </div>
+    <div class="cta-row">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform?usp=sf_link" target="_blank" class="btn-gold">Sign up for updates →</a>
+    </div>
+</div>
+
+<!-- ═══ REFUGE WORLDWIDE INTERVIEW ═══ -->
+<div class="interview-section">
+    <div class="section-lbl">Read the Refuge Worldwide interview</div>
+    <div class="interview-card">
+        <div class="interview-img-wrap">
+            <img
+                    src="./images/GRS.jpg"
+                    alt="Dub&Dal at Refuge Worldwide"
+                    loading="lazy"
+            >
+        </div>
+        <div class="interview-body">
+            <div>
+                <div class="interview-meta">By Héloïse Leclercq &nbsp;·&nbsp; refugeworldwide.com</div>
+            </div>
+            <a href="https://refugeworldwide.com/news/dub-and-dal" target="_blank" class="interview-cta">Read the full interview →</a>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ PEOPLE ═══ -->
+<div class="people-section">
+    <div class="people-grid">
+
+        <!-- Aarti -->
+        <div class="profile-card">
+            <div class="profile-img-wrap">
+                <img src="./images/aarti.jpg" alt="Aarti Mahesh Kriplani">
+                <div class="profile-img-ov"></div>
+            </div>
+            <div class="profile-body">
+                <div class="profile-name">Aarti Mahesh Kriplani</div>
+                <div class="profile-alias">aka Pfaublau</div>
+                <div class="profile-rule"></div>
+                <div class="profile-bio">
+                    Aarti is the architect, curator and programmer of Dub&amp;Dal, a series of soundsystem gatherings all about celebrating roots and community. Raised on her father's vinyl collection and a deep love for dancing, Aarti has been chasing sound ever since, from local scenes and festivals to music discoveries and traditions on her travels. She likes to tell stories of her Indian and Sindhi heritage through food, and aims to build a community with food at the center of it all.
+                </div>
+            </div>
+        </div>
+
+        <!-- Tobias -->
+        <div class="profile-card">
+            <div class="profile-img-wrap">
+                <img src="./images/Tobias.jpg" alt="Tobias Sørensen Urhaug">
+                <div class="profile-img-ov"></div>
+            </div>
+            <div class="profile-body">
+                <div class="profile-name">Tobias Sørensen Urhaug</div>
+                <div class="profile-alias">aka <a href="https://omtheorem.bandcamp.com/" target="_blank">O.M.Theorem</a></div>
+                <div class="profile-rule"></div>
+                <div class="profile-bio">
+                    Tobias writes music as <a href="https://omtheorem.bandcamp.com/" target="_blank">O.M.Theorem</a> and is a resident act at Dub&amp;Dal. After more than 20 years of working with music, Tobias found his home in polyrhythmic soundsystem adjacent music and has developed his sound as a LIVE act across Dub&amp;Dal gatherings. His debut album <a href="https://omtheorem.bandcamp.com/album/eruption" target="_blank">Eruption</a> was developed over 5 performances on different handbuilt soundsystems.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="f-bot">© 2026 Dub&amp;Dal · Made with ♥ in Berlin</div>
+
+</body>
+</html>
