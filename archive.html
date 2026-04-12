@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archive · Dub&amp;Dal · Past Gatherings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ═══════════════════════════════════
+   YEAR SECTIONS
+═══════════════════════════════════ */
+.year-section { padding: 3rem 2rem 1rem; }
+.year-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .25em;
+  text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+.year-label::after {
+  content: '';
+  flex: 1; height: 1px; background: var(--bord);
+}
+
+/* ═══════════════════════════════════
+   POSTER GRID
+═══════════════════════════════════ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2px;
+}
+
+.pcard {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--s2);
+  cursor: pointer;
+}
+.pcard.wide { grid-column: span 2; aspect-ratio: 16/9; }
+
+.pcard-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block;
+  transition: transform .5s ease, filter .4s ease;
+  filter: saturate(.85) brightness(.88);
+}
+.pcard-placeholder {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-style: italic;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  color: var(--gold); opacity: .18; letter-spacing: -.02em;
+  pointer-events: none;
+}
+
+.pcard-ov {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(12,10,7,.97) 0%,
+    rgba(12,10,7,.55) 40%,
+    rgba(12,10,7,.12) 70%,
+    transparent 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1rem;
+  transition: background .35s;
+}
+.pcard:hover .pcard-ov {
+  background: linear-gradient(to top,
+    #0c0a07 0%,
+    rgba(12,10,7,.75) 55%,
+    rgba(12,10,7,.25) 100%);
+}
+.pcard:hover .pcard-img {
+  transform: scale(1.04);
+  filter: saturate(1) brightness(.78);
+}
+
+.pc-date {
+  font-size: .58rem; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: .22rem;
+}
+.pc-title {
+  font-weight: 900; font-size: .95rem; line-height: 1.15;
+  color: var(--cream);
+}
+.pc-venue {
+  font-size: .7rem; color: var(--dim); font-weight: 300;
+  margin-top: .18rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.pc-cta {
+  position: absolute; bottom: 1rem; right: 1rem;
+  font-size: .6rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--gold);
+  border: 1px solid var(--bord2); padding: .3rem .65rem;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity .25s, transform .25s;
+  pointer-events: none;
+}
+.pcard:hover .pc-cta { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════
+   LIGHTBOX MODAL
+═══════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(12,10,7,.92);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  padding: calc(var(--nav) + 1rem) 1.5rem 1.5rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+.modal-overlay.open {
+  opacity: 1; pointer-events: auto;
+}
+
+.modal {
+  display: flex;
+  gap: 0;
+  max-width: 900px; width: 100%;
+  max-height: calc(100vh - var(--nav) - 3rem);
+  border: 1px solid var(--bord);
+  overflow: hidden;
+  transform: translateY(18px) scale(.97);
+  transition: transform .35s cubic-bezier(.2,.85,.4,1);
+  background: var(--s1);
+}
+.modal-overlay.open .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-poster {
+  width: 320px; min-width: 320px;
+  position: relative; overflow: hidden;
+  background: var(--s2);
+  display: flex; align-items: stretch;
+  flex-shrink: 0;
+}
+.modal-poster img {
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
+  display: block;
+}
+.modal-poster-placeholder {
+  width: 100%; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-style: italic; font-size: 4rem;
+  color: var(--gold); opacity: .15; letter-spacing: -.04em;
+}
+
+.modal-body {
+  flex: 1; min-width: 0;
+  overflow-y: auto;
+  padding: 2rem 1.75rem 2rem;
+  display: flex; flex-direction: column; gap: 1rem;
+  position: relative;
+}
+.modal-body::-webkit-scrollbar { width: 4px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--bord2); border-radius: 2px; }
+
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: 1px solid var(--bord);
+  color: var(--dim); cursor: pointer; padding: .3rem .55rem;
+  font-size: .75rem; font-family: inherit; letter-spacing: .08em;
+  transition: color .2s, border-color .2s;
+  line-height: 1;
+}
+.modal-close:hover { color: var(--cream); border-color: var(--bord2); }
+
+.modal-date {
+  font-size: .62rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold);
+}
+.modal-title {
+  font-weight: 900; font-style: italic;
+  font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+  line-height: .92; letter-spacing: -.02em;
+  color: var(--cream); padding-right: 2rem;
+}
+.modal-venue {
+  font-size: .75rem; color: var(--dim); font-weight: 300;
+  display: flex; align-items: center; gap: .4rem;
+}
+.modal-rule { width: 36px; height: 2px; background: var(--gold); }
+.modal-text {
+  font-size: .84rem; font-weight: 300; color: rgba(240,230,204,.75);
+  line-height: 1.78;
+}
+.modal-text p + p { margin-top: .75rem; }
+.modal-text a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--bord2); transition: border-color .2s; }
+.modal-text a:hover { border-color: var(--gold); }
+
+.modal-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .25rem; }
+.modal-tag {
+  font-size: .6rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; padding: .15rem .5rem;
+  border: 1px solid var(--bord); color: var(--dim);
+}
+.modal-tag.gold { color: var(--gold); border-color: rgba(212,146,14,.35); background: rgba(212,146,14,.06); }
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+@media (max-width: 640px) {
+  .page-hero { padding-top: calc(var(--nav) + 2rem); }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .pcard.wide { grid-column: span 2; aspect-ratio: 4/3; }
+  .modal { flex-direction: column; max-height: 92vh; }
+  .modal-poster { width: 100%; min-width: 0; height: 240px; }
+  .modal-poster img { object-position: center 20%; }
+}
+@media (min-width:641px) and (max-width:900px) {
+  .modal-poster { width: 240px; min-width: 240px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<script src="nav.js"></script>
+
+<!-- ═══ HERO ═══ -->
+<div class="page-hero" data-label="ARCHIVE">
+  <div class="hero-lbl">Past gatherings</div>
+  <div class="hero-title">The <span class="g">Archive</span></div>
+</div>
+
+<!-- ═══════════════════════════
+     2025
+════════════════════════════ -->
+<div class="year-section">
+  <div class="year-label">2025</div>
+  <div class="grid">
+
+    <!-- Bergen Dec 2025 -->
+    <div class="pcard" tabindex="0"
+      data-date="13 December 2025"
+      data-title="Dub&Dal at Rommet, Bergen"
+      data-venue="Rommet, Bergen"
+      data-tags="Bergen,Fundraiser,Workshop,Live"
+      data-img="./images/posters/At_Rommet.jpg"
+      data-text="Back in Bergen with the lovely SjuFjell Crew and their mighty Bergsystem at the newest cultural venue in town. Rommet's ethos align with ours very well.
+
+This Dub&Dal was a fundraiser for Sri Lanka, more than two million people affected by climate crisis-spurred floods and landslides triggered by Cyclone Ditwah, the worst on the island this century.
+
+A Soundsystem workshop for DJs and producers, for the first time in Bergen. Dance performance by Nichola, founder of Annam Dance. Live Electronic performance by O.M.Theorem. DJ sets by SFBS and Lucia (La Reina).
+
+🇱🇰 Fundraiser for Sri Lanka · 🔊 Sju Fjell Bergsystem · 💃 Annam Dance performance · 🥣 Food for the soul · 👧 Family friendly">
+      <img class="pcard-img" src="./images/posters/At_Rommet.jpg" alt="Bergen Dec 2025 poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">13 Dec 2025</div>
+        <div class="pc-title">Rommet, Bergen</div>
+        <div class="pc-venue">Bergen, Norway · Fundraiser for Sri Lanka</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- Torhaus Nov 2025 -->
+    <div class="pcard" tabindex="0"
+      data-date="29 November 2025"
+      data-title="Dub&Dal × TOKOKO at Torhaus"
+      data-venue="Torhaus, Berlin"
+      data-tags="Berlin,Küfa,Radio,THF"
+      data-img="./images/posters/torhaus_kufa.jpg"
+      data-text="In September, we were invited to THF Radio for a takeover as part of their THF Presents series. As always, we brought the food with us. While there, we learnt that Torhaus, the former gatehouse of Tempelhof airport, is also home to Torhaus Koch Kollektiv (TOKOKO), a group of international food lovers and activists who prepare sustainable, inclusive meals together using rescued food.
+
+We realised something beautiful: the two elements that make up the DNA of Dub&Dal, food and music, are already alive at Torhaus, yet the projects rarely overlap. We changed that.
+
+A collaboration with TOKOKO to host their monthly Küfa (Küche für Alle / Kitchen for All) while taking over THF Radio. Dal-making, garam masala talk, and a full lineup from opium queen, derive, fox mind &amp; O.M. Theorem.
+
+29/11/2025 · 16:00–20:00 · Torhaus Tempelhof / THF Radio online">
+      <img class="pcard-img" src="./images/posters/torhaus_kufa.jpg" alt="Torhaus Küfa poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">29 Nov 2025</div>
+        <div class="pc-title">Dub&Dal × TOKOKO</div>
+        <div class="pc-venue">Torhaus Tempelhof, Berlin</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- Mahalla Oct 2025 -->
+    <div class="pcard" tabindex="0"
+      data-date="18 October 2025"
+      data-title="3 Floors at Mahalla"
+      data-venue="Mahalla, Berlin"
+      data-tags="Berlin,3 floors,Workshop,Soundsystem"
+      data-img="./images/posters/MaHalla2.JPG"
+      data-text="For the first time, returning to the same location for a Dub&Dal, because it is so good and rare to find a venue without complaints for a soundsystem session. Teaming up with the mighty Superpower Soundsystem / Dub Cafe for a powerful night of music, food, and connection.
+
+3 FLOORS – 3 VIBES:
+
+🔊 Superpower Soundsystem Floor, stacked lineup from 9pm. Free beginner workshop at 7pm. Lineup: Marylou, Fukinsei, Skratch, O.M.Theorem, Roots Daughters, Abibi &amp; more.
+
+🥣 Dal Floor, Indian classical/fusion music, spoken word, poetry. Curry &amp; Curiosity talk by Sonikblasts. Homemade dal, curry, and chai. Families welcome.
+
+🌈 Audio-Visual Floor, live AV performances and installations by Blank Pages Collective.
+
+18 October 2025 · 18:00–05:00 · Mahalla, Berlin">
+      <img class="pcard-img" src="./images/posters/MaHalla2.JPG" alt="3 Floors Mahalla poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">18 Oct 2025</div>
+        <div class="pc-title">3 Floors at Mahalla</div>
+        <div class="pc-venue">Mahalla, Berlin · 18–05h</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- Refuge / Oona Oct 3 -->
+    <div class="pcard" tabindex="0"
+      data-date="3 October 2025"
+      data-title="Eruption Listening Party at RefugeWorldwide"
+      data-venue="Oona Bar, Berlin"
+      data-tags="Berlin,Radio,Listening Party,Talk"
+      data-img="./images/posters/refuge_eruption.png"
+      data-text="A special afternoon at Oona Bar with RefugeWorldwide Radio.
+
+🎧 O.M. Theorem's debut album Eruption Listening Party, live on Refuge Worldwide.
+
+🗣 Body, Mind &amp; Bass, Talk show with ZE:NA.
+
+🥣 Food for the soul. 👧 Family friendly.
+
+3 October 2025 · 17:00–20:00 · Oona Bar, Berlin">
+      <img class="pcard-img" src="./images/posters/refuge_eruption.png" alt="Eruption Listening Party poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">3 Oct 2025</div>
+        <div class="pc-title">Eruption Listening Party</div>
+        <div class="pc-venue">Oona Bar × Refuge Worldwide, Berlin</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- THF Radio Sep -->
+    <div class="pcard" tabindex="0"
+      data-date="19 September 2025"
+      data-title="THF Radio at Torhaus Tempelhof"
+      data-venue="Torhaus Tempelhof, Berlin"
+      data-tags="Berlin,Radio,Free Entry,Talk"
+      data-img="./images/posters/thf_presents.jpeg"
+      data-text="A cute radio hangout at Torhaus Tempelhof. Sindhi Dal Pakwan and Gujarati Dal served from 18h alongside fine tunes by Genoe, Babe Gorgeous, Dakn, O.M.Theorem, DJ UTA and aaronvsky.
+
+Curry &amp; Curiosity on the topic of Dal, delving into the history of Dal and different preparations from across India. Hosts Deborshi and Aarti joined by guest speaker Urvi, founder of Jaman, a cultural researcher focused on regional Indian food culture.
+
+Later heading to Panke for some proper skanking!
+
+19 September 2025 · 18:00–00:00 · Torhaus Tempelhof, Berlin · Free Entry">
+      <div style="background:linear-gradient(145deg,#020f0a,#0c2616,#182e1e);position:absolute;inset:0;"></div>
+        <img class="pcard-img" src="./images/posters/thf_presents.jpeg" alt="THF Presents" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">19 Sep 2025</div>
+        <div class="pc-title">THF Radio Hangout</div>
+        <div class="pc-venue">Torhaus Tempelhof, Berlin · Free</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- Panke Women Edition -->
+    <div class="pcard" tabindex="0"
+      data-date="10 August 2025"
+      data-title="Women Edition at Panke"
+      data-venue="Panke, Berlin"
+      data-tags="Berlin,Women,Fundraiser Palestine,Talk"
+      data-img="./images/posters/Panke.jpg"
+      data-text="Jin, Jiyan, Azadi, Woman, Life, Freedom. A powerful women edition of Dub&Dal, centering voices, rhythms, and resistance from around the globe. All proceeds went to support initiatives in Palestine 🇵🇸
+
+All Women lineup from Brazil to Berlin to India, a genre-blending journey of reggae, dub, bass, and experimental grooves. Queen Leididai.rainha on 🎤, eioo &amp; unaesthetic_fr, Sonikblasts + Siddhi Shah, d.dangermami b2b khxdeej, ophelieeeee__ b2b yungfya, yukoasanuma, rasa.wav.
+
+Curry &amp; Curiosity (17–19h): Jin, Jiyan, Azadî, A Care-full Revolt in Iran. Talk by Fir00zaa, feminist scholar and activist.
+
+Feed &amp; Feedback – CLUB Edition (17–19h): A space for producers to share unreleased work and get live feedback.
+
+10 August 2025 · 17:00–02:00 · Panke, Berlin">
+      <img class="pcard-img" src="./images/posters/Panke.jpg" alt="Women Edition poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">10 Aug 2025</div>
+        <div class="pc-title">Women Edition</div>
+        <div class="pc-venue">Panke, Berlin · Fundraiser for Palestine</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- 90mil / Olga Soundsystem -->
+    <div class="pcard" tabindex="0"
+      data-date="5 July 2025"
+      data-title="Olga Soundsystem at 90mil"
+      data-venue="90mil, Berlin"
+      data-tags="Berlin,Fundraiser Palestine,Live,Soundsystem"
+      data-img="./images/posters/90mil.jpg"
+      data-text="Celebrating the artistry and passion behind handbuilt soundsystems and community spaces. Presenting Olga SoundSystem, designed and built by John Broback &amp; friends, a system that gives your body a thrill without hurting the ears, and sounds as big as the space.
+
+90mil is more than an event space. It's an urban regeneration project, a home for the arts, DIY culture and community building. Potentially their last summer, experience and support before it's gone for good.
+
+Raising funds for Lajee Center and 1for3, Grassroots Community Food and Healthcare in Palestinian Refugee Camps. Short films about Palestine curated by Solispiral / TheSpiralTimes played all night.
+
+Live: Cinna Peyghamy (modular percussion, France), Rishiraj Kulkarni (multi-percussion, India), Sameer Rahat (Urdu poetry &amp; song, India), O.M. Theorem (live dub set).
+
+DJ sets: The Spiral Times, Yeahlena b2b Lz MC Can, Otto Vlotto, DJ Straight Girl, Rad Addala, Migz &amp; Dub Isotope.">
+      <img class="pcard-img" src="./images/posters/90mil.jpg" alt="Olga Soundsystem poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">5 Jul 2025</div>
+        <div class="pc-title">Olga Soundsystem at 90mil</div>
+        <div class="pc-venue">90mil, Berlin · Fundraiser for Palestine</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- Dub&Dal turns 2 / Mahalla -->
+    <div class="pcard wide" tabindex="0"
+      data-date="24 May 2025"
+      data-title="Dub&Dal Turns Two, Ganja Riddim at Mahalla"
+      data-venue="Mahalla, Berlin"
+      data-tags="Berlin,Birthday,3 floors,Soundsystem"
+      data-img="./images/posters/mahalla.jpg"
+      data-text="Dub &amp; Dal turns TWO 🥳 Joining forces with the mighty Ganja Riddim Sound who drove all the way from Karlsruhe for a powerful night of music, food, and connection at MaHalla.
+
+3 FLOORS – 3 VIBES:
+
+🪩 Ganja Riddim Soundsystem Floor, main floor, stacked lineup from 8pm. Free beginner workshop at 6pm (mentors: fruity_max and O.M.Theorem, moderated by Sarah Martinus of female:pressure).
+
+🥣 Dal Floor, chill zone with homemade Dal and Indian street food. Music on MaHalla's in-house soundsystem. Kids &amp; families welcome from 6pm.
+
+🔆 Audio-Visual Floor, live AV performances and installations by BlankPages Arts Berlin &amp; Stratos Bichakis.
+
+Good vibes only. All tribes welcome 🌎">
+      <img class="pcard-img" src="./images/posters/mahalla.jpg" alt="Dub&Dal Turns Two poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">24 May 2025 · 2nd Anniversary</div>
+        <div class="pc-title">Dub&Dal Turns Two</div>
+        <div class="pc-venue">Mahalla, Berlin · w/ Ganja Riddim Sound</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- Oona / Refuge April -->
+    <div class="pcard" tabindex="0"
+      data-date="12 April 2025"
+      data-title="Spring Gathering, Refuge Worldwide × Community Chai"
+      data-venue="Oona Bar + Community Chai, Berlin"
+      data-tags="Berlin,Radio,Spring,Community"
+      data-img="./images/posters/refuge.png"
+      data-text="Coming together to celebrate spring with warm food, conversations and music broadcasted live on RefugeWorldwide Radio from Oona Bar, then continuing the party at Community Chai, the first of many gatherings at a new community event space in Bergmankiez.
+
+Lineup: Cate Hops, Roots Daughters, FridaY, Jefe Marrón, O.M. Theorem, Aarti on radio, joined by Eleftheria to close the night with a dance at Community Chai.
+
+17–22h · Oona Bar, Weserstr 166, Neukölln
+23–03h · Community Chai, Bergmanstr 68, Kreuzberg">
+      <div style="background:linear-gradient(145deg,#080310,#1a0830,#2e1050);position:absolute;inset:0;"></div>
+        <img class="pcard-img" src="./images/posters/refuge.png" alt="Rull Opp poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">12 Apr 2025</div>
+        <div class="pc-title">Spring Gathering</div>
+        <div class="pc-venue">Oona Bar → Community Chai, Berlin</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+  </div><!-- /grid 2025 -->
+</div>
+
+<!-- ═══════════════════════════
+     2024
+════════════════════════════ -->
+<div class="year-section">
+  <div class="year-label">2024</div>
+  <div class="grid">
+
+    <!-- Rull Opp Bergen -->
+    <div class="pcard" tabindex="0"
+      data-date="7 September 2024"
+      data-title="Rull Opp &amp; Pull Opp Festival, Bergen"
+      data-venue="Bergen, Norway"
+      data-tags="Bergen,Festival,Outdoor,Live"
+      data-img="./images/posters/cornertheatre.jpg"
+      data-text="Honoured to be part of SjuFjell Bergsystem's 20-year anniversary festival alongside soundsystem legend Aba Shanti-I, MC Blackomolo and many others.
+
+Dub&Dal brought the daytime outdoor vibes to Rull Opp &amp; Pull Opp festival with different flavors of Indian food and different flavors of Dub music.
+
+Lineup: Ossia (LIVE), ojoo, O.M.Theorem (Live, Bergen debut), Sju Fjell Bergsystem, Oslofonk.
+
+Artwork by the amazing Preran (@cosmic_roach).">
+      <img class="pcard-img" src="./images/posters/cornertheatre.jpg" alt="Rull Opp poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">7 Sep 2024</div>
+        <div class="pc-title">Rull Opp &amp; Pull Opp Fest</div>
+        <div class="pc-venue">Bergen, Norway · w/ Sju Fjell Bergsystem</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- Tyven Trondheim -->
+    <div class="pcard" tabindex="0"
+      data-date="24 August 2024"
+      data-title="Dub&Dal in Trondheim"
+      data-venue="Tyven, Trondheim"
+      data-tags="Trondheim,Norway,Soundsystem,Live"
+      data-img="./images/posters/tyven.jpg"
+      data-text="Ke det går i Trondheim? Ready for Dub&Dal with Bergen's oldest soundsystem and spicy Indian food?
+
+Sju Fjell Bergsystem was formed in 2004, when two passionate reggae selectors played together, 10 years later they built their own system.
+
+To match the warmth of the heavy bass, warm Sindhi Dal sandwich from Aarti's mom's hometown.
+
+Lineup: O.M.Theorem (live set, unreleased material &amp; dub mixing), La Reina (reggae + Colombian soundsystem music), Svebbe, DJ Ptap.
+
+Thanks to Ida Vie for making this happen!">
+      <img class="pcard-img" src="./images/posters/tyven.jpg" alt="Trondheim poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">24 Aug 2024</div>
+        <div class="pc-title">Dub&Dal in Trondheim</div>
+        <div class="pc-venue">Tyven, Trondheim, Norway</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- Bergen USF -->
+    <div class="pcard" tabindex="0"
+      data-date="10 August 2024"
+      data-title="Dub&Dal at USF Verftet, Bergen"
+      data-venue="USF Verftet, Bergen"
+      data-tags="Bergen,Free,Soundsystem,Fundraiser Gaza"
+      data-img="./images/posters/USF.jpg"
+      data-text="Dub&Dal comes to Bergen as part of h.o.t.m.a.t, a cool initiative bringing exciting street food to the old sardine factory at USF Verftet.
+
+Come check out the newest soundsystem on the block, Skatunlyd. Born out of the love for good sound and DIY attitude, Mathias has been building speakers since he was 10.
+
+Lineup: Elvira (Norwegian debut!), O.M.Theorem, Club No-No, Trym Søvdsnes.
+
+After party at Kennel. Free entry! All profits from food donated to help people in Gaza 🇵🇸">
+      <img class="pcard-img" src="./images/posters/USF.jpg" alt="USF Bergen poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">10 Aug 2024</div>
+        <div class="pc-title">Dub&Dal at USF Verftet</div>
+        <div class="pc-venue">USF Verftet, Bergen · Free Entry</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- King David / Aktionshaus -->
+    <div class="pcard" tabindex="0"
+      data-date="25 May 2024"
+      data-title="King David Soundsystem at Aktionshaus"
+      data-venue="Aktionshaus, Berlin"
+      data-tags="Berlin,Soundsystem,Rooftop,Live"
+      data-img="./images/posters/Aktionshaus.jpg"
+      data-text="Blessed by King David SoundSystem, different flavors of Dal alongside different flavors of Dub and SoundSystem music, plus some street food.
+
+Aktionshaus feels like the perfect space for recreating the homely vibes, rooftop sunsetting into a dance session.
+
+King David SoundSystem feat. Chilling Buddah &amp; Puppa D., Catitah Steppah, Dub Jewel, MC Carmel Zoum. Also: Edna Martinez, O.M.Theorem (Live), Charlotte Bendiks.
+
+Lip smacking Chaat (Indian street food) and Heartwarming Dal by Pfaublau &amp; Dhuwan Berlin.
+
+All proceeds raised went towards empowering the King David Soundsystem 💚 💛 ❤️">
+      <img class="pcard-img" src="./images/posters/Aktionshaus.jpg" alt="Aktionshaus poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">25 May 2024</div>
+        <div class="pc-title">King David Soundsystem</div>
+        <div class="pc-venue">Aktionshaus, Berlin</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+  </div><!-- /grid 2024 -->
+</div>
+
+<!-- ═══════════════════════════
+     2023, The Beginning
+════════════════════════════ -->
+<div class="year-section">
+  <div class="year-label">2023, The Beginning</div>
+  <div class="grid">
+
+    <!-- First ever -->
+    <div class="pcard wide" tabindex="0"
+      data-date="14 May 2023"
+      data-title="The First Dub&Dal"
+      data-venue="Marie Antoinette, Berlin"
+      data-tags="Berlin,First,Soundsystem,Roots Daughters"
+      data-img="./images/posters/Lark.jpg"
+      data-text="Super stoked to present, Dub &amp; Dal, a series of community gatherings with heartwarming Dal and healing Dub music.
+
+For the first one, Rootsdaughters blessed us with their amazing selections and set up their hand-built Soundsystem for some proper bass treatment. Also O.M.Theorem and Semdt spinning some dubwise tunes.
+
+One room. One soundsystem. One pot of dal. This was where it all began.
+
+Dal, Heartwarming Indian lentil soup by Pfaublau. Pani Puri, Explosion of flavor in your mouth by Samosa Club Berlin.
+
+All proceeds raised went towards empowering the Roots Daughters Soundsystem and in turn making the Dub space more inclusive 🧡💙
+
+16:00–23:00 · Marie Antoinette, Holzmarktstrase 15, 10179 Berlin">
+      <img class="pcard-img" src="./images/posters/Lark.jpg" alt="First Dub&Dal poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">14 May 2023 · The First One</div>
+        <div class="pc-title">The First Dub&Dal</div>
+        <div class="pc-venue">Marie Antoinette, Berlin · w/ Roots Daughters</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+  </div><!-- /grid 2023 -->
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="f-bot">© 2026 Dub&amp;Dal · Made with ♥ in Berlin</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <div class="modal-poster" id="modal-poster">
+      <div class="modal-poster-placeholder" id="modal-placeholder">D&D</div>
+    </div>
+    <div class="modal-body">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕ Close</button>
+      <div class="modal-date" id="modal-date"></div>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-venue" id="modal-venue">📍 <span id="modal-venue-text"></span></div>
+      <div class="modal-rule"></div>
+      <div class="modal-tags" id="modal-tags"></div>
+      <div class="modal-text" id="modal-text"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   POSTER GRID → MODAL
+══════════════════════════════════════════ */
+const overlay  = document.getElementById('modal-overlay');
+const modalEl  = document.getElementById('modal');
+const poster   = document.getElementById('modal-poster');
+const pholder  = document.getElementById('modal-placeholder');
+const mDate    = document.getElementById('modal-date');
+const mTitle   = document.getElementById('modal-title');
+const mVenueT  = document.getElementById('modal-venue-text');
+const mTags    = document.getElementById('modal-tags');
+const mText    = document.getElementById('modal-text');
+const mClose   = document.getElementById('modal-close');
+
+function openModal(card) {
+  const img    = card.dataset.img;
+  const text   = card.dataset.text || '';
+  const tags   = (card.dataset.tags || '').split(',').filter(Boolean);
+
+  poster.querySelectorAll('img').forEach(i => i.remove());
+  pholder.style.display = img ? 'none' : 'flex';
+  if (img) {
+    const i = document.createElement('img');
+    i.src = img;
+    i.alt = card.dataset.title;
+    i.style.cssText = 'width:100%;height:100%;object-fit:contain;object-position:center;display:block;';
+    poster.appendChild(i);
+  }
+
+  mDate.textContent   = card.dataset.date  || '';
+  mTitle.textContent  = card.dataset.title || '';
+  mVenueT.textContent = card.dataset.venue || '';
+
+  mTags.innerHTML = tags.map(t =>
+    `<span class="modal-tag gold">${t.trim()}</span>`
+  ).join('');
+
+  mText.innerHTML = text
+    .split(/\n\n+/)
+    .map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`)
+    .join('');
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  mClose.focus();
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.pcard').forEach(card => {
+  card.addEventListener('click', () => openModal(card));
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card); }
+  });
+});
+
+mClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
