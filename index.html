@@ -10,65 +10,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* ═══════════════════════════════════
-           THE CORE LAYOUT
-           ─────────────────────────────────
-           .wrap is a flex row.
-           .left  → position:sticky + align-self:flex-start
-                    so it pins to top while .right scrolls past it.
-           .right → all the real content; its height drives the scroll.
-
-           This works at ALL screen widths because we never switch
-           to a single column. On small screens the left column
-           just gets narrower (38% → 35%).
-        ═══════════════════════════════════ */
         .wrap {
           display:flex;
-          align-items:flex-start;   /* ESSENTIAL: lets sticky work */
-          padding-top:0;
-        }
-
-        .left {
-          position:sticky;
-          top:var(--nav);                       /* stick just below nav */
-          align-self:flex-start;                /* ESSENTIAL: don't stretch */
-          width:38%;
-          height:calc(100vh - var(--nav));
-          flex-shrink:0;
+          height: calc(100vh - var(--nav));
           overflow:hidden;
-          border-right:1px solid var(--bord);
-          z-index:151;                          /* above #fp (150) so text shows over poster */
+          padding-top: var(--nav);
         }
 
-        /* Each left "slide" stacks in position:absolute inside .left */
-        .slide {
-          position:absolute; inset:0;
-          display:flex; flex-direction:column; justify-content:flex-end;
-          padding:2rem 1.75rem 2.5rem;
-          opacity:0;
-          transition:opacity .45s ease;
-          pointer-events:none;
-        }
-        .slide.on { opacity:1; pointer-events:auto; }
-
-        /* poster bg for hero slide,#fp moves here on landing, this is just a fallback */
-        .s-poster {
-          position:absolute; inset:0;
-          /*background: url('https://lh3.googleusercontent.com/pw/AP1GczPTOxbPhD9lHgPivC2Wq545OyPQM4GM35B5UReWcxAZqw8oDEKlCPrmZq_AK0hBnBz3NsDpXtTSX1ZldlNsFnJutmudwqY_qT0FATxcFdBB_pTyceiB=w2400') center / cover no-repeat;*/
-          background: url('./images/festival.JPG') center / cover no-repeat;
-          opacity:0;
-          transition: opacity .4s ease;
-        }
-        .s-poster.landed { opacity: 0; } /* #fp handles it */
-        .s-poster::after {
-          content:'';
-          position:absolute; inset:0;
-          background:linear-gradient(to top, rgba(12,10,7,.95) 0%, rgba(12,10,7,.55) 38%, transparent 65%);
-        }
         .bg1 { background:var(--s1); }
         .bg2 { background:var(--s2); }
         .bgr { background:var(--rust); }
         .bgg { background:var(--green); }
+
+        .hero-img {
+          width:100%; 
+          max-height: calc(100vh - var(--nav) - 3rem);
+          object-fit:contain; 
+          object-position:center;
+          display:block;
+        }
 
         /* left text helpers,all z-index:2 so they sit above bg */
         .l-lbl {
@@ -113,7 +73,7 @@
         /* ═══════════════════════════════════
            RIGHT PANEL,scrolls with page
         ═══════════════════════════════════ */
-        .right { flex:1; min-width:0; }
+        .column { flex:1; min-width:0; overflow: scroll; height: 100%; }
 
         /* every right section */
         .sec {
@@ -390,6 +350,126 @@
         }
         /* spacer,height set by JS */
         #fp-spacer { width: 100%; }
+        .card {
+          background:var(--s2); border:1px solid var(--bord);
+          padding:1.4rem; display:flex; flex-direction:column; gap:.55rem;
+          transition:border-color .2s,transform .18s;
+        }
+
+        .cards-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          padding: 1rem;
+        }
+
+        @media (min-width: 768px) {
+          .cards-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+
+        /* DRAWER */
+        .drawer {
+          position: fixed;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100vh;
+          background: var(--bg);
+          z-index: 1000;
+          transition: left 0.3s ease;
+          overflow: hidden;
+        }
+        .drawer.open {
+          left: 0;
+        }
+        .drawer-header {
+          position: sticky;
+          top: 0;
+          background: var(--bg);
+          padding: 1rem;
+          border-bottom: 1px solid var(--bord);
+          z-index: 1001;
+        }
+        .back-btn {
+          background: var(--gold);
+          color: var(--bg);
+          border: none;
+          padding: 0.5rem 1rem;
+          font-family: 'Alegreya Sans', serif;
+          font-weight: 700;
+          font-style: italic;
+          cursor: pointer;
+          border-radius: 4px;
+        }
+        .drawer-content {
+          height: calc(100vh - 80px);
+          overflow-y: auto;
+          padding: 1rem;
+        }
+
+        /* Big screens: 50% width */
+        @media (min-width: 768px) {
+          .drawer {
+            width: 50%;
+            left: -50%;
+          }
+          .drawer.open {
+            left: 0;
+          }
+        }
+
+        /* DRAWER RIGHT */
+        .drawer-right {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 100%;
+          height: 100vh;
+          background: var(--bg);
+          z-index: 1000;
+          transition: right 0.3s ease;
+          overflow: hidden;
+        }
+        .drawer-right.open {
+          right: 0;
+        }
+        .drawer-right .drawer-header {
+          position: sticky;
+          top: 0;
+          background: var(--bg);
+          padding: 1rem;
+          border-bottom: 1px solid var(--bord);
+          z-index: 1001;
+        }
+        .drawer-right .back-btn {
+          background: var(--gold);
+          color: var(--bg);
+          border: none;
+          padding: 0.5rem 1rem;
+          font-family: 'Alegreya Sans', serif;
+          font-weight: 700;
+          font-style: italic;
+          cursor: pointer;
+          border-radius: 4px;
+        }
+        .drawer-right .drawer-content {
+          height: calc(100vh - 80px);
+          overflow-y: auto;
+          padding: 1rem;
+        }
+
+        /* Big screens: 50% width for right drawer */
+        @media (min-width: 768px) {
+          .drawer-right {
+            width: 50%;
+            right: -50%;
+          }
+          .drawer-right.open {
+            right: 0;
+          }
+        }
     </style>
     <script>
         function showDay(btn, id) {
@@ -397,6 +477,38 @@
           document.querySelectorAll('.pane').forEach(p => p.classList.remove('on'));
           btn.classList.add('on');
           document.getElementById(id).classList.add('on');
+        }
+
+        function openLineupDrawer() {
+          document.getElementById('lineup-drawer').classList.add('open');
+        }
+
+        function closeLineupDrawer() {
+          document.getElementById('lineup-drawer').classList.remove('open');
+        }
+
+        function openArtistsDrawer() {
+          document.getElementById('artists-drawer').classList.add('open');
+        }
+
+        function closeArtistsDrawer() {
+          document.getElementById('artists-drawer').classList.remove('open');
+        }
+
+        function openVenueDrawer() {
+          document.getElementById('venue-drawer').classList.add('open');
+        }
+
+        function closeVenueDrawer() {
+          document.getElementById('venue-drawer').classList.remove('open');
+        }
+
+        function openWorkshopsDrawer() {
+          document.getElementById('workshops-drawer').classList.add('open');
+        }
+
+        function closeWorkshopsDrawer() {
+          document.getElementById('workshops-drawer').classList.remove('open');
         }
     </script>
 </head>
@@ -406,11 +518,7 @@
 <script src="nav.js"></script>
 
 
-<!-- ═══ FLYING POSTER ═══ -->
-<div id="fp">
-    <img src="./images/festival.JPG" alt="Dub&Dal Festival 2026 Poster">
-</div>
-<div id="fp-spacer"></div>
+
 
 <!-- ═══ MAIN WRAP,flex row ═══ -->
 <div class="wrap">
@@ -421,65 +529,66 @@
          means: stick to top, but let the right
          column's height define how long it sticks.
     ══════════════════════════════ -->
-    <div class="left" id="left">
+    <div class="column" id="left">
+        <img src="./images/festival.JPG" alt="Dub&Dal Festival 2026 Poster" class="hero-img">
+        <div class="cards-grid">
+            <!-- slide 1: lineup --->
+               <div class="card" data-s="1" onclick="openLineupDrawer()" style="cursor:pointer">
+                  <div class="l-lbl">Three days</div>
+                  <div class="l-title">Day<br>by<span class="g"> Day</span></div>
+                  <div class="l-rule"></div>
+                  <div class="l-body">From Konnakol to handbuilt soundsystems,three days of music, culture and community.</div>
+                  <a href="https://dubndal.weticket.io/dub-dal-festival/shop" target="_blank" class="l-btn">Get Tickets →</a>
+               </div> 
 
-        <!-- slide 0: hero -->
-        <div class="slide on" data-s="0">
-            <div class="s-poster"></div>
-            <div class="l-lbl">Berlin · 28–30 May 2026</div>
-            <div class="l-title">Dub<span class="g">&amp;</span><br>Dal</div>
-            <div class="l-rule"></div>
-        </div>
+            <!-- slide 2: artists -->
+           <div class="card" data-s="2" onclick="openArtistsDrawer()" style="cursor:pointer">
+                <div class="l-lbl">The performers</div>
+                <div class="l-title">Artists<span class="g">.</span></div>
+                <div class="l-rule"></div>
+                <div class="l-body">South Asian classical, Jamaican dub, Bharatanatyam, bass and more. Hover each card.
+                </div>
+            </div>
 
-        <!-- slide 1: workshops -->
-        <div class="slide" data-s="4">
-            <div class="l-lbl">Learn &amp; participate</div>
-            <div class="l-title">Work<br>shops<span class="g">.</span></div>
-            <div class="l-rule"></div>
-            <div class="l-body">Konnakkol, soundsystem building, Feed &amp; Feedback, community kitchen, MC lab. Many
-                ways to become part of the festival.
+            <!-- slide 3: workshops -->
+           <div class="card" data-s="3" onclick="openWorkshopsDrawer()" style="cursor:pointer">
+                <div class="l-lbl">Learn &amp; participate</div>
+                <div class="l-title">Work<span class="g">shops</span></div>
+                <div class="l-rule"></div>
+                <div class="l-body">Konnakol, soundsystem building, cooking dal, and more. All included in ticket.
+                </div>
+            </div>
+
+
+            <!-- slide 5: venue -->
+           <div class="card" data-s="5" onclick="openVenueDrawer()" style="cursor:pointer">
+                <div class="l-lbl">Where to find us</div>
+                <div class="l-title"><span class="g">Ma</span><br>Halla</div>
+                <div class="l-rule"></div>
+                <div class="l-body">Days 2 &amp; 3 at MaHalla. Day 1 at a secret location near Jannowitzbrücke,address sent
+                    by email.
+                </div>
+                <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank" class="l-out">Open in Maps ↗</a>
+            </div>
+
+            <!-- slide 6: archive -->
+           <div class="card" data-s="6" onclick="window.location.href='archive.html'" style="cursor:pointer">
+                <div class="l-lbl">Past events</div>
+                <div class="l-title">Arch<span class="g">ive</span></div>
+                <div class="l-rule"></div>
+                <div class="l-body">Explore previous Dub&amp;Dal gatherings and festivals.
+                </div>
+            </div>
+
+            <!-- slide 7: about -->
+           <div class="card" data-s="7" onclick="window.location.href='about.html'" style="cursor:pointer">
+                <div class="l-lbl">Our story</div>
+                <div class="l-title">Ab<span class="g">out</span></div>
+                <div class="l-rule"></div>
+                <div class="l-body">Learn about Dub&amp;Dal, our team, and our mission.
+                </div>
             </div>
         </div>
-
-        <!-- slide 2: soundmash -->
-        <div class="slide" data-s="3">
-            <div class="l-lbl">A Dub&amp;Dal original</div>
-            <div class="l-title" style="color:#fff">Sound<span style="color:rgba(255,255,255,.35)">mash</span></div>
-            <div class="l-rule" style="background:#fff"></div>
-            <div class="l-body" style="color:rgba(255,255,255,.65)">Women-led reinterpretation of the Jamaican
-                Soundclash
-            </div>
-        </div>
-        <!-- slide 1: lineup -->
-        <!--    <div class="slide" data-s="1">-->
-        <!--      <div class="l-lbl">Three days</div>-->
-        <!--      <div class="l-title">Day<br>by<span class="g"> Day</span></div>-->
-        <!--      <div class="l-rule"></div>-->
-        <!--      <div class="l-body">From Konnakol to handbuilt soundsystems,three days of music, culture and community.</div>-->
-        <!--      <a href="https://dubndal.weticket.io/dub-dal-festival/shop" target="_blank" class="l-btn">Get Tickets →</a>-->
-        <!--    </div>-->
-
-        <!-- slide 2: artists -->
-<!--        <div class="slide" data-s="2">-->
-<!--            <div class="l-lbl">The performers</div>-->
-<!--            <div class="l-title">Artists<span class="g">.</span></div>-->
-<!--            <div class="l-rule"></div>-->
-<!--            <div class="l-body">South Asian classical, Jamaican dub, Bharatanatyam, bass and more. Hover each card.-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-        <!-- slide 5: venue -->
-<!--        <div class="slide" data-s="5">-->
-<!--            <div class="l-lbl">Where to find us</div>-->
-<!--            <div class="l-title"><span class="g">Ma</span><br>Halla</div>-->
-<!--            <div class="l-rule"></div>-->
-<!--            <div class="l-body">Days 2 &amp; 3 at MaHalla. Day 1 at a secret location near Jannowitzbrücke,address sent-->
-<!--                by email.-->
-<!--            </div>-->
-<!--            <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank" class="l-out">Open in Maps ↗</a>-->
-<!--        </div>-->
-
     </div><!-- /left -->
 
 
@@ -488,7 +597,7 @@
          Its total height is what makes the
          left panel "sticky for a long time".
     ══════════════════════════════ -->
-    <div class="right">
+    <div class="column" id="right">
 
         <!-- §0 HERO -->
         <div class="sec" data-panel="0" id="sec-hero">
@@ -514,7 +623,332 @@
             </div>
         </div>
 
-        <!-- §1 WORKSHOPS -->
+        <!-- SOUNDMASH BAND -->
+        <div class="smash" data-panel="3">
+            <div class="sm-in">
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.4rem">
+                    A Dub&amp;Dal original · Day 3
+                </div>
+                <div class="sm-title">SOUND<br>MASH</div>
+                <div class="sm-acts">
+                    <span class="sm-pill">Warrior Queen</span>
+                    <span class="sm-pill">MC Yallah</span>
+                    <span class="sm-pill">Roots Daughters</span>
+                    <span class="sm-pill">Angel Audio</span>
+                </div>
+                <div class="sm-body">A reinterpretation of the traditional Jamaican Soundclash into a <strong>collaborative,
+                    women-led celebration of sonic exchange</strong>. Featuring Germany's only female-operated
+                    soundsystems,each crew showcasing music that sounds best on their handbuilt systems. Warrior Queen
+                    from Jamaica and MC Yallah take SOUNDMASH to another level entirely.
+                </div>
+            </div>
+        </div>
+
+
+        <!-- FOOD STRIP -->
+        <div class="food">
+            <div class="s-lbl" style="color:rgba(240,230,204,.5)">The heart of it all</div>
+            <div class="food-h">Good food,<br><span style="color:#a8e070">every day</span></div>
+            <p class="food-p">We will all eat the same food, smell the same flavors, and feel that same warmth inside
+                us. Culinary traditions and food stories from our motherland,the dal is always on.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform"
+               target="_blank" class="c-out"
+               style="display:inline-block;border-color:rgba(240,230,204,.3);color:var(--cream)">Sign up for Kitchen
+                workshop →</a>
+        </div>
+
+
+        <!-- MERCH -->
+        <div class="sec" data-panel="6" style="background:var(--s1)">
+            <div class="s-lbl">Support the festival</div>
+            <div class="s-h">Organic T-Shirts</div>
+            <div class="mgrid" style="margin-top:1.25rem">
+                <div>
+                    <p style="font-size:.82rem;color:var(--dim);font-weight:300;line-height:1.72;margin:.75rem 0 1.25rem">
+                        100% organic cotton · black · unisex · Dub&Dal design.<br>Sliding scale <strong
+                            style="color:var(--cream)">15–30€</strong>,lowest covers cost, higher supports the festival.<br>Berlin
+                        delivery or pick-up only. Available 27 March or at the festival.</p>
+                    <a href="https://paypal.me/pfaublau" target="_blank" class="c-main">Order via PayPal →</a>
+                </div>
+                <div class="mbox">
+                    <div class="mlogo">D&amp;D</div>
+                    <p style="font-size:.72rem;color:var(--dim);text-align:center">Transfer your chosen amount to PayPal<br>and
+                        include your size in the message.</p>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+    </div><!-- /right -->
+</div><!-- /wrap -->
+
+<!-- ═══ FOOTER ═══ -->
+<div class="f-bot">© 2026 Dub&amp;Dal · Made with ♥ in Berlin</div>
+
+<!-- LINEUP DRAWER -->
+<div id="lineup-drawer" class="drawer">
+    <div class="drawer-header">
+        <button onclick="closeLineupDrawer()" class="back-btn">← Back</button>
+    </div>
+    <div class="drawer-content">
+        <div class="sec" data-panel="1" id="lineup" style="padding-top:3rem">
+          <div class="s-lbl">28–30 May 2026</div>
+          <div class="s-h">Day-by-Day Lineup</div>
+
+          <div class="tabs">
+            <button class="tab on" onclick="showDay(this,'d28')">Thu 28/5</button>
+            <button class="tab" onclick="showDay(this,'d29')">Fri 29/5</button>
+            <button class="tab" onclick="showDay(this,'d30')">Sat 30/5</button>
+          </div>
+
+          <!-- DAY 28 -->
+          <div class="pane on" id="d28">
+            <div class="d-note">📍 Secret location near <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform" target="_blank">Jannowitzbrücke</a>,address emailed to ticket holders · <strong style="color:var(--cream)">Thursday 28 May</strong></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sarathy Korwar</div><div class="rdesc">London-based percussionist,latest album performed live</div><div class="rtags"><span class="tag tl">Live · Headline</span></div></div></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sol &amp; Bol</div><div class="rdesc">Fusion of North Indian Hindustani &amp; South Indian Carnatic traditions</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Abibi</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>
+            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: Konnakol</div><div class="rdesc">With SonikBlasts,South Indian vocal percussion</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>
+            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: How to build a Soundsystem</div><div class="rdesc">With FemmeBassMafia</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>
+          </div>
+
+          <!-- DAY 29 -->
+          <div class="pane" id="d29">
+            <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>,a day of feeding and reflection · <strong style="color:var(--cream)">Friday 29 May</strong></div>
+            <div class="row"><div class="rtime">All day</div><div><div class="rname">Feed &amp; Feedback</div><div class="rdesc">Community gathering, nourishment and reflection</div></div></div>
+            <div class="row"><div class="rtime">All day</div><div><div class="rname">Community Kitchen,Küfa</div><div class="rdesc">With Torhaus Koch Kollective,communal cooking and eating</div><div class="rtags"><span class="tag tw">Community</span></div></div></div>
+            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: How to cook Dal</div><div class="rdesc">The dish that started it all,open to everyone</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>
+          </div>
+
+          <!-- DAY 30 -->
+          <div class="pane" id="d30">
+            <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>,festival finale · <strong style="color:var(--cream)">Saturday 30 May</strong></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Warrior Queen 🎤</div><div class="rdesc">MC from Jamaica · SOUNDMASH</div><div class="rtags"><span class="tag tl">Live · MC</span><span class="tag tw">SOUNDMASH</span></div></div></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">MC Yallah 🎤</div><div class="rdesc">Kenya-Uganda rapper · SOUNDMASH</div><div class="rtags"><span class="tag tl">Live · MC</span><span class="tag tw">SOUNDMASH</span></div></div></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Roots Daughters</div><div class="rdesc">Female-operated soundsystem,roots, reggae &amp; dub · SOUNDMASH</div><div class="rtags"><span class="tag tl">Soundsystem</span><span class="tag tw">SOUNDMASH</span></div></div></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Angel Audio (FemmeBassMafia)</div><div class="rdesc">Female-operated soundsystem,contemporary bass · SOUNDMASH</div><div class="rtags"><span class="tag tl">Soundsystem</span><span class="tag tw">SOUNDMASH</span></div></div></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Ramanbaug Dhol Tasha Pathak</div><div class="rdesc">Electrifying Dhol &amp; Tasha ensemble</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sri Lavanya</div><div class="rdesc">Bharatanatyam dance</div><div class="rtags"><span class="tag tl">Dance</span></div></div></div>
+            <div class="row"><div class="rtime">Night</div><div><div class="rname">Perera Elsewhere</div><div class="rtags"><span class="tag td">DJ</span></div></div></div>
+            <div class="row"><div class="rtime">Night</div><div><div class="rname">O.M.T. &amp; K'boko</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>
+            <div class="row"><div class="rtime">Night</div><div><div class="rname">Cate Hops</div><div class="rtags"><span class="tag td">DJ</span></div></div></div>
+            <div class="row"><div class="rtime">Night</div><div><div class="rname">A/V Floor,Blank Pages &amp; SP99</div><div class="rdesc">Audiovisual floor experience</div><div class="rtags"><span class="tag ta">A/V</span></div></div></div>
+            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: How to play on a Soundsystem</div><div class="rdesc">With Roots Daughters</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>
+          </div>
+        </div><!-- /lineup -->
+    </div>
+</div>
+
+
+<!-- ARTISTS DRAWER -->
+<div id="artists-drawer" class="drawer-right">
+    <div class="drawer-header">
+        <button onclick="closeArtistsDrawer()" class="back-btn">Back →</button>
+    </div>
+    <div class="drawer-content">
+        <div class="sec" data-panel="2" id="artists" style="padding-bottom:0">
+            <div class="s-lbl">The lineup</div>
+            <div class="s-h">Artists &amp; Performers</div>
+            <div class="s-sub">Hover a card to learn more</div>
+            <div class="agrid">
+                <!-- Sarathy Korwar,feature -->
+                <div class="acard afeat" data-vid="JnKnnO-YF1Q">
+                    <div class="abg c1"><img class="yt-thumb" src="https://i.ytimg.com/vi/JnKnnO-YF1Q/hqdefault.jpg"
+                                             alt="Sarathy Korwar" loading="lazy" onerror="this.style.display='none'">
+                    </div>
+                    <div class="aov">
+                        <div class="ag">Percussion · Jazz · South Asian</div>
+                        <div class="an">Sarathy Korwar</div>
+                        <div class="ax">London-based percussionist,latest album live.</div>
+                    </div>
+                    <div class="abadge">Day 1 · Headline</div>
+                    <div class="aplay">▶</div>
+                </div>
+                <!-- Sol & Bol -->
+                <div class="acard" data-vid="4oTLYTp94Og">
+                    <div class="abg c2"><img class="yt-thumb" src="https://i.ytimg.com/vi/4oTLYTp94Og/hqdefault.jpg"
+                                             alt="Sol & Bol" loading="lazy" onerror="this.style.display='none'"></div>
+                    <div class="aov">
+                        <div class="ag">Hindustani · Carnatic</div>
+                        <div class="an">Sol &amp; Bol</div>
+                        <div class="ax">North Indian &amp; South Indian classical fusion.</div>
+                    </div>
+                    <div class="abadge">Day 1</div>
+                    <div class="aplay">▶</div>
+                </div>
+                <!-- Abibi -->
+                <div class="acard">
+                    <div class="abg c11">
+                        <div class="ico">🎵</div>
+                    </div>
+                    <div class="aov">
+                        <div class="ag">Live</div>
+                        <div class="an">Abibi</div>
+                    </div>
+                    <div class="abadge">Day 1</div>
+                </div>
+                <!-- Warrior Queen -->
+                <div class="acard" data-vid="nBzMnkJFWBs">
+                    <div class="abg c5"><img class="yt-thumb" src="https://i.ytimg.com/vi/nBzMnkJFWBs/hqdefault.jpg"
+                                             alt="Warrior Queen" loading="lazy" onerror="this.style.display='none'">
+                    </div>
+                    <div class="aov">
+                        <div class="ag">MC · Jamaica</div>
+                        <div class="an">Warrior Queen</div>
+                        <div class="ax">Icon of the global dancehall and dub circuit.</div>
+                    </div>
+                    <div class="abadge">Day 3 · SOUNDMASH</div>
+                    <div class="aplay">▶</div>
+                </div>
+                <!-- MC Yallah -->
+                <div class="acard" data-vid="TaKGiNWbCdo">
+                    <div class="abg c7"><img class="yt-thumb" src="https://i.ytimg.com/vi/TaKGiNWbCdo/hqdefault.jpg"
+                                             alt="MC Yallah" loading="lazy" onerror="this.style.display='none'"></div>
+                    <div class="aov">
+                        <div class="ag">MC · Kenya-Uganda</div>
+                        <div class="an">MC Yallah</div>
+                        <div class="ax">East African rapper,SOUNDMASH.</div>
+                    </div>
+                    <div class="abadge">Day 3 · SOUNDMASH</div>
+                    <div class="aplay">▶</div>
+                </div>
+                <!-- Roots Daughters -->
+                <div class="acard" data-vid="Fd7bAmzP2m4">
+                    <div class="abg c4"><img class="yt-thumb" src="https://i.ytimg.com/vi/Fd7bAmzP2m4/hqdefault.jpg"
+                                             alt="Roots Daughters" loading="lazy" onerror="this.style.display='none'">
+                    </div>
+                    <div class="aov">
+                        <div class="ag">Roots · Reggae · Dub</div>
+                        <div class="an">Roots Daughters</div>
+                        <div class="ax">Germany's female-operated soundsystem.</div>
+                    </div>
+                    <div class="abadge">Day 3 · SOUNDMASH</div>
+                    <div class="aplay">▶</div>
+                </div>
+                <!-- Angel Audio / FemmeBassMafia -->
+                <div class="acard" data-vid="Nf3lyA0dlFU">
+                    <div class="abg c5"><img class="yt-thumb" src="https://i.ytimg.com/vi/Nf3lyA0dlFU/hqdefault.jpg"
+                                             alt="FemmeBassMafia" loading="lazy" onerror="this.style.display='none'">
+                    </div>
+                    <div class="aov">
+                        <div class="ag">Contemporary Bass</div>
+                        <div class="an">Angel Audio<br><small style="font-weight:400;opacity:.6">FemmeBassMafia</small>
+                        </div>
+                        <div class="ax">Female-operated soundsystem,contemporary bass.</div>
+                    </div>
+                    <div class="abadge">Day 3 · SOUNDMASH</div>
+                    <div class="aplay">▶</div>
+                </div>
+                <!-- Ramanbaug Dhol Tasha Pathak -->
+                <div class="acard" data-vid="vVPxNbxOxu4">
+                    <div class="abg c3"><img class="yt-thumb" src="https://i.ytimg.com/vi/vVPxNbxOxu4/hqdefault.jpg"
+                                             alt="Ramanbaug Dhol Tasha Pathak" loading="lazy"
+                                             onerror="this.style.display='none'"></div>
+                    <div class="aov">
+                        <div class="ag">Dhol · Tasha</div>
+                        <div class="an">Ramanbaug Dhol Tasha Pathak</div>
+                        <div class="ax">Electrifying full-body percussion ensemble.</div>
+                    </div>
+                    <div class="abadge">Day 3</div>
+                    <div class="aplay">▶</div>
+                </div>
+                <!-- Sri Lavanya -->
+                <div class="acard" data-vid="2k8S5sE_OKM">
+                    <div class="abg c8"><img class="yt-thumb" src="https://i.ytimg.com/vi/2k8S5sE_OKM/hqdefault.jpg"
+                                             alt="Sri Lavanya" loading="lazy" onerror="this.style.display='none'"></div>
+                    <div class="aov">
+                        <div class="ag">Bharatanatyam</div>
+                        <div class="an">Sri Lavanya</div>
+                        <div class="ax">South Asian classical dance.</div>
+                    </div>
+                    <div class="abadge">Day 3</div>
+                    <div class="aplay">▶</div>
+                </div>
+                <!-- Perera Elsewhere -->
+                <div class="acard" data-vid="E7wKnfCzXgg">
+                    <div class="abg c10"><img class="yt-thumb" src="https://i.ytimg.com/vi/E7wKnfCzXgg/hqdefault.jpg"
+                                              alt="Perera Elsewhere" loading="lazy" onerror="this.style.display='none'">
+                    </div>
+                    <div class="aov">
+                        <div class="ag">DJ · Electronic</div>
+                        <div class="an">Perera Elsewhere</div>
+                    </div>
+                    <div class="abadge">Day 3</div>
+                    <div class="aplay">▶</div>
+                </div>
+                <!-- O.M.T. & K'boko -->
+                <div class="acard">
+                    <div class="abg c9">
+                        <div class="ico">🎵</div>
+                    </div>
+                    <div class="aov">
+                        <div class="ag">Live</div>
+                        <div class="an">O.M.T. &amp; K'boko</div>
+                    </div>
+                    <div class="abadge">Day 3</div>
+                </div>
+                <!-- Cate Hops -->
+                <div class="acard">
+                    <div class="abg c12">
+                        <div class="ico">🎧</div>
+                    </div>
+                    <div class="aov">
+                        <div class="ag">DJ</div>
+                        <div class="an">Cate Hops</div>
+                    </div>
+                    <div class="abadge">Day 3</div>
+                </div>
+                <!-- Blank Pages & SP99 -->
+                <div class="acard">
+                    <div class="abg c6">
+                        <div class="ico">📽</div>
+                    </div>
+                    <div class="aov">
+                        <div class="ag">Audiovisual</div>
+                        <div class="an">Blank Pages &amp; SP99</div>
+                        <div class="ax">A/V floor on the final night.</div>
+                    </div>
+                    <div class="abadge">Day 3 · A/V</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- VENUE DRAWER -->
+<div id="venue-drawer" class="drawer">
+    <div class="drawer-header">
+        <button onclick="closeVenueDrawer()" class="back-btn">← Back</button>
+    </div>
+    <div class="drawer-content">
+        <div class="sec" data-panel="5" id="venue">
+            <div class="s-lbl">Where to find us</div>
+            <div class="vname">MaHalla</div>
+            <div style="color:var(--dim);font-size:.78rem;margin-top:.3rem;margin-bottom:.75rem">Days 2 &amp; 3,29 &amp;
+                30 May 2026
+            </div>
+            <div class="vnote">Day 1 (28 May) is at a <strong>secret location near Jannowitzbrücke</strong>. Address
+                shared by email with ticket holders.
+            </div>
+            <p style="font-size:.82rem;color:var(--dim);font-weight:300;margin-bottom:1.25rem">Single day tickets
+                available at the door only, subject to capacity.</p>
+            <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank" class="c-out"
+               style="display:inline-block">Open MaHalla in Maps ↗</a>
+            <div class="vmap">
+                <iframe src="https://maps.google.com/maps?q=MaHalla+Berlin+Revaler+Str&output=embed" width="100%"
+                        height="240" style="border:0" allowfullscreen loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- WORKSHOPS DRAWER -->
+<div id="workshops-drawer" class="drawer-right">
+    <div class="drawer-header">
+        <button onclick="closeWorkshopsDrawer()" class="back-btn">Back →</button>
+    </div>
+    <div class="drawer-content">
         <div class="sec" data-panel="4" id="workshops">
             <div class="s-lbl">Learn &amp; participate</div>
             <div class="s-h">Workshops</div>
@@ -582,304 +1016,8 @@
             </div>
 
         </div>
-
-        <!--    &lt;!&ndash; §1 LINEUP &ndash;&gt;-->
-        <!--    <div class="sec" data-panel="1" id="lineup" style="padding-top:3rem">-->
-        <!--      <div class="s-lbl">28–30 May 2026</div>-->
-        <!--      <div class="s-h">Day-by-Day Lineup</div>-->
-
-        <!--      <div class="tabs">-->
-        <!--        <button class="tab on" onclick="showDay(this,'d28')">Thu 28/5</button>-->
-        <!--        <button class="tab" onclick="showDay(this,'d29')">Fri 29/5</button>-->
-        <!--        <button class="tab" onclick="showDay(this,'d30')">Sat 30/5</button>-->
-        <!--      </div>-->
-
-        <!--      &lt;!&ndash; DAY 28 &ndash;&gt;-->
-        <!--      <div class="pane on" id="d28">-->
-        <!--        <div class="d-note">📍 Secret location near <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform" target="_blank">Jannowitzbrücke</a>,address emailed to ticket holders · <strong style="color:var(&#45;&#45;cream)">Thursday 28 May</strong></div>-->
-        <!--        <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sarathy Korwar</div><div class="rdesc">London-based percussionist,latest album performed live</div><div class="rtags"><span class="tag tl">Live · Headline</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sol &amp; Bol</div><div class="rdesc">Fusion of North Indian Hindustani &amp; South Indian Carnatic traditions</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Evening</div><div><div class="rname">Abibi</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: Konnakol</div><div class="rdesc">With SonikBlasts,South Indian vocal percussion</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: How to build a Soundsystem</div><div class="rdesc">With FemmeBassMafia</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>-->
-        <!--      </div>-->
-
-        <!--      &lt;!&ndash; DAY 29 &ndash;&gt;-->
-        <!--      <div class="pane" id="d29">-->
-        <!--        <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>,a day of feeding and reflection · <strong style="color:var(&#45;&#45;cream)">Friday 29 May</strong></div>-->
-        <!--        <div class="row"><div class="rtime">All day</div><div><div class="rname">Feed &amp; Feedback</div><div class="rdesc">Community gathering, nourishment and reflection</div></div></div>-->
-        <!--        <div class="row"><div class="rtime">All day</div><div><div class="rname">Community Kitchen,Küfa</div><div class="rdesc">With Torhaus Koch Kollective,communal cooking and eating</div><div class="rtags"><span class="tag tw">Community</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: How to cook Dal</div><div class="rdesc">The dish that started it all,open to everyone</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>-->
-        <!--      </div>-->
-
-        <!--      &lt;!&ndash; DAY 30 &ndash;&gt;-->
-        <!--      <div class="pane" id="d30">-->
-        <!--        <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>,festival finale · <strong style="color:var(&#45;&#45;cream)">Saturday 30 May</strong></div>-->
-        <!--        <div class="row"><div class="rtime">Evening</div><div><div class="rname">Warrior Queen 🎤</div><div class="rdesc">MC from Jamaica · SOUNDMASH</div><div class="rtags"><span class="tag tl">Live · MC</span><span class="tag tw">SOUNDMASH</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Evening</div><div><div class="rname">MC Yallah 🎤</div><div class="rdesc">Kenya-Uganda rapper · SOUNDMASH</div><div class="rtags"><span class="tag tl">Live · MC</span><span class="tag tw">SOUNDMASH</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Evening</div><div><div class="rname">Roots Daughters</div><div class="rdesc">Female-operated soundsystem,roots, reggae &amp; dub · SOUNDMASH</div><div class="rtags"><span class="tag tl">Soundsystem</span><span class="tag tw">SOUNDMASH</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Evening</div><div><div class="rname">Angel Audio (FemmeBassMafia)</div><div class="rdesc">Female-operated soundsystem,contemporary bass · SOUNDMASH</div><div class="rtags"><span class="tag tl">Soundsystem</span><span class="tag tw">SOUNDMASH</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Evening</div><div><div class="rname">Ramanbaug Dhol Tasha Pathak</div><div class="rdesc">Electrifying Dhol &amp; Tasha ensemble</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sri Lavanya</div><div class="rdesc">Bharatanatyam dance</div><div class="rtags"><span class="tag tl">Dance</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Night</div><div><div class="rname">Perera Elsewhere</div><div class="rtags"><span class="tag td">DJ</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Night</div><div><div class="rname">O.M.T. &amp; K'boko</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Night</div><div><div class="rname">Cate Hops</div><div class="rtags"><span class="tag td">DJ</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Night</div><div><div class="rname">A/V Floor,Blank Pages &amp; SP99</div><div class="rdesc">Audiovisual floor experience</div><div class="rtags"><span class="tag ta">A/V</span></div></div></div>-->
-        <!--        <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: How to play on a Soundsystem</div><div class="rdesc">With Roots Daughters</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>-->
-        <!--      </div>-->
-        <!--    </div>&lt;!&ndash; /lineup &ndash;&gt;-->
-
-
-        <!-- §2 ARTISTS -->
-<!--        <div class="sec" data-panel="2" id="artists" style="padding-bottom:0">-->
-<!--            <div class="s-lbl">The lineup</div>-->
-<!--            <div class="s-h">Artists &amp; Performers</div>-->
-<!--            <div class="s-sub">Hover a card to learn more</div>-->
-<!--            <div class="agrid">-->
-<!--                &lt;!&ndash; Sarathy Korwar,feature &ndash;&gt;-->
-<!--                <div class="acard afeat" data-vid="JnKnnO-YF1Q">-->
-<!--                    <div class="abg c1"><img class="yt-thumb" src="https://i.ytimg.com/vi/JnKnnO-YF1Q/hqdefault.jpg"-->
-<!--                                             alt="Sarathy Korwar" loading="lazy" onerror="this.style.display='none'">-->
-<!--                    </div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">Percussion · Jazz · South Asian</div>-->
-<!--                        <div class="an">Sarathy Korwar</div>-->
-<!--                        <div class="ax">London-based percussionist,latest album live.</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 1 · Headline</div>-->
-<!--                    <div class="aplay">▶</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Sol & Bol &ndash;&gt;-->
-<!--                <div class="acard" data-vid="4oTLYTp94Og">-->
-<!--                    <div class="abg c2"><img class="yt-thumb" src="https://i.ytimg.com/vi/4oTLYTp94Og/hqdefault.jpg"-->
-<!--                                             alt="Sol & Bol" loading="lazy" onerror="this.style.display='none'"></div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">Hindustani · Carnatic</div>-->
-<!--                        <div class="an">Sol &amp; Bol</div>-->
-<!--                        <div class="ax">North Indian &amp; South Indian classical fusion.</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 1</div>-->
-<!--                    <div class="aplay">▶</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Abibi &ndash;&gt;-->
-<!--                <div class="acard">-->
-<!--                    <div class="abg c11">-->
-<!--                        <div class="ico">🎵</div>-->
-<!--                    </div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">Live</div>-->
-<!--                        <div class="an">Abibi</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 1</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Warrior Queen &ndash;&gt;-->
-<!--                <div class="acard" data-vid="nBzMnkJFWBs">-->
-<!--                    <div class="abg c5"><img class="yt-thumb" src="https://i.ytimg.com/vi/nBzMnkJFWBs/hqdefault.jpg"-->
-<!--                                             alt="Warrior Queen" loading="lazy" onerror="this.style.display='none'">-->
-<!--                    </div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">MC · Jamaica</div>-->
-<!--                        <div class="an">Warrior Queen</div>-->
-<!--                        <div class="ax">Icon of the global dancehall and dub circuit.</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3 · SOUNDMASH</div>-->
-<!--                    <div class="aplay">▶</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; MC Yallah &ndash;&gt;-->
-<!--                <div class="acard" data-vid="TaKGiNWbCdo">-->
-<!--                    <div class="abg c7"><img class="yt-thumb" src="https://i.ytimg.com/vi/TaKGiNWbCdo/hqdefault.jpg"-->
-<!--                                             alt="MC Yallah" loading="lazy" onerror="this.style.display='none'"></div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">MC · Kenya-Uganda</div>-->
-<!--                        <div class="an">MC Yallah</div>-->
-<!--                        <div class="ax">East African rapper,SOUNDMASH.</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3 · SOUNDMASH</div>-->
-<!--                    <div class="aplay">▶</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Roots Daughters &ndash;&gt;-->
-<!--                <div class="acard" data-vid="Fd7bAmzP2m4">-->
-<!--                    <div class="abg c4"><img class="yt-thumb" src="https://i.ytimg.com/vi/Fd7bAmzP2m4/hqdefault.jpg"-->
-<!--                                             alt="Roots Daughters" loading="lazy" onerror="this.style.display='none'">-->
-<!--                    </div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">Roots · Reggae · Dub</div>-->
-<!--                        <div class="an">Roots Daughters</div>-->
-<!--                        <div class="ax">Germany's female-operated soundsystem.</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3 · SOUNDMASH</div>-->
-<!--                    <div class="aplay">▶</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Angel Audio / FemmeBassMafia &ndash;&gt;-->
-<!--                <div class="acard" data-vid="Nf3lyA0dlFU">-->
-<!--                    <div class="abg c5"><img class="yt-thumb" src="https://i.ytimg.com/vi/Nf3lyA0dlFU/hqdefault.jpg"-->
-<!--                                             alt="FemmeBassMafia" loading="lazy" onerror="this.style.display='none'">-->
-<!--                    </div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">Contemporary Bass</div>-->
-<!--                        <div class="an">Angel Audio<br><small style="font-weight:400;opacity:.6">FemmeBassMafia</small>-->
-<!--                        </div>-->
-<!--                        <div class="ax">Female-operated soundsystem,contemporary bass.</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3 · SOUNDMASH</div>-->
-<!--                    <div class="aplay">▶</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Ramanbaug Dhol Tasha Pathak &ndash;&gt;-->
-<!--                <div class="acard" data-vid="vVPxNbxOxu4">-->
-<!--                    <div class="abg c3"><img class="yt-thumb" src="https://i.ytimg.com/vi/vVPxNbxOxu4/hqdefault.jpg"-->
-<!--                                             alt="Ramanbaug Dhol Tasha Pathak" loading="lazy"-->
-<!--                                             onerror="this.style.display='none'"></div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">Dhol · Tasha</div>-->
-<!--                        <div class="an">Ramanbaug Dhol Tasha Pathak</div>-->
-<!--                        <div class="ax">Electrifying full-body percussion ensemble.</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3</div>-->
-<!--                    <div class="aplay">▶</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Sri Lavanya &ndash;&gt;-->
-<!--                <div class="acard" data-vid="2k8S5sE_OKM">-->
-<!--                    <div class="abg c8"><img class="yt-thumb" src="https://i.ytimg.com/vi/2k8S5sE_OKM/hqdefault.jpg"-->
-<!--                                             alt="Sri Lavanya" loading="lazy" onerror="this.style.display='none'"></div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">Bharatanatyam</div>-->
-<!--                        <div class="an">Sri Lavanya</div>-->
-<!--                        <div class="ax">South Asian classical dance.</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3</div>-->
-<!--                    <div class="aplay">▶</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Perera Elsewhere &ndash;&gt;-->
-<!--                <div class="acard" data-vid="E7wKnfCzXgg">-->
-<!--                    <div class="abg c10"><img class="yt-thumb" src="https://i.ytimg.com/vi/E7wKnfCzXgg/hqdefault.jpg"-->
-<!--                                              alt="Perera Elsewhere" loading="lazy" onerror="this.style.display='none'">-->
-<!--                    </div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">DJ · Electronic</div>-->
-<!--                        <div class="an">Perera Elsewhere</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3</div>-->
-<!--                    <div class="aplay">▶</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; O.M.T. & K'boko &ndash;&gt;-->
-<!--                <div class="acard">-->
-<!--                    <div class="abg c9">-->
-<!--                        <div class="ico">🎵</div>-->
-<!--                    </div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">Live</div>-->
-<!--                        <div class="an">O.M.T. &amp; K'boko</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Cate Hops &ndash;&gt;-->
-<!--                <div class="acard">-->
-<!--                    <div class="abg c12">-->
-<!--                        <div class="ico">🎧</div>-->
-<!--                    </div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">DJ</div>-->
-<!--                        <div class="an">Cate Hops</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3</div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Blank Pages & SP99 &ndash;&gt;-->
-<!--                <div class="acard">-->
-<!--                    <div class="abg c6">-->
-<!--                        <div class="ico">📽</div>-->
-<!--                    </div>-->
-<!--                    <div class="aov">-->
-<!--                        <div class="ag">Audiovisual</div>-->
-<!--                        <div class="an">Blank Pages &amp; SP99</div>-->
-<!--                        <div class="ax">A/V floor on the final night.</div>-->
-<!--                    </div>-->
-<!--                    <div class="abadge">Day 3 · A/V</div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-        <!-- SOUNDMASH BAND -->
-        <div class="smash" data-panel="3">
-            <div class="sm-in">
-                <div style="font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.4rem">
-                    A Dub&amp;Dal original · Day 3
-                </div>
-                <div class="sm-title">SOUND<br>MASH</div>
-                <div class="sm-acts">
-                    <span class="sm-pill">Warrior Queen</span>
-                    <span class="sm-pill">MC Yallah</span>
-                    <span class="sm-pill">Roots Daughters</span>
-                    <span class="sm-pill">Angel Audio</span>
-                </div>
-                <div class="sm-body">A reinterpretation of the traditional Jamaican Soundclash into a <strong>collaborative,
-                    women-led celebration of sonic exchange</strong>. Featuring Germany's only female-operated
-                    soundsystems,each crew showcasing music that sounds best on their handbuilt systems. Warrior Queen
-                    from Jamaica and MC Yallah take SOUNDMASH to another level entirely.
-                </div>
-            </div>
-        </div>
-
-
-        <!-- FOOD STRIP -->
-<!--        <div class="food">-->
-<!--            <div class="s-lbl" style="color:rgba(240,230,204,.5)">The heart of it all</div>-->
-<!--            <div class="food-h">Good food,<br><span style="color:#a8e070">every day</span></div>-->
-<!--            <p class="food-p">We will all eat the same food, smell the same flavors, and feel that same warmth inside-->
-<!--                us. Culinary traditions and food stories from our motherland,the dal is always on.</p>-->
-<!--            <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform"-->
-<!--               target="_blank" class="c-out"-->
-<!--               style="display:inline-block;border-color:rgba(240,230,204,.3);color:var(&#45;&#45;cream)">Sign up for Kitchen-->
-<!--                workshop →</a>-->
-<!--        </div>-->
-
-
-        <!-- §4 VENUE -->
-<!--        <div class="sec" data-panel="5" id="venue">-->
-<!--            <div class="s-lbl">Where to find us</div>-->
-<!--            <div class="vname">MaHalla</div>-->
-<!--            <div style="color:var(&#45;&#45;dim);font-size:.78rem;margin-top:.3rem;margin-bottom:.75rem">Days 2 &amp; 3,29 &amp;-->
-<!--                30 May 2026-->
-<!--            </div>-->
-<!--            <div class="vnote">Day 1 (28 May) is at a <strong>secret location near Jannowitzbrücke</strong>. Address-->
-<!--                shared by email with ticket holders.-->
-<!--            </div>-->
-<!--            <p style="font-size:.82rem;color:var(&#45;&#45;dim);font-weight:300;margin-bottom:1.25rem">Single day tickets-->
-<!--                available at the door only, subject to capacity.</p>-->
-<!--            <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank" class="c-out"-->
-<!--               style="display:inline-block">Open MaHalla in Maps ↗</a>-->
-<!--            <div class="vmap">-->
-<!--                <iframe src="https://maps.google.com/maps?q=MaHalla+Berlin+Revaler+Str&output=embed" width="100%"-->
-<!--                        height="240" style="border:0" allowfullscreen loading="lazy"></iframe>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-        <!-- MERCH -->
-<!--        <div class="sec" data-panel="6" style="background:var(&#45;&#45;s1)">-->
-<!--            <div class="s-lbl">Support the festival</div>-->
-<!--            <div class="s-h">Organic T-Shirts</div>-->
-<!--            <div class="mgrid" style="margin-top:1.25rem">-->
-<!--                <div>-->
-<!--                    <p style="font-size:.82rem;color:var(&#45;&#45;dim);font-weight:300;line-height:1.72;margin:.75rem 0 1.25rem">-->
-<!--                        100% organic cotton · black · unisex · Dub&amp;Dal design.<br>Sliding scale <strong-->
-<!--                            style="color:var(&#45;&#45;cream)">15–30€</strong>,lowest covers cost, higher supports the festival.<br>Berlin-->
-<!--                        delivery or pick-up only. Available 27 March or at the festival.</p>-->
-<!--                    <a href="https://paypal.me/pfaublau" target="_blank" class="c-main">Order via PayPal →</a>-->
-<!--                </div>-->
-<!--                <div class="mbox">-->
-<!--                    <div class="mlogo">D&amp;D</div>-->
-<!--                    <p style="font-size:.72rem;color:var(&#45;&#45;dim);text-align:center">Transfer your chosen amount to PayPal<br>and-->
-<!--                        include your size in the message.</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-        <!-- ═══ FOOTER ═══ -->
-        <div class="f-bot">© 2026 Dub&amp;Dal · Made with ♥ in Berlin</div>
-
-    </div><!-- /right -->
-</div><!-- /wrap -->
+    </div>
+</div>
 
 
 <script>
