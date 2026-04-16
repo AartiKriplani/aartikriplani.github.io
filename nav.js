@@ -6,7 +6,7 @@
   function cls(p) { return page === p ? ' class="active"' : ''; }
 
   var html = '<nav class="nav">'
-    + '<a href="index.html" class="nav-logo">Dub&amp;Dal</a>'
+    + '<a href="index.html" class="nav-logo"><img src="./images/logo.png" alt="Dub&Dal logo"> Dub&amp;Dal</a>'
     + '<div class="nav-right">'
     + '<a href="https://dubndal.weticket.io/dub-dal-festival/shop" target="_blank" class="nav-btn">Buy Tickets \u2192</a>';
     // + '<button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">'
