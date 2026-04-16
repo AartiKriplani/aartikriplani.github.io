@@ -189,7 +189,7 @@
         .c11{background:linear-gradient(145deg,#0a0a00,#1e1e0a,#303014);}
         .c12{background:linear-gradient(145deg,#08020e,#1c0830,#300c48);}
         .smash {
-          background: linear-gradient(33deg, rgb(232 159 13 / 54%), rgba(240, 176, 48, .65) 25% 35%, rgba(12, 10, 7, .85) 100%);
+          background: linear-gradient(136deg, rgb(88 55 199 / 64%), rgb(240 176 48 / 57%) 45% 55%, rgba(12, 10, 7, .85) 100%);
           padding:3rem 2rem; position:relative; overflow:hidden;
         }
         .smash::before {
@@ -215,7 +215,7 @@
         .wgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; margin-top:1.5rem; }
         .wcard {
           position: relative;
-          background:var(--s2); border:1px solid var(--bord);
+          background:var(--s2);
           padding:1.4rem; display:flex; flex-direction:column; gap:.55rem;
           transition:border-color .2s,transform .18s;
           overflow: hidden;
@@ -228,7 +228,7 @@
           pointer-events: none;
           z-index: 1;
         }
-        .wcard:hover { border-color:var(--gold2); transform:translateY(-2px); }
+        .wcard:hover { transform:translateY(-2px); }
         .wtitle { font-weight:900; font-size:1rem; line-height:1.15; }
         .wby { font-size:.64rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); }
         .wdesc { font-size:.8rem; color:var(--dim); font-weight:300; flex:1; }
@@ -239,6 +239,7 @@
           text-decoration:none; transition:background .2s,color .2s;
         }
         .wcta:hover { background:var(--gold); color:#0c0a07; }
+        .wcard:hover .wcta { background:var(--gold); color:#0c0a07; }
         .food { padding:3.5rem 2rem; text-align:center; }
         .food-h { font-weight:900; font-size:clamp(1.8rem,4vw,3.2rem); color:var(--gold); line-height:1; }
         .food-p { font-size:.88rem; font-weight:300; color:rgba(240,230,204,.82); max-width:480px; margin:.85rem auto 1.5rem; line-height:1.75; }
@@ -384,7 +385,7 @@
         .l-body { font-size:.72rem; max-width:100%; }
         .l-btn,.l-out { font-size:.72rem; padding:.5rem .85rem; max-width:100%; }
         .l-rule { margin:.75rem 0; }
-        .sec { padding:1.5rem 1.1rem 1.5rem 1rem; }
+        .sec { padding:1.5rem 1.1rem 1.5rem 2rem; }
         .row { grid-template-columns:48px 1fr; gap:.6rem; }
         .mgrid { grid-template-columns:1fr; }
         .smash { padding:2rem 1.1rem; }
@@ -405,6 +406,19 @@
           background: linear-gradient(135deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.02) 25%, transparent 70%, rgba(0,0,0,.02) 100%);
           pointer-events: none;
           z-index: 1;
+        }
+        .left-img-section {
+          position: relative;
+          overflow: hidden;
+          background: var(--s2);
+        }
+        .left-img-section::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 1;
+          background: linear-gradient(24deg, rgba(0, 0, 0, .02) 0%, rgba(255, 255, 255, .02) 15%, rgba(255, 255, 255, .08) 50%, transparent 85%, rgba(0, 0, 0, .02) 100%);
         }
         .left-section::before {
           content: attr(data-title);
@@ -669,7 +683,9 @@
 
 <div class="wrap">
   <div class="column" id="left">
-    <img src="./images/festival.JPG" alt="Dub&Dal Festival 2026 Poster" class="hero-img">
+    <div class="left-img-section panel-s1">
+      <img src="./images/festival.JPG" alt="Dub&Dal Festival 2026 Poster" class="hero-img">
+    </div>
 
     <div class="smash" data-panel="3">
       <div class="sm-in">
@@ -770,7 +786,7 @@
           <div class="l-lbl">Where to find us</div>
           <div class="l-title"><span class="g">Ma</span><br>Halla</div>
           <div class="l-rule"></div>
-          <div class="l-body">Days 2 &amp; 3 at MaHalla, Day 1 at a secret location near Jannowitzbrücke. Address shared by email to ticket holders.</div>
+          <div class="l-body">Day 1 at a secret location near Jannowitzbrücke. Address shared by email to ticket holders.<br>Days 2 &amp; 3 at MaHalla.</div>
           <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank" class="l-out" onclick="event.stopPropagation()">Open in Maps ↗</a>
           <div class="left-more">View more →</div>
     </div>
@@ -779,13 +795,14 @@
     <div class="sec" data-panel="6">
         <div class="s-lbl">Support the festival</div>
         <div class="s-h">Organic T-Shirts</div>
+        <div class="l-rule"></div>
         <div class="mgrid" style="margin-top:1.25rem">
             <div>
-                <p style="font-size:.82rem;color:var(--dim);font-weight:300;line-height:1.72;margin:.75rem 0 1.25rem">
+                <p style="font-size:.88rem; max-width:100%;font-weight:300;line-height:1.72;margin:.25rem 0 1.25rem">
                     100% organic cotton · black · unisex · Dub&Dal design. <br>Sliding scale  <strong
-                        style="color:var(--cream)">15–30€</strong> , lowest covers cost, higher supports the festival. </br>Berlin
+                        style="color:var(--gold)">15–30€</strong> , lowest covers cost, higher supports the festival. </br>Berlin
                     delivery or pick-up only. Available 27 March or at the festival.</p>
-                    <p style="font-size:.72rem;color:var(--dim);margin:.75rem 0 1.25rem;">Transfer your chosen amount to PayPal and
+                    <p style="font-size:.72rem;margin:.75rem 0 1.25rem;">Transfer your chosen amount to PayPal and
                     include your size in the message.</p>
                 <a href="https://paypal.me/pfaublau" target="_blank" class="c-main">Order via PayPal →</a>
             </div>
