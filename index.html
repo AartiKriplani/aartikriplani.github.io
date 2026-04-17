@@ -21,7 +21,7 @@
         }
         .hero-img {
           width:100%; 
-          max-height: calc(100vh - var(--nav) - 6rem);
+          /* max-height: calc(100vh - var(--nav) - 6rem); */
           object-fit:contain; 
           object-position:center;
           display:block;
@@ -80,10 +80,10 @@
         .s-sub { font-size:.8rem; color:var(--dim); font-weight:300; margin-top:.35rem; }
         .intro { font-size:.97rem; font-weight:300; line-height:1.78; }
         .intro .hl { color:var(--gold); font-weight:700; }
-        .ctas { display:flex; flex-wrap:wrap; gap:.55rem; align-items:center; margin-top:1.75rem; }
+        .ctas { display:flex; flex-wrap:wrap; gap:.55rem; align-items:center; margin-top:1.75rem; justify-content:center; }
         .c-main {
           background:var(--gold); color:#0c0a07;
-          padding:.36rem 1.5rem;
+          padding:.36rem 1.0rem;
           font-weight:900; font-style:italic; font-size:.95rem;
           text-decoration:none; transition:background .2s;
         }
@@ -143,7 +143,7 @@
           grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
           gap:2px; margin-top:1.5rem;
         }
-        .acard { position:relative; overflow:hidden; aspect-ratio:3/4; background:var(--s2); }
+        .acard { position:relative; overflow:hidden; aspect-ratio:3/4; background:var(--s2); box-shadow: 0 20px 50px rgba(212,146,14,.16); transition:transform .2s ease, box-shadow .2s ease; }
         .acard::after {
           content: '';
           position: absolute;
@@ -160,6 +160,7 @@
           display:flex; flex-direction:column; justify-content:flex-end;
           padding:.85rem; transition:background .3s;
         }
+        .acard:hover { box-shadow: 0 18px 36px rgba(212,146,14,.12); }
         .acard:hover .aov { background:linear-gradient(to top,#0c0a07 0%,rgba(12,10,7,.6) 65%,transparent 100%); }
         .ag { font-size:.58rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:.2rem; }
         .an { font-weight:900; font-size:.95rem; line-height:1.1; color:var(--cream); }
@@ -216,9 +217,10 @@
         .wcard {
           position: relative;
           background:var(--s2);
-          padding:1.4rem; display:flex; flex-direction:column; gap:.55rem;
-          transition:border-color .2s,transform .18s;
+          padding:1.9rem; display:flex; flex-direction:column; gap:.85rem;
+          transition:border-color .2s,transform .18s,box-shadow .18s;
           overflow: hidden;
+          box-shadow: 0 24px 56px rgba(212,146,14,.18);
         }
         .wcard::after {
           content: '';
@@ -228,7 +230,7 @@
           pointer-events: none;
           z-index: 1;
         }
-        .wcard:hover { transform:translateY(-2px); }
+        .wcard:hover { transform:translateY(-2px); box-shadow: 0 18px 36px rgba(212,146,14,.12); }
         .wtitle { font-weight:900; font-size:1rem; line-height:1.15; }
         .wby { font-size:.64rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); }
         .wdesc { font-size:.8rem; color:var(--dim); font-weight:300; flex:1; }
@@ -240,6 +242,39 @@
         }
         .wcta:hover { background:var(--gold); color:#0c0a07; }
         .wcard:hover .wcta { background:var(--gold); color:#0c0a07; }
+        .card-footer {
+          display:flex;
+          align-items:center;
+          gap:.75rem;
+          margin-top:1.4rem;
+        }
+        .card-btn {
+          margin-left:auto;
+          border:1px solid var(--gold);
+          color:var(--gold);
+          background:transparent;
+          padding:.55rem .95rem;
+          font-size:.72rem;
+          font-weight:700;
+          letter-spacing:.1em;
+          text-transform:uppercase;
+          text-decoration:none;
+          transition:background .2s,color .2s,border-color .2s;
+        }
+        .card-btn:hover {
+          background:var(--gold);
+          color:#0c0a07;
+        }
+        .left-section:hover .card-btn,
+        .wcard:hover .card-btn,
+        .mbox:hover .card-btn {
+          background:var(--gold);
+          color:#0c0a07;
+          border-color:var(--gold);
+        }
+        .gallery-item img {
+          border-radius:10px;
+        }
         .food { padding:3.5rem 2rem; text-align:center; }
         .food-h { font-weight:900; font-size:clamp(1.8rem,4vw,3.2rem); color:var(--gold); line-height:1; }
         .food-p { font-size:.88rem; font-weight:300; color:rgba(240,230,204,.82); max-width:480px; margin:.85rem auto 1.5rem; line-height:1.75; }
@@ -251,6 +286,12 @@
         .mbox {
           position: relative;
           background:var(--s2); padding:2rem; display:flex; flex-direction:column; align-items:center; gap:.9rem; overflow: hidden;
+          cursor: pointer; transition:transform .2s ease, box-shadow .2s ease;
+          box-shadow: 0 20px 52px rgba(212,146,14,.18);
+        }
+        .mbox:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 28px 70px rgba(212,146,14,.22);
         }
         .mbox::after {
           content: '';
@@ -269,14 +310,13 @@
         }
         .gallery-item {
           position: relative;
-          border:1px solid var(--bord);
           background:var(--s2);
           overflow:hidden;
           border-radius:14px;
-          padding:0;
           cursor:pointer;
           transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
           display:block;
+          box-shadow: 0 20px 50px rgba(212,146,14,.16);
         }
         .gallery-item::after {
           content: '';
@@ -290,7 +330,7 @@
         .gallery-item:hover {
           transform:scale(1.02);
           border-color:rgba(212,146,14,.45);
-          box-shadow:0 16px 38px rgba(0,0,0,.18);
+          box-shadow: 0 24px 60px rgba(212,146,14,.24);
         }
         .gallery-item img {
           width:100%;
@@ -393,11 +433,14 @@
         .left-section {
           position: relative;
           overflow: hidden;
-          padding: 3rem 2rem;
+          padding: 3.5rem 2.3rem;
           background: var(--s2);
           /* border: 1px solid rgba(255,255,255,.08); */
+          margin: 0.45rem;
+          border-radius: 1rem;
           transition: transform .3s ease, box-shadow .3s ease;
           cursor: pointer;
+          box-shadow: 0 20px 52px rgba(212,146,14,.18);
         }
         .left-section::after {
           content: '';
@@ -450,7 +493,7 @@
         .left-section.panel-s2::before { color: rgba(240,230,204,.12); }
         .left-section:hover {
           transform: translateY(-2px);
-          box-shadow: 0 18px 42px rgba(0,0,0,.18);
+          box-shadow: 0 18px 42px rgba(212,146,14,.16);
         }
         .left-section:hover::before {
           transform: translateY(-4px) scale(1.02);
@@ -507,6 +550,9 @@
           padding: 1rem;
           border-bottom: 1px solid var(--bord);
           z-index: 1001;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
         }
         .back-btn {
           background: var(--gold);
@@ -712,7 +758,9 @@
           <div class="l-title">Work<span class="g">shops</span></div>
           <div class="l-rule"></div>
           <div class="l-body">Konnakol, soundsystem building, cooking dal, and more. All workshops are included in the festival ticket.</div>
-          <div class="left-more">View more →</div>
+          <div class="card-footer">
+            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+          </div>
     </div>
 
     <div class="left-section panel-s2" data-title="ARCHIVE" onclick="window.open('archive.html','_blank')">
@@ -720,7 +768,9 @@
           <div class="l-title">Arch<span class="g">ive</span></div>
           <div class="l-rule"></div>
           <div class="l-body">Explore previous Dub&amp;Dal gatherings and festival editions in the archive.</div>
-          <div class="left-more">View more →</div>
+          <div class="card-footer">
+            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+          </div>
     </div>
 
     <div class="left-section panel-s1" data-title="ABOUT" onclick="window.open('about.html','_blank')">
@@ -728,7 +778,9 @@
       <div class="l-title">Ab<span class="g">out</span></div>
       <div class="l-rule"></div>
       <div class="l-body">Learn about Dub&amp;Dal, our team and how this festival grew from one pot of dal into a soundsystem community.</div>
-      <div class="left-more">View more →</div>
+      <div class="card-footer">
+        <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+      </div>
     </div>
   </div>
 
@@ -756,13 +808,15 @@
         </div>
     </div>
 
-    <div class="mbox">
+    <div class="mbox" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform','_blank')" style="border-radius: 1rem; margin: 0.45rem;">
         <div class="s-lbl" style="color:rgba(240,230,204,.5)">The heart of it all</div>
         <div class="food-h">Good food,<br><span>every day</span></div>
         <p class="food-p">We will all eat the same food, smell the same flavors, and feel that same warmth inside
             us. Culinary traditions and food stories from our motherland,the dal is always on.</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform"
-            target="_blank" class="c-out">Sign up for Kitchen workshop →</a>
+        <div class="card-footer" style="width:100%;">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform"
+             target="_blank" class="card-btn" style="margin: auto;" onclick="event.stopPropagation()">Sign up for Kitchen workshop →</a>
+        </div>
     </div>
 
     <div class="left-section panel-s1" data-title="ARTISTS" onclick="openArtistsDrawer()">
@@ -770,7 +824,9 @@
           <div class="l-title">Artists<span class="g">.</span></div>
           <div class="l-rule"></div>
           <div class="l-body">South Asian classical, Jamaican dub, Bharatanatyam, bass and more. Hover each card to explore the lineup.</div>
-          <div class="left-more">View more →</div>
+          <div class="card-footer">
+            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+          </div>
     </div>
 
     <div class="left-section panel-s2" data-title="DAY BY DAY" onclick="openLineupDrawer()">
@@ -778,8 +834,9 @@
           <div class="l-title">Day<br>by<span class="g"> Day</span></div>
           <div class="l-rule"></div>
           <div class="l-body">From Konnakol to handbuilt soundsystems, three days of music, culture and community.</div>
-          <a href="https://dubndal.weticket.io/dub-dal-festival/shop" target="_blank" class="l-btn" onclick="event.stopPropagation()">Buy Tickets →</a>
-          <div class="left-more">View more →</div>
+          <div class="card-footer">
+            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+          </div>
     </div>
 
     <div class="left-section panel-s1" data-title="MAHALLA" onclick="openVenueDrawer()">
@@ -787,8 +844,9 @@
           <div class="l-title"><span class="g">Ma</span><br>Halla</div>
           <div class="l-rule"></div>
           <div class="l-body">Day 1 at a secret location near Jannowitzbrücke. Address shared by email to ticket holders.<br>Days 2 &amp; 3 at MaHalla.</div>
-          <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank" class="l-out" onclick="event.stopPropagation()">Open in Maps ↗</a>
-          <div class="left-more">View more →</div>
+          <div class="card-footer">
+            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+          </div>
     </div>
 
       
@@ -839,7 +897,7 @@
 
 <div id="lineup-drawer" class="drawer">
     <div class="drawer-header">
-        <button onclick="closeLineupDrawer()" class="back-btn">← Back</button>
+        <button onclick="closeLineupDrawer()" class="back-btn">Close x</button>
     </div>
     <div class="drawer-content">
         <div class="sec" data-panel="1" id="lineup" style="padding-top:3rem">
@@ -891,7 +949,7 @@
 
 <div id="artists-drawer" class="drawer">
     <div class="drawer-header">
-        <button onclick="closeArtistsDrawer()" class="back-btn">← Back</button>
+        <button onclick="closeArtistsDrawer()" class="back-btn">Close x</button>
     </div>
     <div class="drawer-content">
         <div class="sec" data-panel="2" id="artists" style="padding-bottom:0">
@@ -1065,7 +1123,7 @@
 
 <div id="venue-drawer" class="drawer">
     <div class="drawer-header">
-        <button onclick="closeVenueDrawer()" class="back-btn">← Back</button>
+        <button onclick="closeVenueDrawer()" class="back-btn">Close x</button>
     </div>
     <div class="drawer-content">
         <div class="sec" data-panel="5" id="venue">
@@ -1091,7 +1149,7 @@
 
 <div id="workshops-drawer" class="drawer-right">
     <div class="drawer-header">
-        <button onclick="closeWorkshopsDrawer()" class="back-btn">Back →</button>
+        <button onclick="closeWorkshopsDrawer()" class="back-btn">Close x</button>
     </div>
     <div class="drawer-content">
         <div class="sec" data-panel="4" id="workshops">
@@ -1102,7 +1160,7 @@
                     target="_blank" style="color:var(--gold)">sign up required ↗</a></div>
             <div class="wgrid">
 
-                <div class="wcard">
+                <div class="wcard" style="border-radius: 1rem;">
                     <div class="wtitle">Building Rhythms w/ Konnakkol</div>
                     <div class="wby">With Sonikblasts · Thu 28 May · 6:30pm · Secret Location near Jannowitzbrücke</div>
                     <div class="wdesc">Introduces Konnakkol, the South Indian classical rhythmic language, as a
@@ -1110,11 +1168,13 @@
                         them to explore polymeter and polyrhythms through listening, voice, and playful experimentation.
                         Everyone welcome, no experience required.
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
-                       target="_blank" class="wcta">Sign Up ↗</a>
+                    <div class="card-footer">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
+                           target="_blank" class="wcta">Sign Up ↗</a>
+                    </div>
                 </div>
 
-                <div class="wcard">
+                <div class="wcard" style="border-radius: 1rem;">
                     <div class="wtitle">Building a Soundsystem - Take-aways</div>
                     <div class="wby">With Femme Bass Mafia (Lilia &amp; Jenny) · Thu 28 May · 6:30pm · Secret Location
                         near Jannowitzbrücke
@@ -1122,40 +1182,48 @@
                     <div class="wdesc">Ever wondered what it takes to build a soundsystem? Femme Bass Mafia share the
                         lessons, challenges, and insights from building their own "Angel Audio".
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
-                       target="_blank" class="wcta">Sign Up ↗</a>
+                    <div class="card-footer">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
+                           target="_blank" class="wcta">Sign Up ↗</a>
+                    </div>
                 </div>
 
-                <div class="wcard">
+                <div class="wcard" style="border-radius: 1rem;">
                     <div class="wtitle">Feed &amp; Feedback</div>
                     <div class="wby">Hosted by O.M.Theorem &amp; 16 Faces · Fri 29 May · 6:30pm · MaHalla, Berlin</div>
                     <div class="wdesc">A production feedback session centred around real-time listening and intimate
                         community building over food. On Femme Bass Mafia's Angel Audio Soundsystem. Submit your track
                         by 26 May 10am, or sign up to come listen.
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
-                       target="_blank" class="wcta">Sign Up ↗</a>
+                    <div class="card-footer">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
+                           target="_blank" class="wcta">Sign Up ↗</a>
+                    </div>
                 </div>
 
-                <div class="wcard">
+                <div class="wcard" style="border-radius: 1rem;">
                     <div class="wtitle">KüFa - Community Kitchen</div>
                     <div class="wby">With Torhaus Koch Kollective · Fri 29 May · 5:30pm · MaHalla, Berlin</div>
                     <div class="wdesc">Whether you're a seasoned chef, a food-waste warrior, or just looking for good
                         food and good company, the KüFa is for you. Free entry, everyone welcome, signup mandatory.
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
-                       target="_blank" class="wcta">Sign Up ↗</a>
+                    <div class="card-footer">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
+                           target="_blank" class="wcta">Sign Up ↗</a>
+                    </div>
                 </div>
 
-                <div class="wcard">
+                <div class="wcard" style="border-radius: 1rem;">
                     <div class="wtitle">The Soundsystem MC Lab</div>
                     <div class="wby">With Roots Daughters &amp; Trainah · Sat 30 May · 5:30pm · MaHalla, Berlin</div>
                     <div class="wdesc">Word, Sound and Power. Learn about soundsystem culture, key MC phrases &amp;
                         verses, hosting a session and using a pre-amp while MCing — on Roots Daughters Soundsystem. Ends
                         with a cypher jam.
                     </div>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
-                       target="_blank" class="wcta">Sign Up ↗</a>
+                    <div class="card-footer">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfF9WJp62kk-6MCrZUEiNG_G8goqUDkpHDPqq49_N5uxIr_wQ/viewform?usp=dialog"
+                           target="_blank" class="wcta">Sign Up ↗</a>
+                    </div>
                 </div>
 
             </div>
