@@ -73,6 +73,13 @@ body {
   transition:background .2s;
 }
 .nav-btn:hover { background:var(--gold2); }
+.nav-link {
+  color:var(--gold); text-decoration:none;
+  font-size:.82rem; font-weight:bold; letter-spacing:.15em; text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-link:hover { color:var(--cream); }
+.nav-link.active { color:var(--gold); }
 
 /* ═══════════════════════════════════
    PAGE HERO (archive, about)
@@ -167,6 +174,12 @@ body {
 }
 .nav-drawer ul a:hover, .nav-drawer ul a.active { color: var(--gold); }
 .nav-drawer .nav-btn { align-self: flex-start; }
+.nav-drawer a {
+  color:var(--gold); text-decoration:none;
+  font-size:.82rem; font-weight:bold; letter-spacing:.15em; text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-drawer a:hover, .nav-drawer a.active { color: var(--gold); }
 
 /* ═══════════════════════════════════
    RESPONSIVE – nav collapses ≤ 900px
@@ -174,6 +187,7 @@ body {
 @media (max-width: 900px) {
   .nav-mid { display: none; }
   .nav-hamburger { display: flex; }
+  .nav-right .nav-link { display: none; }
 }
 /* Hide drawer entirely on desktop */
 @media (min-width: 901px) {
