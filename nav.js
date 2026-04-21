@@ -6,26 +6,19 @@
   function cls(p) { return page === p ? ' class="active"' : ''; }
 
   var html = '<nav class="nav">'
-    + '<a href="index.html" class="nav-logo">Dub&amp;Dal</a>'
-    + '<ul class="nav-mid">'
-    + '<li><a href="index.html"' + cls('index') + '>Home</a></li>'
-    + '<li><a href="archive.html"' + cls('archive') + '>Archive</a></li>'
-    + '<li><a href="about.html"' + cls('about') + '>About</a></li>'
-    + '</ul>'
+    + '<a href="index.html" class="nav-logo"><img src="./images/logo.png" alt="Dub&Dal logo"> Dub&amp;Dal</a>'
     + '<div class="nav-right">'
     + '<a href="https://dubndal.weticket.io/dub-dal-festival/shop" target="_blank" class="nav-btn">Buy Tickets \u2192</a>'
+    + '<a href="archive.html" class="nav-link nav-desktop" style="margin-left:0.55rem">Archive</a>'
+    + '<a href="about.html" class="nav-link nav-desktop">About</a>'
     + '<button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">'
     + '<span></span><span></span><span></span>'
     + '</button>'
     + '</div>'
     + '</nav>'
     + '<div class="nav-drawer" aria-hidden="true">'
-    + '<ul>'
-    + '<li><a href="index.html"' + cls('index') + '>Home</a></li>'
-    + '<li><a href="archive.html"' + cls('archive') + '>Archive</a></li>'
-    + '<li><a href="about.html"' + cls('about') + '>About</a></li>'
-    + '</ul>'
-    + '<a href="https://dubndal.weticket.io/dub-dal-festival/shop" target="_blank" class="nav-btn">Buy Tickets \u2192</a>'
+    + '<a href="archive.html" class="nav-link">Archive</a>'
+    + '<a href="about.html" class="nav-link">About</a>'
     + '</div>';
 
   /* Insert immediately after this <script> tag */
