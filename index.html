@@ -746,6 +746,15 @@
           document.getElementById('soundmash-drawer').classList.remove('open');
         }
 
+        function openMerchDrawer() {
+          closeAllDrawers();
+          document.getElementById('merch-drawer').classList.add('open');
+        }
+
+        function closeMerchDrawer() {
+          document.getElementById('merch-drawer').classList.remove('open');
+        }
+
         window.addEventListener('click', function (event) {
           if (!event.target.closest('.drawer') && !event.target.closest('.drawer-right') && !event.target.closest('.left-section') && !event.target.closest('.smash')) {
             closeAllDrawers();
@@ -766,9 +775,18 @@
     <div class="left-img-section panel-s1">
       <img src="./images/festival.JPG" alt="Dub&Dal Festival 2026 Poster" class="hero-img">
     </div>
-
+    <div class="left-section panel-s1" data-title="WORKSHOPS" onclick="openWorkshopsDrawer()">
+          <div class="l-lbl">Learn &amp; participate</div>
+          <div class="l-title">Work<span class="g">shops</span></div>
+          <div class="l-rule"></div>
+          <div class="l-body">Konnakol, soundsystem building, cooking dal, and more. All workshops are included in the festival ticket.</div>
+          <div class="card-footer">
+            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+          </div>
+    </div>
+    
     <div class="left-section panel-s2" data-title="SOUNDMASH" onclick="openSoundmashDrawer()">
-          <div class="l-lbl">A Dub&amp;Dal original · Day 3</div>
+          <div class="l-lbl">A Dub&amp;Dal original</div>
           <div class="l-title">Sound<span class="g">mash</span></div>
           <div class="l-rule"></div>
           <div class="sm-acts">
@@ -782,21 +800,15 @@
           </div>
     </div>
 
-    <div class="left-section panel-s1" data-title="WORKSHOPS" onclick="openWorkshopsDrawer()">
-          <div class="l-lbl">Learn &amp; participate</div>
-          <div class="l-title">Work<span class="g">shops</span></div>
-          <div class="l-rule"></div>
-          <div class="l-body">Konnakol, soundsystem building, cooking dal, and more. All workshops are included in the festival ticket.</div>
-          <div class="card-footer">
-            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
-          </div>
-    </div>
 
     <div class="left-section panel-s2" data-title="VENUES" onclick="openVenueDrawer()">
           <div class="l-lbl">Where to find us</div>
           <div class="l-title">Ven<span class="g">eus</span></div>
           <div class="l-rule"></div>
-          <div class="l-body">Day 1 at a <span style="color: var(--gold);"><strong>secret location near Jannowitzbrücke</strong></span>. Address shared by email to ticket holders.<br>Days 2 &amp; 3 at <span style="color: var(--gold);"><strong>MaHalla</strong></span>.</div>
+          <div class="l-body">Day 1 at a <span style="color: var(--gold);"><strong>secret location near Jannowitzbrücke</strong></span>.
+             Address shared by email to ticket holders.
+             <br>Days 2 &amp; 3 at <span style="color: var(--gold);"><strong>MaHalla</strong></span>.
+            </div>
           <div class="card-footer">
             <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
           </div>
@@ -806,25 +818,32 @@
 
   <div class="column" id="right"> 
     <div class="left-section panel-s2" data-title="FESTIVAL" onclick="openHeroDrawer()">
-          <div class="l-lbl">Three years in the making</div>
+          <div class="l-lbl">3 year anniversary</div>
           <div class="l-title">Dub&amp;Dal<br><span class="g">Festival</span></div>
           <div class="l-rule"></div>
-          <div class="l-body">From one room to three days of music, culture and community. Celebrating roots across South Asia and beyond.</div>
+          <div class="l-body">3 days - Celebrating roots and community</div>
           <div class="card-footer">
             <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
           </div>
     </div>
 
     <div class="left-section panel-s1" data-title="ARTISTS" onclick="openArtistsDrawer()">
-          <div class="l-lbl">The performers</div>
           <div class="l-title">Art<span class="g">ists</span></div>
           <div class="l-rule"></div>
-          <div class="l-body">South Asian classical, Jamaican dub, Bharatanatyam, bass and more. Hover each card to explore the lineup.</div>
+          <div class="l-body">Soundsystem music, Hindustani and Carnatic classical, Bharatanatyam dance... </div>
           <div class="card-footer">
             <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
           </div>
     </div>
 
+    <div class="left-section panel-s1" data-title="MERCH" onclick="openMerchDrawer()">
+          <div class="l-title">Raising Funds for <span class="g">Palestine</span></div>
+          <div class="l-rule"></div>
+          <div class="l-body">100% organic T-shirts</div>
+          <div class="card-footer">
+            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+          </div>
+    </div>
     <!-- <div class="left-section panel-s2" data-title="DAY BY DAY" onclick="openLineupDrawer()">
           <div class="l-lbl">Three days</div>
           <div class="l-title">Day<br>by<span class="g"> Day</span></div>
@@ -835,37 +854,6 @@
           </div>
     </div> -->
 
-      
-    <div class="sec" data-panel="6">
-        <div class="s-lbl">Support the festival</div>
-        <div class="l-title">Organic <span class="g">T-Shirts</span></div>
-        <div class="l-rule"></div>
-        <div class="mgrid" style="margin-top:1.25rem">
-            <div>
-                <p style="font-size:.88rem; max-width:100%;font-weight:300;line-height:1.72;margin:.25rem 0 1.25rem">
-                    100% organic cotton · black · unisex · Dub&Dal design. <br>Sliding scale  <strong
-                        style="color:var(--gold)">15–30€</strong> , lowest covers cost, higher supports the festival. </br>Berlin
-                    delivery or pick-up only. Available 27 March or at the festival.</p>
-                    <p style="font-size:.72rem;margin:.75rem 0 1.25rem;">Transfer your chosen amount to PayPal and
-                    include your size in the message.</p>
-                <a href="https://paypal.me/pfaublau" target="_blank" class="c-main">Order via PayPal →</a>
-            </div>
-            <div class="mbox" style="border-radius: 1rem; border: 1px solid #f3ba408f;">
-                <div class="gallery">
-                  <button type="button" class="gallery-item" data-src="./images/Shirt_men.jpeg" aria-label="View men's shirt">
-                    <img src="./images/Shirt_men.jpeg" alt="Dub & Dal organic T-shirt – men's fit">
-                  </button>
-                  <button type="button" class="gallery-item" data-src="./images/Shirt_women.jpeg" aria-label="View women's shirt">
-                    <img src="./images/Shirt_women.jpeg" alt="Dub & Dal organic T-shirt – women's fit">
-                  </button>
-                  <button type="button" class="gallery-item" data-src="./images/Shirt_size.jpeg" aria-label="View size chart">
-                    <img src="./images/Shirt_size.jpeg" alt="Dub & Dal T-shirt sizing guide">
-                  </button>
-                </div>
-                <div class="gallery-note">Tap an image to view it larger.</div>
-            </div>
-        </div>
-    </div>
 
   </div>
 
@@ -1119,7 +1107,8 @@
                 available at the door only, subject to capacity.
             </div>
             <div class="vnote">Day 1 (28 May) is at a <strong>secret location near Jannowitzbrücke</strong>. Address
-                shared by email with ticket holders.
+                shared by email with ticket holders.<br>
+                The location is a members-only venue. If you are already a member, please remember to bring your own card otherwise you will be able to sign up at the door directly for an annual membership fee of 5€ (cash only)
             </div>
             <div class="vnote">Day 2 & 3, (29 & 30 May) is at <strong>MaHalla</strong>.
             </div>
@@ -1226,7 +1215,7 @@
     </div>
     <div class="drawer-content">
         <div class="sec" data-panel="3" style="padding-top:3rem; position:relative; overflow:hidden;">
-          <div class="s-lbl">A Dub&amp;Dal original · Day 3</div>
+          <div class="s-lbl">A Dub&amp;Dal original</div>
             <div class="s-h">Soundmash</div>  
           <div style="display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:1rem; margin-top:1rem;">
                 <span style="background:rgba(67, 67, 67, 0.22); color:#fff; padding:.25rem .65rem; font-size:.78rem; font-weight:500;">Warrior Queen</span>
@@ -1242,6 +1231,43 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="merch-drawer" class="drawer-right">
+  <div class="drawer-header">
+    <button onclick="closeMerchDrawer()" class="back-btn">Close x</button>
+  </div>
+  <div class="drawer-content">
+    <div class="sec" data-panel="6" id="merch">
+      <div class="s-lbl">Raising funds for Palestine</div>
+      <div class="vname">100% Organic Cotton T-Shirt</div>
+      <div>
+        <p style="font-size:.88rem; max-width:100%;font-weight:300;line-height:1.72;margin:.25rem 0 1.25rem">
+          100% organic cotton · black · unisex · Dub&Dal design. <br>Sliding scale <strong
+            style="color:var(--gold)">15–30€</strong> , 50% of the profits donated to families in Palestine
+           </br>Pick up in Berlin or at the festival.
+         </br>Transfer your chosen amount to PayPal and include your size in the message.</p>
+          </br>
+        <a href="https://paypal.me/pfaublau" target="_blank" class="c-main">Order via PayPal →</a>
+      </div>
+      <br>
+      <div class="mbox" style="border-radius: 1rem; border: 1px solid #f3ba408f;">
+        <div class="gallery">
+          <button type="button" class="gallery-item" data-src="./images/Shirt_men.jpeg" aria-label="View men's shirt">
+            <img src="./images/Shirt_men.jpeg" alt="Dub & Dal organic T-shirt – men's fit">
+          </button>
+          <button type="button" class="gallery-item" data-src="./images/Shirt_women.jpeg"
+            aria-label="View women's shirt">
+            <img src="./images/Shirt_women.jpeg" alt="Dub & Dal organic T-shirt – women's fit">
+          </button>
+          <button type="button" class="gallery-item" data-src="./images/Shirt_size.jpeg" aria-label="View size chart">
+            <img src="./images/Shirt_size.jpeg" alt="Dub & Dal T-shirt sizing guide">
+          </button>
+        </div>
+        <div class="gallery-note">Tap an image to view it larger.</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="hero-drawer" class="drawer">
@@ -1263,9 +1289,8 @@
                   Tickets</a>
               <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform"
                   target="_blank" class="c-out">Sign up for updates</a>
-              <div class="intro" style="margin-top:.65rem; font-size:.62rem;">
-                <p>All Workshops included in the Dub & Dal Festival Ticket. Early-bird tickets available. Kept
-                    genuinely affordable for a 3-day festival, with support from <span
+              <div class="intro" style="margin-top:.75rem;">
+                <p>Early-bird tickets available. Kept genuinely affordable for a 3-day festival, with support from <span
                             class="hl">Musicboard Berlin GmbH </span></p>
                 <p> If your struggling financially, reach out to us via <a style="color:var(--gold)" href="mailto:CommunityChaiBerlin@gmail.com">email</a> <3</p>
               </div>
