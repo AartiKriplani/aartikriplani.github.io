@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>will be · Upcoming Gatherings</title>
+<link rel="icon" type="image/png" href="./images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ═══════════════════════════════════
+   YEAR SECTIONS
+═══════════════════════════════════ */
+.year-section { padding: 3rem 2rem 1rem; }
+.year-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .25em;
+  text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+.year-label::after {
+  content: '';
+  flex: 1; height: 1px; background: var(--bord);
+}
+
+/* ═══════════════════════════════════
+   POSTER GRID
+═══════════════════════════════════ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2px;
+}
+
+.pcard {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--s2);
+  cursor: pointer;
+}
+.pcard.wide { grid-column: span 2; aspect-ratio: 16/9; }
+
+.pcard-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block;
+  transition: transform .5s ease, filter .4s ease;
+  filter: saturate(.85) brightness(.88);
+}
+.pcard-placeholder {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-style: italic;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  color: var(--gold); opacity: .18; letter-spacing: -.02em;
+  pointer-events: none;
+}
+
+.pcard-ov {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(12,10,7,.97) 0%,
+    rgba(12,10,7,.55) 40%,
+    rgba(12,10,7,.12) 70%,
+    transparent 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1rem;
+  transition: background .35s;
+}
+.pcard:hover .pcard-ov {
+  background: linear-gradient(to top,
+    #0c0a07 0%,
+    rgba(12,10,7,.75) 55%,
+    rgba(12,10,7,.25) 100%);
+}
+.pcard:hover .pcard-img {
+  transform: scale(1.04);
+  filter: saturate(1) brightness(.78);
+}
+
+.pc-date {
+  font-size: .58rem; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: .22rem;
+}
+.pc-title {
+  font-weight: 900; font-size: .95rem; line-height: 1.15;
+  color: var(--cream);
+}
+.pc-venue {
+  font-size: .7rem; color: var(--dim); font-weight: 300;
+  margin-top: .18rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.pc-cta {
+  position: absolute; bottom: 1rem; right: 1rem;
+  font-size: .6rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--gold);
+  border: 1px solid var(--bord2); padding: .3rem .65rem;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity .25s, transform .25s;
+  pointer-events: none;
+}
+.pcard:hover .pc-cta { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════
+   LIGHTBOX MODAL
+═══════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(12,10,7,.92);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  padding: calc(var(--nav) + 1rem) 1.5rem 1.5rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+.modal-overlay.open {
+  opacity: 1; pointer-events: auto;
+}
+
+.modal {
+  display: flex;
+  gap: 0;
+  max-width: 900px; width: 100%;
+  max-height: calc(100vh - var(--nav) - 3rem);
+  border: 1px solid var(--bord);
+  overflow: hidden;
+  transform: translateY(18px) scale(.97);
+  transition: transform .35s cubic-bezier(.2,.85,.4,1);
+  background: var(--s1);
+}
+.modal-overlay.open .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-poster {
+  width: 320px; min-width: 320px;
+  position: relative; overflow: hidden;
+  background: var(--s2);
+  display: flex; align-items: stretch;
+  flex-shrink: 0;
+}
+.modal-poster img {
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
+  display: block;
+}
+.modal-poster-placeholder {
+  width: 100%; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-style: italic; font-size: 4rem;
+  color: var(--gold); opacity: .15; letter-spacing: -.04em;
+}
+
+.modal-body {
+  flex: 1; min-width: 0;
+  overflow-y: auto;
+  padding: 2rem 1.75rem 2rem;
+  display: flex; flex-direction: column; gap: 1rem;
+  position: relative;
+}
+.modal-body::-webkit-scrollbar { width: 4px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--bord2); border-radius: 2px; }
+
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: 1px solid var(--bord);
+  color: var(--dim); cursor: pointer; padding: .3rem .55rem;
+  font-size: .75rem; font-family: inherit; letter-spacing: .08em;
+  transition: color .2s, border-color .2s;
+  line-height: 1;
+}
+.modal-close:hover { color: var(--cream); border-color: var(--bord2); }
+
+.modal-date {
+  font-size: .62rem; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold);
+}
+.modal-title {
+  font-weight: 900; font-style: italic;
+  font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+  line-height: .92; letter-spacing: -.02em;
+  color: var(--cream); padding-right: 2rem;
+}
+.modal-venue {
+  font-size: .75rem; color: var(--dim); font-weight: 300;
+  display: flex; align-items: center; gap: .4rem;
+}
+.modal-rule { width: 36px; height: 2px; background: var(--gold); }
+.modal-text {
+  font-size: .84rem; font-weight: 300; color: rgba(240,230,204,.75);
+  line-height: 1.78;
+}
+.modal-text p + p { margin-top: .75rem; }
+.modal-text a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--bord2); transition: border-color .2s; }
+.modal-text a:hover { border-color: var(--gold); }
+
+.modal-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .25rem; }
+.modal-tag {
+  font-size: .6rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; padding: .15rem .5rem;
+  border: 1px solid var(--bord); color: var(--dim);
+}
+.modal-tag.gold { color: var(--gold); border-color: rgba(212,146,14,.35); background: rgba(212,146,14,.06); }
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+@media (max-width: 640px) {
+  .page-hero { padding-top: calc(var(--nav) + 2rem); }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .pcard.wide { grid-column: span 2; aspect-ratio: 4/3; }
+  .modal { flex-direction: column; max-height: 92vh; }
+  .modal-poster { width: 100%; min-width: 0; height: 240px; }
+  .modal-poster img { object-position: center 20%; }
+}
+@media (min-width:641px) and (max-width:900px) {
+  .modal-poster { width: 240px; min-width: 240px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<script src="nav.js"></script>
+
+<!-- ═══ HERO ═══ -->
+<div class="page-hero" data-label="UPCOMING">
+  <div class="hero-title">Upcoming <span class="g">Gatherings</span></div>
+  <div class="hero-sub"><a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform?usp=sf_link">Sign up for email updates →</a></div>
+</div>
+
+<div class="year-section">
+  <div class="grid">
+
+    <!-- ═══ 9Aug, 90mil ═══ -->
+    <div class="pcard" tabindex="0"
+      data-date="9th August 2026"
+      data-title="Dub&Dal meets DayTimers"
+      data-venue="90mil, Berlin"
+      data-tags="90mil,Performance-Lecture,Live,South Asian"
+      data-img="./images/Daytimers.png"
+      data-text="Celebrating roots and community in collaboration with DayTimers Berlin who share the same mission as ours.
+      This one's for our South Asian roots, we're opening the floor to performers and artists from the diaspora to the motherland, creating a space for everyone to feel at home.
+      Proudly Presenting:
+      * Switched on India - performance-lecture with Varun Desai from Kolkatta
+      * Bamboy and Kaali Duniya - Rapper and producer all the way from Bombay
+      * Untaken photographs - by Rahema
+      * O.M. Theorem - Dub&Dal resident
+      ">
+      <img class="pcard-img" src="./images/Daytimers.png" alt="90mil DT poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">9 Aug 2026</div>
+        <div class="pc-title">90mil, Berlin</div>
+        <div class="pc-venue">South Asians unite</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+    <!-- ═══ La nature festival ═══ -->
+    <div class="pcard wide" tabindex="0"
+      data-date="18-21 June 2026"
+      data-title="Dub&Dal at La Nature festival"
+      data-venue="Liege, Belgium"
+      data-tags="Festival Floor,Summer Solsctice"
+      data-img="./images/LaNatureCurators.png"
+      data-text="Dub&Dal at a festival has always been our dream. Now, it's coming true at this intimate, well-curated festival in the woods of Belgium.
+
+    If you're going to La Nature Festival, get in touch with us or catch us there on Friday 19th June">
+      <img class="pcard-img" src="./images/LaNatureCurators.png" alt="Dub&Dal at La Nature" loading="lazy" style="object-position: center center;">
+      <div class="pcard-ov">
+        <div class="pc-date">18-21 June 2026 · at a festival</div>
+        <div class="pc-title">Dub&Dal at La Nature festival</div>
+        <div class="pc-venue">Liege, Belgium · Secret Lineup</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+   <!-- ═══ 25 July, Outlook ═══ -->
+    <div class="pcard" tabindex="0"
+      data-date="23-26th July 2026"
+      data-title="Dub&Dal at Outlook Festival"
+      data-venue="Tisno, croatia"
+      data-tags="Festival floor,Beach,Chill,Downtempo"
+      data-img="./images/OutlookSource.png"
+      data-text="We're taking over The Source floor with Angel Audio Soundsystem on Saturday.
+      A rare showcase of 4 femme DJs from India uniting at Outlook - 
+      Khxdeej, Lush Lata, Anninda and Pia collada
+      & Dub&Dal resident O.M. Theorem
+      ">
+      <img class="pcard-img" src="./images/OutlookSource.png" alt="Outlook Source" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">25 July 2026</div>
+        <div class="pc-title">Outlook festival, Croatia</div>
+        <div class="pc-venue">Find us at The Source Floor</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+</div>
+</div>
+<!-- ═══ FOOTER ═══ -->
+<div class="f-bot">© 2026 Dub&amp;Dal · Made with ♥ in Berlin</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <div class="modal-poster" id="modal-poster">
+      <div class="modal-poster-placeholder" id="modal-placeholder">D&D</div>
+    </div>
+    <div class="modal-body">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕ Close</button>
+      <div class="modal-date" id="modal-date"></div>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-venue" id="modal-venue">📍 <span id="modal-venue-text"></span></div>
+      <div class="modal-rule"></div>
+      <div class="modal-tags" id="modal-tags"></div>
+      <div class="modal-text" id="modal-text"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   POSTER GRID → MODAL
+══════════════════════════════════════════ */
+const overlay  = document.getElementById('modal-overlay');
+const modalEl  = document.getElementById('modal');
+const poster   = document.getElementById('modal-poster');
+const pholder  = document.getElementById('modal-placeholder');
+const mDate    = document.getElementById('modal-date');
+const mTitle   = document.getElementById('modal-title');
+const mVenueT  = document.getElementById('modal-venue-text');
+const mTags    = document.getElementById('modal-tags');
+const mText    = document.getElementById('modal-text');
+const mClose   = document.getElementById('modal-close');
+
+function openModal(card) {
+  const img    = card.dataset.img;
+  const text   = card.dataset.text || '';
+  const tags   = (card.dataset.tags || '').split(',').filter(Boolean);
+
+  poster.querySelectorAll('img').forEach(i => i.remove());
+  pholder.style.display = img ? 'none' : 'flex';
+  if (img) {
+    const i = document.createElement('img');
+    i.src = img;
+    i.alt = card.dataset.title;
+    i.style.cssText = 'width:100%;height:100%;object-fit:contain;object-position:center;display:block;';
+    poster.appendChild(i);
+  }
+
+  mDate.textContent   = card.dataset.date  || '';
+  mTitle.textContent  = card.dataset.title || '';
+  mVenueT.textContent = card.dataset.venue || '';
+
+  mTags.innerHTML = tags.map(t =>
+    `<span class="modal-tag gold">${t.trim()}</span>`
+  ).join('');
+
+  mText.innerHTML = text
+    .split(/\n\n+/)
+    .map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`)
+    .join('');
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  mClose.focus();
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.pcard').forEach(card => {
+  card.addEventListener('click', () => openModal(card));
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card); }
+  });
+});
+
+mClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
