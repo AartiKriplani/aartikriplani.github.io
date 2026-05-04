@@ -12,7 +12,7 @@
     + '<a href="index.html" class="nav-link nav-desktop" style="margin-left:0.55rem">home</a>'
     + '<a href="archive.html" class="nav-link nav-desktop" style="margin-left:0.55rem">has been</a>'
     + '<a href="upcoming.html" class="nav-link nav-desktop" style="margin-left:0.55rem">will be</a>'
-    + '<a href="about.html" class="nav-link nav-desktop">about</a>'
+    + '<a href="about.html" class="nav-link nav-desktop" style="margin-left:0.55rem">about</a>'
     + '<button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">'
     + '<span></span><span></span><span></span>'
     + '</button>'
