@@ -234,6 +234,53 @@
 </div>
 
 <!-- ═══════════════════════════
+     2026
+════════════════════════════ -->
+<div class="year-section">
+  <div class="year-label">2026</div>
+  <div class="grid">
+
+    <!-- Dub&Dal Festival 2026 -->
+    <div class="pcard wide" tabindex="0"
+      data-href="festival.html"
+      data-date="28–30 May 2026"
+      data-title="Dub&Dal Festival · 3rd Anniversary"
+      data-venue="Secret Location & MaHalla, Berlin"
+      data-tags="Berlin,Festival,3 Years,Soundmash,Workshop,Live"
+      data-img="./images/festival.JPG"
+      data-text="Three days celebrating roots and community. One room, one soundsystem, one pot of dal — three years on, we fed you for three days.">
+      <img class="pcard-img" src="./images/festival.JPG" alt="Dub&Dal Festival 2026 poster" loading="lazy">
+      <div class="pcard-ov">
+        <div class="pc-date">28–30 May 2026 · 3rd Anniversary</div>
+        <div class="pc-title">Dub&Dal Festival</div>
+        <div class="pc-venue">Secret Location & MaHalla, Berlin</div>
+      </div>
+      <div class="pc-cta">View festival →</div>
+    </div>
+
+    <!-- La Nature Festival -->
+    <div class="pcard wide" tabindex="0"
+      data-date="18-21 June 2026"
+      data-title="Dub&Dal at La Nature festival"
+      data-venue="Liege, Belgium"
+      data-tags="Festival Floor,Summer Solstice"
+      data-img="./images/LaNatureCurators.png"
+      data-text="Dub&Dal at a festival has always been our dream. Now, it's coming true at this intimate, well-curated festival in the woods of Belgium.
+
+Dub&Dal took the floor on Friday 19th June.">
+      <img class="pcard-img" src="./images/LaNatureCurators.png" alt="Dub&Dal at La Nature" loading="lazy" style="object-position: center center;">
+      <div class="pcard-ov">
+        <div class="pc-date">18-21 June 2026 · Festival</div>
+        <div class="pc-title">Dub&Dal at La Nature festival</div>
+        <div class="pc-venue">Liege, Belgium</div>
+      </div>
+      <div class="pc-cta">View event</div>
+    </div>
+
+  </div><!-- /grid 2026 -->
+</div>
+
+<!-- ═══════════════════════════
      2025
 ════════════════════════════ -->
 <div class="year-section">
@@ -683,9 +730,16 @@ function closeModal() {
 }
 
 document.querySelectorAll('.pcard').forEach(card => {
-  card.addEventListener('click', () => openModal(card));
+  card.addEventListener('click', () => {
+    if (card.dataset.href) { window.location.href = card.dataset.href; return; }
+    openModal(card);
+  });
   card.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card); }
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (card.dataset.href) { window.location.href = card.dataset.href; return; }
+      openModal(card);
+    }
   });
 });
 

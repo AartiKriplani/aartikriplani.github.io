@@ -15,7 +15,6 @@
         .about-section {
           padding: 3.5rem 2rem;
           border-bottom: 1px solid var(--bord);
-          max-width: 860px;
         }
 
         .section-lbl {
@@ -31,7 +30,7 @@
 
         .about-text {
           font-size: 1.05rem; font-weight: 300; color: rgba(240,230,204,.82);
-          line-height: 1.82; max-width: 680px;
+          line-height: 1.82;
         }
         .about-text p + p { margin-top: 1.1rem; }
 
@@ -58,10 +57,8 @@
         }
 
         .interview-card {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0;
-          max-width: 860px;
+          display: flex;
+          flex-direction: column;
           overflow: hidden;
           border: 1px solid var(--bord);
         }
@@ -70,7 +67,8 @@
           position: relative;
           overflow: hidden;
           background: var(--s2);
-          min-height: 300px;
+          height: 220px;
+          flex-shrink: 0;
         }
         .interview-img-wrap img {
           width: 100%; height: 100%;
@@ -85,7 +83,7 @@
         }
         .interview-img-ov {
           position: absolute; inset: 0;
-          background: linear-gradient(to right, transparent 60%, rgba(12,10,7,.5) 100%);
+          background: linear-gradient(to bottom, transparent 60%, rgba(12,10,7,.5) 100%);
           pointer-events: none;
         }
 
@@ -93,7 +91,8 @@
           background: var(--s1);
           padding: 2rem;
           display: flex; flex-direction: column; justify-content: space-between;
-          border-left: 1px solid var(--bord);
+          flex: 1;
+          border-top: 1px solid var(--bord);
         }
 
         .interview-source {
@@ -132,6 +131,13 @@
           border-color: var(--gold);
           background: rgba(212,146,14,.07);
           color: var(--gold2);
+        }
+
+        .press-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+          gap: 1.5rem;
+          max-width: 860px;
         }
 
         /* ═══════════════════════════════════
@@ -222,10 +228,7 @@
         ═══════════════════════════════════ */
         @media (max-width: 640px) {
           .page-hero { padding-top: calc(var(--nav) + 2rem); }
-          .interview-card { grid-template-columns: 1fr; }
-          .interview-img-wrap { min-height: 220px; }
-          .interview-img-ov { background: linear-gradient(to bottom, transparent 60%, rgba(12,10,7,.5) 100%); }
-          .interview-body { border-left: none; border-top: 1px solid var(--bord); }
+          .press-grid { grid-template-columns: 1fr; }
           .people-grid { grid-template-columns: 1fr; }
           .cta-row { flex-direction: column; align-items: flex-start; }
         }
@@ -256,23 +259,50 @@
     </div>
 </div>
 
-<!-- ═══ REFUGE WORLDWIDE INTERVIEW ═══ -->
+<!-- ═══ PRESS & FEATURES ═══ -->
 <div class="interview-section">
-    <div class="section-lbl">Read the Refuge Worldwide interview</div>
-    <div class="interview-card">
-        <div class="interview-img-wrap">
-            <img
-                    src="./images/GRS.jpg"
-                    alt="Dub&Dal at Refuge Worldwide"
-                    loading="lazy"
-            >
-        </div>
-        <div class="interview-body">
-            <div>
-                <div class="interview-meta">By Héloïse Leclercq &nbsp;·&nbsp; refugeworldwide.com</div>
+    <div class="section-lbl">Press &amp; Features</div>
+
+    <div class="press-grid">
+
+        <!-- Refuge Worldwide -->
+        <div class="interview-card">
+            <div class="interview-img-wrap">
+                <img src="./images/GRS.jpg" alt="Dub&Dal at Refuge Worldwide" loading="lazy">
+                <div class="interview-img-ov"></div>
             </div>
-            <a href="https://refugeworldwide.com/news/dub-and-dal" target="_blank" class="interview-cta">Read the full interview →</a>
+            <div class="interview-body">
+                <div>
+                    <div class="interview-source">Refuge Worldwide</div>
+                    <div class="interview-title">Dub &amp; Dal Interview</div>
+                    <div class="interview-rule"></div>
+                    <div class="interview-meta">By Héloïse Leclercq &nbsp;·&nbsp; refugeworldwide.com</div>
+                </div>
+                <a href="https://refugeworldwide.com/news/dub-and-dal" target="_blank" class="interview-cta">Read the full interview →</a>
+            </div>
         </div>
+
+        <!-- Crack Magazine -->
+        <div class="interview-card">
+            <div class="interview-img-wrap">
+                <img src="./images/LaNatureCurators.png" alt="La Nature Festival 2026" loading="lazy" style="object-position: center center;">
+                <div class="interview-img-ov"></div>
+            </div>
+            <div class="interview-body">
+                <div>
+                    <div class="interview-source">Crack Magazine</div>
+                    <div class="interview-title">La Nature Festival 2026 Review</div>
+                    <div class="interview-rule"></div>
+                    <div class="interview-excerpt">
+                        <p>O.M.Theorem listed as one of five standout performances at the festival. Dub&amp;Dal moved through the crowd handing out homemade dal — <em>"a ritual rooted in a practice that fuses South Asian heritage with the community-minded ethos of sound system culture."</em></p>
+                        <p style="margin-top:.65rem; color:var(--gold); font-style:italic;">"A warm sub accompanied by a warm meal."</p>
+                    </div>
+                    <div class="interview-meta">crackmagazine.net &nbsp;·&nbsp; June 2026</div>
+                </div>
+                <a href="https://crackmagazine.net/article/long-reads/la-nature-festival-2026-review/" target="_blank" class="interview-cta">Read the full review →</a>
+            </div>
+        </div>
+
     </div>
 </div>
 

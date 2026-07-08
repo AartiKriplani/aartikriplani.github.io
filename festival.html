@@ -119,18 +119,19 @@
         .tab.on { color:var(--gold); border-bottom-color:var(--gold); }
         .pane { display:none; }
         .pane.on { display:block; }
+        .pane img { max-width:100%; height:auto; display:block; }
         .d-note {
           padding:.75rem 0; font-size:.76rem; color:var(--dim);
           font-style:italic; font-weight:300; border-bottom:1px solid var(--bord);
         }
         .d-note a { color:var(--gold); text-decoration:none; }
         .row {
-          display:grid; grid-template-columns:60px 1fr;
+          display:grid; grid-template-columns: 1fr; /* 60px 1fr */
           gap:.85rem; padding:.8rem 0;
           border-bottom:1px solid var(--bord); align-items:start;
         }
         .row:last-child { border-bottom:none; }
-        .rtime { font-size:.72rem; color:var(--dim); font-style:italic; padding-top:2px; }
+        .rtime { display: none; font-size:.72rem; color:var(--dim); font-style:italic; padding-top:2px; }
         .rname { font-weight:900; font-size:1.05rem; line-height:1.1; }
         .rdesc { font-size:.78rem; color:var(--dim); font-weight:300; margin-top:.15rem; }
         .rtags { display:flex; flex-wrap:wrap; gap:.28rem; margin-top:.35rem; }
@@ -236,6 +237,7 @@
           box-shadow: 0 24px 56px rgba(212,146,14,.18);
           border: 1px solid #f3ba408f;
         }
+        .wcard-img { width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:.5rem; margin-bottom:.25rem; }
         .wcard::after {
           content: '';
           position: absolute;
@@ -442,7 +444,7 @@
         .l-btn,.l-out { font-size:.72rem; padding:.5rem .85rem; max-width:100%; }
         .l-rule { margin:.75rem 0; }
         .sec { padding:1.5rem 1.1rem 1.5rem 2rem; }
-        .row { grid-template-columns:48px 1fr; gap:.6rem; }
+        .row { grid-template-columns:1fr; /* 48px */ gap:.6rem; }
         .mgrid { grid-template-columns:1fr; }
         .smash { padding:2rem 1.1rem; }
         .sm-in { flex-direction:column; }
@@ -788,7 +790,16 @@
           </div>
     </div>
 
-    <div class="left-section panel-s2" data-title="SOUNDMASH" onclick="openSoundmashDrawer()">
+    <div class="left-section panel-s1" data-title="ARTISTS" onclick="openArtistsDrawer()">
+          <div class="l-title">Art<span class="g">ists</span></div>
+          <div class="l-rule"></div>
+          <div class="l-body">Soundsystem music, Hindustani and Carnatic classical, Bharatanatyam dance... </div>
+          <div class="card-footer">
+            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+          </div>
+    </div>
+
+    <div class="left-section panel-s1" data-title="SOUNDMASH" onclick="openSoundmashDrawer()">
           <div class="l-lbl">A Dub&amp;Dal original</div>
           <div class="l-title">Sound<span class="g">mash</span></div>
           <div class="l-rule"></div>
@@ -804,7 +815,7 @@
     </div>
 
 
-    <div class="left-section panel-s1" data-title="VENUES" onclick="openVenueDrawer()">
+    <div class="left-section panel-s2" data-title="VENUES" onclick="openVenueDrawer()">
           <div class="l-lbl">Where to find us</div>
           <div class="l-title">Ven<span class="g">ues</span></div>
           <div class="l-rule"></div>
@@ -824,16 +835,19 @@
           <div class="l-lbl">3 year anniversary</div>
           <div class="l-title">Dub&amp;Dal<br><span class="g">Festival</span></div>
           <div class="l-rule"></div>
-          <div class="l-body">3 days - Celebrating roots and community</div>
+          <div class="l-body">3 days - Celebrating roots and community. <br>
+            Single day tickets available at the door for 15€ <br>
+            If you wish to volunteer, reach out to us via <a style="color:var(--gold)" href="mailto:CommunityChaiBerlin@gmail.com">email</a></div>
           <div class="card-footer">
             <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
           </div>
     </div>
 
-    <div class="left-section panel-s1" data-title="ARTISTS" onclick="openArtistsDrawer()">
-          <div class="l-title">Art<span class="g">ists</span></div>
+    <div class="left-section panel-s2" data-title="Timetable" onclick="openLineupDrawer()">
+          <div class="l-lbl">Three days</div>
+          <div class="l-title">Time<span class="g">table</span></div>
           <div class="l-rule"></div>
-          <div class="l-body">Soundsystem music, Hindustani and Carnatic classical, Bharatanatyam dance... </div>
+          <div class="l-body">From Konnakol to handbuilt soundsystems, three days of food, music, culture and community.</div>
           <div class="card-footer">
             <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
           </div>
@@ -847,16 +861,6 @@
             <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
           </div>
     </div>
-    <div class="left-section panel-s2" data-title="DAY BY DAY" onclick="openLineupDrawer()">
-          <div class="l-lbl">Three days</div>
-          <div class="l-title">Day<br>by<span class="g"> Day</span></div>
-          <div class="l-rule"></div>
-          <div class="l-body">From Konnakol to handbuilt soundsystems, three days of food, music, culture and community.</div>
-          <div class="card-footer">
-            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
-          </div>
-    </div>
-
 
   </div>
 
@@ -872,14 +876,16 @@
   </div>
 </div>
 
-<div id="lineup-drawer" class="drawer">
+<div id="lineup-drawer" class="drawer-right">
     <div class="drawer-header">
         <button onclick="closeLineupDrawer()" class="back-btn">Hide x</button>
     </div>
     <div class="drawer-content">
         <div class="sec" data-panel="1" id="lineup" style="padding-top:3rem">
           <div class="s-lbl">28–30 May 2026</div>
-          <div class="s-h">Day-by-Day Lineup</div>
+          <div class="s-h">Day-by-Day Timetable</div>
+            <div class="s-sub">Single day tickets available at the door for 15€ </div>
+
 
           <div class="tabs">
             <button class="tab on" onclick="showDay(this,'d28')">Thu 28/5</button>
@@ -889,24 +895,27 @@
 
 
           <div class="pane on" id="d28">
-            <div class="d-note">📍 Secret location near <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform" target="_blank">Jannowitzbrücke</a>, address emailed to ticket holders · <strong style="color:var(--cream)">Thursday 28 May</strong></div>
+            <img src="images/timetable/Timetable for 28th.jpg">
+            <!-- <div class="d-note">📍 Secret location near <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform" target="_blank">Jannowitzbrücke</a>, address emailed to ticket holders · <strong style="color:var(--cream)">Thursday 28 May</strong></div>
             <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sarathy Korwar</div><div class="rdesc">London-based percussionist, latest album performed live</div><div class="rtags"><span class="tag tl">Live · Percussion</span></div></div></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sol &amp; Bol</div><div class="rdesc">Fusion of North Indian Hindustani &amp; South Indian Carnatic traditions</div><div class="rtags"><span class="tag tl">Live · Fusion</span></div></div></div>
+            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sol &amp; Bol Band</div><div class="rdesc">Fusion of North Indian Hindustani &amp; South Indian Carnatic traditions</div><div class="rtags"><span class="tag tl">Live · Fusion</span></div></div></div>
             <div class="row"><div class="rtime">Evening</div><div><div class="rname">Abibi</div><div class="rtags"><span class="tag tl">DJ</span></div></div></div>
             <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: Building Rhythms w/ Konnakkol</div><div class="rdesc">With Sonikblasts, South Indian vocal percussion</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>
-            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: Building a Soundsystem - Take-aways</div><div class="rdesc">With FemmeBassMafia</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>
+            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: Building a Soundsystem - Take-aways</div><div class="rdesc">With FemmeBassMafia</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div> -->
           </div>
 
 
           <div class="pane" id="d29">
-            <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>, a day of feeding and  connection· <strong style="color:var(--cream)">Friday 29 May</strong></div>
+            <img src="images/timetable/Timetable for 29th.jpg">
+            <!-- <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>, a day of feeding and  connection· <strong style="color:var(--cream)">Friday 29 May</strong></div>
             <div class="row"><div class="rtime">All day</div><div><div class="rname">Feed &amp; Feedback</div><div class="rdesc">Production feedback session for producers</div></div></div>
-            <div class="row"><div class="rtime">All day</div><div><div class="rname">Community Kitchen, Küfa</div><div class="rdesc">With Torhaus Koch Kollective, communal cooking and eating</div><div class="rtags"><span class="tag tw">Community</span></div></div></div>
+            <div class="row"><div class="rtime">All day</div><div><div class="rname">Community Kitchen, Küfa</div><div class="rdesc">With Torhaus Koch Kollective, communal cooking and eating</div><div class="rtags"><span class="tag tw">Community</span></div></div></div> -->
           </div>
 
 
           <div class="pane" id="d30">
-            <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>, festival finale · <strong style="color:var(--cream)">Saturday 30 May</strong></div>
+            <img src="images/timetable/Timetable for 30th.jpg">
+            <!-- <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>, festival finale · <strong style="color:var(--cream)">Saturday 30 May</strong></div>
             <div class="row"><div class="rtime">Evening</div><div><div class="rname">Warrior Queen 🎤</div><div class="rdesc">MC from Jamaica · SOUNDMASH</div><div class="rtags"><span class="tag tl">Live · MC</span><span class="tag tw">SOUNDMASH</span></div></div></div>
             <div class="row"><div class="rtime">Evening</div><div><div class="rname">MC Yallah 🎤</div><div class="rdesc">Kenya-Uganda rapper · SOUNDMASH</div><div class="rtags"><span class="tag tl">Live · MC</span><span class="tag tw">SOUNDMASH</span></div></div></div>
             <div class="row"><div class="rtime">Evening</div><div><div class="rname">Roots Daughters</div><div class="rdesc">Female-operated soundsystem, roots, reggae &amp; dub · SOUNDMASH</div><div class="rtags"><span class="tag tl">Soundsystem</span><span class="tag tw">SOUNDMASH</span></div></div></div>
@@ -917,7 +926,7 @@
             <div class="row"><div class="rtime">Night</div><div><div class="rname">O.M.T. &amp; K'boko</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>
             <div class="row"><div class="rtime">Night</div><div><div class="rname">Cate Hops</div><div class="rtags"><span class="tag td">DJ</span></div></div></div>
             <div class="row"><div class="rtime">Night</div><div><div class="rname">A/V Floor, Blank Pages &amp; SP99</div><div class="rdesc">Audiovisual floor experience</div><div class="rtags"><span class="tag ta">A/V</span></div></div></div>
-            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: The Soundsystem MC Lab</div><div class="rdesc">With Roots Daughters & Trainah</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>
+            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: The Soundsystem MC Lab</div><div class="rdesc">With Roots Daughters & Trainah</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div> -->
           </div>
         </div>
     </div>
@@ -1120,7 +1129,7 @@
             </div>
             <div class="vnote">Day 1 (28 May) is at a <strong>secret location near Jannowitzbrücke</strong>. Address
                 shared by email with ticket holders.<br>
-                The location is a members-only venue. If you are already a member, please remember to bring your own card otherwise you will be able to sign up at the door directly for an annual membership fee of 5€ (cash only)
+                You must be a member to enter, you can become a member at the door by paying an annual membership fee of 5€ (cash only)
             </div>
             <div class="vnote">Day 2 & 3, (29 & 30 May) is at <strong>MaHalla</strong>.
             </div>
@@ -1215,6 +1224,16 @@
                     </div>
                 </div>
 
+                <div class="wcard" style="border-radius: 1rem;">
+                    <img src="images/deliveryguy.jpeg" alt="The Delivery Guy — Movie Screening" class="wcard-img">
+                    <div class="wtitle">Movie Screening: The Delivery Guy</div>
+                    <div class="wby">Film Screening · Thu 28 May · 6:30pm · MaHalla, Berlin</div>
+                    <div class="wdesc">A special screening as part of the festival programme. Free entry with festival ticket.</div>
+                    <div class="card-footer">
+                        <a href="https://www.imdb.com/title/tt39179041/" target="_blank" class="wcta">More Info ↗</a>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -1304,7 +1323,7 @@
               <div class="intro" style="margin-top:.75rem;">
                 <p>Early-bird tickets available. Kept genuinely affordable for a 3-day festival, with support from <span
                             class="hl">Musicboard Berlin GmbH </span></p>
-                <p> If your struggling financially, reach out to us via <a style="color:var(--gold)" href="mailto:CommunityChaiBerlin@gmail.com">email</a> <3</p>
+                <p> If your struggling financially or want to volunteer, reach out to us via <a style="color:var(--gold)" href="mailto:CommunityChaiBerlin@gmail.com">email</a> <3</p>
               </div>
             </div>
         </div>
