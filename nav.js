@@ -1,4 +1,4 @@
-/* Shared nav — injected synchronously at the <script> tag's position */
+/* Shared nav — injected synchronously at the <script> tag's position */ /* v2 */
 (function () {
   var file = window.location.pathname.split('/').pop();
   var page = (file || '').replace('.html', '') || 'index';
