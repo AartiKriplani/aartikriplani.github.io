@@ -802,14 +802,6 @@
           document.getElementById('photos-drawer').classList.remove('open');
         }
 
-        function openMerchDrawer() {
-          closeAllDrawers();
-          document.getElementById('merch-drawer').classList.add('open');
-        }
-
-        function closeMerchDrawer() {
-          document.getElementById('merch-drawer').classList.remove('open');
-        }
 
         window.addEventListener('click', function (event) {
           if (!event.target.closest('.drawer') && !event.target.closest('.drawer-right') && !event.target.closest('.left-section') && !event.target.closest('.smash') && !document.getElementById('image-modal').classList.contains('open')) {
@@ -1303,42 +1295,7 @@
     </div>
 </div>
 
-<div id="merch-drawer" class="drawer">
-  <div class="drawer-header">
-    <button onclick="closeMerchDrawer()" class="back-btn">Hide x</button>
-  </div>
-  <div class="drawer-content">
-    <div class="sec" data-panel="6" id="merch">
-      <div class="s-lbl">Raising funds for Palestine 🇵🇸</div>
-      <div class="s-h">100% Organic Cotton T-Shirt</div>
-      <div>
-        <p style="font-size:.88rem; max-width:100%;font-weight:300;line-height:1.72;margin:.25rem 0 1.25rem">
-          Black · unisex · Dub&Dal design. <br>Sliding scale <strong
-            style="color:var(--gold)">20–30€</strong> , 50% of the proceeds go to support initiatives in Palestine 🇵🇸
-           </br>Pick up in Berlin or at the festival.
-         </br>Transfer your chosen amount to PayPal and include your size in the message.</p>
-          </br>
-        <a href="https://paypal.me/pfaublau" target="_blank" class="c-main">Order via PayPal →</a>
-      </div>
-      <br>
-      <div class="mbox" style="border-radius: 1rem; border: 1px solid #f3ba408f;">
-        <div class="gallery">
-          <button type="button" class="gallery-item" data-src="./images/Shirt_men.jpeg" aria-label="View men's shirt">
-            <img src="./images/Shirt_men.jpeg" alt="Dub & Dal organic T-shirt – men's fit">
-          </button>
-          <button type="button" class="gallery-item" data-src="./images/Shirt_women.jpeg"
-            aria-label="View women's shirt">
-            <img src="./images/Shirt_women.jpeg" alt="Dub & Dal organic T-shirt – women's fit">
-          </button>
-          <button type="button" class="gallery-item" data-src="./images/Shirt_size.jpeg" aria-label="View size chart">
-            <img src="./images/Shirt_size.jpeg" alt="Dub & Dal T-shirt sizing guide">
-          </button>
-        </div>
-        <div class="gallery-note">Tap an image to view it larger.</div>
-      </div>
-    </div>
-  </div>
-</div>
+<script src="merch-drawer.js"></script>
 
 <div id="hero-drawer" class="drawer">
     <div class="drawer-header">
