@@ -413,7 +413,49 @@
           transition:background .2s;
         }
         .modal-close:hover { background:rgba(255,255,255,.18); }
+        .modal-nav {
+          position:absolute; top:50%; transform:translateY(-50%);
+          width:2.8rem; height:2.8rem;
+          border:none; background:rgba(255,255,255,.1);
+          color:var(--cream); font-size:1.4rem;
+          display:flex; align-items:center; justify-content:center;
+          border-radius:50%; cursor:pointer;
+          transition:background .2s;
+          z-index:10;
+        }
+        .modal-nav:hover { background:rgba(212,146,14,.45); }
+        .modal-nav.prev { left:.75rem; }
+        .modal-nav.next { right:.75rem; }
         @media (max-width: 840px) { .gallery { grid-template-columns:1fr; } }
+
+        /* ── MASONRY PHOTO GALLERY ── */
+        .masonry {
+          columns: 3;
+          column-gap: 3px;
+          margin-top: 1.5rem;
+        }
+        .photo-item {
+          break-inside: avoid;
+          margin-bottom: 3px;
+          cursor: pointer;
+          overflow: hidden;
+          display: block;
+          border: none;
+          padding: 0;
+          background: none;
+          width: 100%;
+        }
+        .photo-item img {
+          width: 100%;
+          display: block;
+          filter: saturate(.85) brightness(.88);
+          transition: transform .4s ease, filter .3s ease;
+        }
+        .photo-item:hover img {
+          transform: scale(1.03);
+          filter: saturate(1) brightness(.78);
+        }
+        @media (max-width: 600px) { .masonry { columns: 2; } }
         .aplay {
           position:absolute; top:50%; left:50%;
           transform:translate(-50%,-50%);
@@ -751,6 +793,15 @@
           document.getElementById('soundmash-drawer').classList.remove('open');
         }
 
+        function openPhotosDrawer() {
+          closeAllDrawers();
+          document.getElementById('photos-drawer').classList.add('open');
+        }
+
+        function closePhotosDrawer() {
+          document.getElementById('photos-drawer').classList.remove('open');
+        }
+
         function openMerchDrawer() {
           closeAllDrawers();
           document.getElementById('merch-drawer').classList.add('open');
@@ -833,13 +884,20 @@
   <div class="column" id="right" style="padding-bottom: 0.95rem;">
     <div class="left-section panel-s2" data-title="FESTIVAL" onclick="openHeroDrawer()">
           <div class="l-lbl">3 year anniversary</div>
-          <div class="l-title">Dub&amp;Dal<br><span class="g">Festival</span></div>
+          <div class="l-title">Dub&amp;Dal<br><span class="g">Festival 28-30 May</span></div>
           <div class="l-rule"></div>
-          <div class="l-body">3 days - Celebrating roots and community. <br>
-            Single day tickets available at the door for 15€ <br>
-            If you wish to volunteer, reach out to us via <a style="color:var(--gold)" href="mailto:CommunityChaiBerlin@gmail.com">email</a></div>
           <div class="card-footer">
             <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View more →</a>
+          </div>
+    </div>
+
+    <div class="left-section panel-s2" data-title="VISUAL RECAP" onclick="openPhotosDrawer()">
+          <div class="l-lbl">From the festival</div>
+          <div class="l-title">Visual <span class="g">Recap</span></div>
+          <div class="l-rule"></div>
+          <div class="l-body">Three days captured by <a class="" href="https://www.instagram.com/rahema.z/" target="_blank">Rahema</a>. Click to browse the full gallery.</div>
+          <div class="card-footer">
+            <a href="#" class="card-btn" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.left-section').click()">View gallery →</a>
           </div>
     </div>
 
@@ -872,6 +930,8 @@
 <div class="modal-overlay" id="image-modal" role="dialog" aria-modal="true" aria-label="Enlarged image">
   <div class="modal-content">
     <button type="button" class="modal-close" id="modal-close" aria-label="Close image preview">×</button>
+    <button type="button" class="modal-nav prev" id="modal-prev" aria-label="Previous photo">&#8592;</button>
+    <button type="button" class="modal-nav next" id="modal-next" aria-label="Next photo">&#8594;</button>
     <img src="" alt="" id="modal-image">
   </div>
 </div>
@@ -896,38 +956,17 @@
 
           <div class="pane on" id="d28">
             <img src="images/timetable/Timetable for 28th.jpg">
-            <!-- <div class="d-note">📍 Secret location near <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform" target="_blank">Jannowitzbrücke</a>, address emailed to ticket holders · <strong style="color:var(--cream)">Thursday 28 May</strong></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sarathy Korwar</div><div class="rdesc">London-based percussionist, latest album performed live</div><div class="rtags"><span class="tag tl">Live · Percussion</span></div></div></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sol &amp; Bol Band</div><div class="rdesc">Fusion of North Indian Hindustani &amp; South Indian Carnatic traditions</div><div class="rtags"><span class="tag tl">Live · Fusion</span></div></div></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Abibi</div><div class="rtags"><span class="tag tl">DJ</span></div></div></div>
-            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: Building Rhythms w/ Konnakkol</div><div class="rdesc">With Sonikblasts, South Indian vocal percussion</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div>
-            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: Building a Soundsystem - Take-aways</div><div class="rdesc">With FemmeBassMafia</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div> -->
           </div>
 
 
           <div class="pane" id="d29">
             <img src="images/timetable/Timetable for 29th.jpg">
-            <!-- <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>, a day of feeding and  connection· <strong style="color:var(--cream)">Friday 29 May</strong></div>
-            <div class="row"><div class="rtime">All day</div><div><div class="rname">Feed &amp; Feedback</div><div class="rdesc">Production feedback session for producers</div></div></div>
-            <div class="row"><div class="rtime">All day</div><div><div class="rname">Community Kitchen, Küfa</div><div class="rdesc">With Torhaus Koch Kollective, communal cooking and eating</div><div class="rtags"><span class="tag tw">Community</span></div></div></div> -->
           </div>
 
 
           <div class="pane" id="d30">
             <img src="images/timetable/Timetable for 30th.jpg">
-            <!-- <div class="d-note">📍 <a href="https://maps.app.goo.gl/5Wd3ExAbEUaMkMGU8" target="_blank">MaHalla</a>, festival finale · <strong style="color:var(--cream)">Saturday 30 May</strong></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Warrior Queen 🎤</div><div class="rdesc">MC from Jamaica · SOUNDMASH</div><div class="rtags"><span class="tag tl">Live · MC</span><span class="tag tw">SOUNDMASH</span></div></div></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">MC Yallah 🎤</div><div class="rdesc">Kenya-Uganda rapper · SOUNDMASH</div><div class="rtags"><span class="tag tl">Live · MC</span><span class="tag tw">SOUNDMASH</span></div></div></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Roots Daughters</div><div class="rdesc">Female-operated soundsystem, roots, reggae &amp; dub · SOUNDMASH</div><div class="rtags"><span class="tag tl">Soundsystem</span><span class="tag tw">SOUNDMASH</span></div></div></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Angel Audio (FemmeBassMafia)</div><div class="rdesc">Female-operated soundsystem, contemporary bass · SOUNDMASH</div><div class="rtags"><span class="tag tl">Soundsystem</span><span class="tag tw">SOUNDMASH</span></div></div></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Ramanbaug Dhol Tasha Pathak</div><div class="rdesc">Electrifying Dhol &amp; Tasha ensemble</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>
-            <div class="row"><div class="rtime">Evening</div><div><div class="rname">Sri Lavanya</div><div class="rdesc">Bharatanatyam dance</div><div class="rtags"><span class="tag tl">Dance</span></div></div></div>
-            <div class="row"><div class="rtime">Night</div><div><div class="rname">Perera Elsewhere</div><div class="rtags"><span class="tag td">DJ</span></div></div></div>
-            <div class="row"><div class="rtime">Night</div><div><div class="rname">O.M.T. &amp; K'boko</div><div class="rtags"><span class="tag tl">Live</span></div></div></div>
-            <div class="row"><div class="rtime">Night</div><div><div class="rname">Cate Hops</div><div class="rtags"><span class="tag td">DJ</span></div></div></div>
-            <div class="row"><div class="rtime">Night</div><div><div class="rname">A/V Floor, Blank Pages &amp; SP99</div><div class="rdesc">Audiovisual floor experience</div><div class="rtags"><span class="tag ta">A/V</span></div></div></div>
-            <div class="row"><div class="rtime">Daytime</div><div><div class="rname">Workshop: The Soundsystem MC Lab</div><div class="rdesc">With Roots Daughters & Trainah</div><div class="rtags"><span class="tag tw">Workshop</span></div></div></div> -->
-          </div>
+         </div>
         </div>
     </div>
 </div>
@@ -1330,6 +1369,69 @@
     </div>
 </div>
 
+<div id="photos-drawer" class="drawer">
+    <div class="drawer-header">
+        <button onclick="closePhotosDrawer()" class="back-btn">Hide x</button>
+    </div>
+    <div class="drawer-content">
+        <div class="sec" style="padding-top:2rem">
+            <div class="s-lbl">28–30 May 2026 · Berlin</div>
+            <div class="s-h">Festival Photos</div>
+            <div class="masonry">
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6589.jpg"><img src="./images/festival-2026/DSC_6589.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6598.jpg"><img src="./images/festival-2026/DSC_6598.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6612.jpg"><img src="./images/festival-2026/DSC_6612.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6625.jpg"><img src="./images/festival-2026/DSC_6625.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6628.jpg"><img src="./images/festival-2026/DSC_6628.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6642.jpg"><img src="./images/festival-2026/DSC_6642.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6664.jpg"><img src="./images/festival-2026/DSC_6664.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6721.jpg"><img src="./images/festival-2026/DSC_6721.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6766.jpg"><img src="./images/festival-2026/DSC_6766.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6777.jpg"><img src="./images/festival-2026/DSC_6777.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6812.jpg"><img src="./images/festival-2026/DSC_6812.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6836.jpg"><img src="./images/festival-2026/DSC_6836.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6867.jpg"><img src="./images/festival-2026/DSC_6867.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6909.jpg"><img src="./images/festival-2026/DSC_6909.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6933.jpg"><img src="./images/festival-2026/DSC_6933.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6985.jpg"><img src="./images/festival-2026/DSC_6985.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_6990.jpg"><img src="./images/festival-2026/DSC_6990.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7000.jpg"><img src="./images/festival-2026/DSC_7000.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7066.jpg"><img src="./images/festival-2026/DSC_7066.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7087.jpg"><img src="./images/festival-2026/DSC_7087.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7097.jpg"><img src="./images/festival-2026/DSC_7097.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7112.jpg"><img src="./images/festival-2026/DSC_7112.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7121.jpg"><img src="./images/festival-2026/DSC_7121.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7127.jpg"><img src="./images/festival-2026/DSC_7127.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7191.jpg"><img src="./images/festival-2026/DSC_7191.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7213.jpg"><img src="./images/festival-2026/DSC_7213.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7294.jpg"><img src="./images/festival-2026/DSC_7294.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7306.jpg"><img src="./images/festival-2026/DSC_7306.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7329.jpg"><img src="./images/festival-2026/DSC_7329.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7335.jpg"><img src="./images/festival-2026/DSC_7335.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7347.jpg"><img src="./images/festival-2026/DSC_7347.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7357.jpg"><img src="./images/festival-2026/DSC_7357.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7399.jpg"><img src="./images/festival-2026/DSC_7399.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7403.jpg"><img src="./images/festival-2026/DSC_7403.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7416.jpg"><img src="./images/festival-2026/DSC_7416.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7429.jpg"><img src="./images/festival-2026/DSC_7429.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7432.jpg"><img src="./images/festival-2026/DSC_7432.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7439.jpg"><img src="./images/festival-2026/DSC_7439.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7466.jpg"><img src="./images/festival-2026/DSC_7466.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7475.jpg"><img src="./images/festival-2026/DSC_7475.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/DSC_7491.jpg"><img src="./images/festival-2026/DSC_7491.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/IMG_0444.jpg"><img src="./images/festival-2026/IMG_0444.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/IMG_0465.jpg"><img src="./images/festival-2026/IMG_0465.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/IMG_0473.jpg"><img src="./images/festival-2026/IMG_0473.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/IMG_0477.jpg"><img src="./images/festival-2026/IMG_0477.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/IMG_0479.jpg"><img src="./images/festival-2026/IMG_0479.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/IMG_0482.jpg"><img src="./images/festival-2026/IMG_0482.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/IMG_0483.jpg"><img src="./images/festival-2026/IMG_0483.jpg" alt="" loading="lazy"></button>
+                <button class="photo-item" data-src="./images/festival-2026/soundmash.jpg"><img src="./images/festival-2026/soundmash.jpg" alt="" loading="lazy"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.querySelectorAll('.acard[data-vid]').forEach(function (card) {
       // card.style.cursor = 'none';
@@ -1388,6 +1490,31 @@
     var modalImage = document.getElementById('modal-image');
     var modalClose = document.getElementById('modal-close');
 
+    var photoSrcs = Array.from(document.querySelectorAll('.photo-item')).map(function(b){ return b.dataset.src; });
+    var currentPhotoIdx = 0;
+
+    function showPhoto(idx) {
+      currentPhotoIdx = (idx + photoSrcs.length) % photoSrcs.length;
+      modalImage.src = photoSrcs[currentPhotoIdx];
+      modalImage.alt = 'Festival photo ' + (currentPhotoIdx + 1);
+    }
+
+    document.querySelectorAll('.photo-item').forEach(function (btn, i) {
+      btn.addEventListener('click', function () {
+        showPhoto(i);
+        imageModal.classList.add('open');
+      });
+    });
+
+    document.getElementById('modal-prev').addEventListener('click', function(e) {
+      e.stopPropagation();
+      showPhoto(currentPhotoIdx - 1);
+    });
+    document.getElementById('modal-next').addEventListener('click', function(e) {
+      e.stopPropagation();
+      showPhoto(currentPhotoIdx + 1);
+    });
+
     document.querySelectorAll('.gallery-item').forEach(function (button) {
       button.addEventListener('click', function () {
         var src = button.dataset.src;
@@ -1411,10 +1538,12 @@
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        if (imageModal.classList.contains('open')) {
-          closeModal();
-        }
+        if (imageModal.classList.contains('open')) { closeModal(); }
         document.querySelectorAll('.acard.playing').forEach(stopCard);
+      }
+      if (imageModal.classList.contains('open')) {
+        if (e.key === 'ArrowRight') showPhoto(currentPhotoIdx + 1);
+        if (e.key === 'ArrowLeft')  showPhoto(currentPhotoIdx - 1);
       }
     });
 
