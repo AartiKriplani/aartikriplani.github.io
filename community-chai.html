@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* ── Community Chai colour tokens (override Dub&Dal defaults) ── */
     :root {
       --bg:    #ede5d0;
       --s1:    #e4dcc8;
@@ -21,40 +20,96 @@
       --bord:  rgba(140,28,43,.14);
       --bord2: rgba(140,28,43,.30);
     }
-
-    /* Override hardcoded rgba values in shared .left-section CSS */
-    .left-section {
-      border-color: rgba(140,28,43,.45);
-      box-shadow: 0 20px 52px rgba(140,28,43,.12);
+    body {
+      background-color: #EFE3C8;
     }
-    .left-section:hover { box-shadow: 0 18px 42px rgba(140,28,43,.20); }
-    .left-section.panel-s1::before { color: rgba(140,28,43,.10); }
-    .left-section.panel-s2::before { color: rgba(26,24,20,.07); }
-    .left-section:hover::before    { opacity: .5; }
-
-    /* Nav overrides for light background */
-    .nav {
-      background: rgba(237,229,208,.97);
-      border-bottom-color: var(--bord);
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.8;
+      pointer-events: none;
+      background-image:
+        url('./images/CommunityChai/CommunityChai-small.PNG'),
+        url('./images/CommunityChai/CommunityChai-small.PNG');
+      background-repeat: repeat, repeat;
+      background-size: 90px 90px, 90px 90px;
+      background-position: 0 0, 45px 45px;
     }
-    .nav-drawer { background: rgba(237,229,208,.98); }
+    .nav { background: rgba(237,229,208,.97); border-bottom-color: var(--bord); position: relative; z-index: 100; }
+    .nav-drawer { background: rgba(237,229,208,.98); z-index: 99; }
 
-    /* Logo area */
-    .cc-logo {
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-      padding: calc(var(--nav) + 1.5rem) 1.5rem .75rem;
-      flex-shrink: 0;
+    .cc-page {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: calc(var(--nav) + 1rem) 1.5rem 5rem;
+      position: relative;
+      z-index: 1;
     }
-    .cc-logo img { width: 54px; height: 54px; object-fit: contain; }
-    .cc-logo-text {
+    .cc-hero {
+      position: relative;
+      display: flex; align-items: flex-end;
+      margin-bottom: 0.8rem;
+    }
+    .cc-hero-text {
       font-weight: 900; font-style: italic;
-      font-size: clamp(1.4rem, 3.5vw, 2rem);
-      line-height: .95; letter-spacing: -.02em;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      line-height: .9; letter-spacing: -.02em;
       color: var(--cream);
+      background: rgba(237,229,208,.95);
+      padding: .75rem 1rem;
+      border-radius: .5rem;
     }
-    .cc-logo-text span { color: var(--gold); }
+    .cc-hero-text span { color: var(--gold); }
+
+    .cc-about {
+      background: rgba(237,229,208,.95);
+      padding: 1.25rem 1.25rem 1.1rem;
+      border-radius: .5rem;
+      margin-bottom: 0;
+    }
+    .cc-lbl {
+      font-size: .62rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: .5rem;
+    }
+    .cc-rule { width: 36px; height: 2px; background: var(--gold); margin: 1.1rem 0; }
+    .cc-body {
+      font-size: .97rem; line-height: 1.78;
+      color: var(--cream); font-weight: 300; max-width: 520px;
+    }
+
+    .cc-links { margin-top: 0.8rem; }
+    .cc-links-placeholder {
+      font-size: .9rem; font-style: italic; color: #ede5d0;
+      background: var(--gold);
+      padding: .75rem 1rem;
+      border-radius: .5rem;
+      margin-bottom: .6rem;
+    }
+    .cc-links-placeholder a { color: inherit; text-decoration: underline; font-weight: 700; }
+    .cc-links-lbl {
+      font-size: .62rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+      display: inline-block;
+      background: rgba(237,229,208,.95);
+      padding: .25rem .6rem;
+      border-radius: .3rem;
+    }
+    .cc-link-btn {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .9rem 1.25rem;
+      border-radius: .5rem;
+      text-decoration: none;
+      font-weight: 700; font-style: italic;
+      font-size: .95rem;
+      background: rgba(237,229,208,.95);
+      color: var(--gold);
+      border: 1px solid var(--bord2);
+      transition: background .2s, color .2s;
+      margin-bottom: .6rem;
+    }
+    .cc-link-btn:hover { background: var(--gold); color: #ede5d0; border-color: var(--gold); }
   </style>
 </head>
 <body>
@@ -62,122 +117,72 @@
 <script>window.NAV_LOGO = { src: './images/CommunityChai/CommunityChai-small.PNG', alt: 'Community Chai', href: 'community-chai.html' };</script>
 <script src="nav.js"></script>
 
-<!-- ═══ TWO-COLUMN LAYOUT ═══ -->
-<div class="page-body">
+<div class="cc-page">
 
-  <div class="cc-logo">
-    <img src="./images/CommunityChai/CommunityChai-small.PNG" alt="Community Chai logo">
-    <div class="cc-logo-text">Community<br><span>Chai</span></div>
+  <div class="cc-hero">
+    <div class="cc-hero-text">Community <span>Chai</span></div>
   </div>
 
-  <div class="wrap">
-
-    <!-- LEFT COLUMN -->
-    <div class="column" id="left" style="padding-bottom:1rem">
-
-      <div class="left-section panel-s1" data-title="GATHER" onclick="openDrawer('gather-drawer')">
-        <div class="l-lbl">Upcoming</div>
-        <div class="l-title">Gath<span class="g">er</span></div>
-        <div class="l-rule"></div>
-        <div class="l-body">Chai circles, shared tables and warm company. Find out where we're meeting next.</div>
-        <div class="left-more">See events →</div>
-      </div>
-
-      <div class="left-section panel-s1" data-title="BREW" onclick="openDrawer('brew-drawer')">
-        <div class="l-lbl">The ritual</div>
-        <div class="l-title">Brew<span class="g">ing</span></div>
-        <div class="l-rule"></div>
-        <div class="l-body">Our approach to chai — slow, spiced, shared. Recipes and the philosophy behind the pot.</div>
-        <div class="left-more">Explore →</div>
-      </div>
-
-    </div>
-
-    <!-- RIGHT COLUMN -->
-    <div class="column" id="right" style="padding-bottom:1rem">
-
-      <div class="left-section panel-s2" data-title="ABOUT" onclick="openDrawer('about-drawer')">
-        <div class="l-lbl">Who we are</div>
-        <div class="l-title">About <span class="g">us</span></div>
-        <div class="l-rule"></div>
-        <div class="l-body">Community Chai is a space for connection, rooted in the warmth of a shared cup. Open to everyone.</div>
-        <div class="left-more">Learn more →</div>
-      </div>
-
-      <div class="left-section panel-s2" data-title="JOIN" onclick="openDrawer('join-drawer')">
-        <div class="l-lbl">Stay in touch</div>
-        <div class="l-title">Join the <span class="g">circle</span></div>
-        <div class="l-rule"></div>
-        <div class="l-body">Sign up for updates, recipes and invitations to our next gathering.</div>
-        <div class="left-more">Sign up →</div>
-      </div>
-
+  <div class="cc-about">
+    <div class="cc-body">
+      Community building over FOOD
+      <br>Monthly community evenings with the aim to foster cross-pollination and connection across culinary, artistic, musical, academic and activist circles
+      <br>Homebase at our fav community space <a href="https://www.90mil.berlin/" target="_blank" style="color:var(--gold);text-decoration:underline">90mil</a>. We sometimes venture out at different venues for fun
+      <br>Open to collaborating on food-forward events, if food is core to your concept, not a side note, <a href="mailto:communitychaiberlin@gmail.com" style="color:var(--gold);text-decoration:underline">we want to hear from you</a>.
     </div>
   </div>
+
+  <div class="cc-links">
+    <div class="cc-links-lbl">Upcoming</div>
+    <div class="cc-links-placeholder">31/7 at <a href="https://maps.app.goo.gl/4uGxboG5Uj88q1SN6" target="_blank">Studio dB</a> 18-00, details coming soon</div>
+
+    <div class="cc-links-lbl" style="margin-top:1.5rem">Past events</div>
+
+    <a href="https://forms.gle/tJPvDJkdfkxwKXYRA" target="_blank" class="cc-link-btn">
+      Community Chai at ikii - 25/6 <span>→</span>
+    </a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScXMf3X62fp6N5__ghtvRRG6Jn_FOVgwzI0u1OVxAQsdVTC2w/viewform" target="_blank" class="cc-link-btn">
+      Feed &amp; Feedback - 29/5 (Dub&amp;Dal festival) <span>→</span>
+    </a>
+    <a href="https://forms.gle/zh46BhDXNkU8iCVa8" target="_blank" class="cc-link-btn">
+      Community Chai at 90mil - 8/5 <span>→</span>
+    </a>
+    <a href="https://forms.gle/UkVeFDtPVoKeq88E7" target="_blank" class="cc-link-btn">
+      Feed &amp; Feedback #3 Club Edition - 10th August <span>→</span>
+    </a>
+    <a href="https://ra.co/events/2239341" target="_blank" class="cc-link-btn">
+      Feed &amp; Feedback with Martyn 3024 - 31st August <span>→</span>
+    </a>
+    <a href="https://ra.co/events/2200443" target="_blank" class="cc-link-btn">
+      A Talk with Azu Tiwaline on Finding your Sound <span>→</span>
+    </a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeUx1E4hTJK3nWmwCdXpzcYEsvhVMMF3GEJN-HsWFQhV2JxBA/viewform" target="_blank" class="cc-link-btn">
+      Feed &amp; Feedback #2 - 22/6 <span>→</span>
+    </a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScCYc49tFnBRsaCqCOhG9tRKIBNJlLr75SSss7MPoafC8OzIg/viewform" target="_blank" class="cc-link-btn">
+      Curry &amp; Curiosity #3 - 20/6 w/ Shauri &amp; Sameer <span>→</span>
+    </a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfSSauYuehnNn05Neps934pUhzGzSRdw-JaDWXJU2XaomGJ5g/viewform" target="_blank" class="cc-link-btn">
+      Community Chai at 90mil - 18/11 <span>→</span>
+    </a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdmLOh7IwRh1zZrx08FFons7MDH0lxxXTgrqovhEW3GMFO13g/viewform" target="_blank" class="cc-link-btn">
+      Community Chai at 90mil - 28/10 <span>→</span>
+    </a>
+
+    <div class="cc-links-lbl" style="margin-top:1.5rem">Support</div>
+    <a href="https://www.paypal.com/paypalme/rolastudios" target="_blank" class="cc-link-btn">
+      PayPal donations <span>→</span>
+    </a>
+
+    <div class="cc-links-lbl" style="margin-top:1.5rem">Follow</div>
+    <a href="https://www.instagram.com/CommunityChai" target="_blank" class="cc-link-btn">
+      Instagram <span>→</span>
+    </a>
+  </div>
+
 </div>
 
-<!-- ═══ DRAWERS (open from right) ═══ -->
-
-<div id="gather-drawer" class="drawer-right">
-  <div class="drawer-header">
-    <button onclick="closeDrawer('gather-drawer')" class="back-btn">Hide x</button>
-  </div>
-  <div class="drawer-content">
-    <div style="padding:1.5rem 0">
-      <div class="l-lbl">Upcoming gatherings</div>
-      <div style="font-weight:900;font-style:italic;font-size:clamp(1.6rem,4vw,2.4rem);line-height:.95;letter-spacing:-.02em;color:var(--cream);margin-bottom:1.25rem">Where we meet</div>
-      <p style="font-size:.88rem;font-weight:300;line-height:1.75;color:var(--dim)">Events and locations coming soon. Sign up to be the first to know.</p>
-    </div>
-  </div>
-</div>
-
-<div id="brew-drawer" class="drawer-right">
-  <div class="drawer-header">
-    <button onclick="closeDrawer('brew-drawer')" class="back-btn">Hide x</button>
-  </div>
-  <div class="drawer-content">
-    <div style="padding:1.5rem 0">
-      <div class="l-lbl">The ritual</div>
-      <div style="font-weight:900;font-style:italic;font-size:clamp(1.6rem,4vw,2.4rem);line-height:.95;letter-spacing:-.02em;color:var(--cream);margin-bottom:1.25rem">Brewing chai</div>
-      <p style="font-size:.88rem;font-weight:300;line-height:1.75;color:var(--dim)">Recipes, spice guides and the slow art of making chai. More coming soon.</p>
-    </div>
-  </div>
-</div>
-
-<div id="about-drawer" class="drawer">
-  <div class="drawer-header">
-    <button onclick="closeDrawer('about-drawer')" class="back-btn">Hide x</button>
-  </div>
-  <div class="drawer-content">
-    <div style="padding:1.5rem 0">
-      <div class="l-lbl">Who we are</div>
-      <div style="font-weight:900;font-style:italic;font-size:clamp(1.6rem,4vw,2.4rem);line-height:.95;letter-spacing:-.02em;color:var(--cream);margin-bottom:1.25rem">About Community Chai</div>
-      <p style="font-size:.88rem;font-weight:300;line-height:1.75;color:var(--dim)">Community Chai is a subproject of Dub&amp;Dal — a space rooted in the warmth and communal spirit of South Asian chai culture. More coming soon.</p>
-    </div>
-  </div>
-</div>
-
-<div id="join-drawer" class="drawer">
-  <div class="drawer-header">
-    <button onclick="closeDrawer('join-drawer')" class="back-btn">Hide x</button>
-  </div>
-  <div class="drawer-content">
-    <div style="padding:1.5rem 0">
-      <div class="l-lbl">Stay in touch</div>
-      <div style="font-weight:900;font-style:italic;font-size:clamp(1.6rem,4vw,2.4rem);line-height:.95;letter-spacing:-.02em;color:var(--cream);margin-bottom:1.25rem">Join the circle</div>
-      <p style="font-size:.88rem;font-weight:300;line-height:1.75;color:var(--dim);margin-bottom:1.5rem">Sign up for updates on chai circles, recipes and gatherings.</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform?usp=sf_link"
-         target="_blank"
-         style="display:inline-block;background:var(--gold);color:var(--bg);padding:.6rem 1.4rem;font-weight:900;font-style:italic;font-size:.9rem;text-decoration:none;transition:background .2s">
-        Sign up for updates →
-      </a>
-    </div>
-  </div>
-</div>
-
-<div class="f-bot">© 2026 Community Chai</div>
-
-<script src="drawer.js"></script>
+<div class="f-bot" style="position:relative;z-index:1">© 2026 Community Chai</div>
 
 </body>
 </html>
