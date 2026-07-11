@@ -14,7 +14,6 @@
     + '<a href="archive.html" class="nav-link nav-desktop" style="margin-left:0.55rem">has been</a>'
     + '<a href="upcoming.html" class="nav-link nav-desktop" style="margin-left:0.55rem">will be</a>'
     + '<a href="about.html" class="nav-link nav-desktop" style="margin-left:0.55rem">about</a>'
-    + '<a href="community-chai.html" class="nav-link nav-desktop" style="margin-left:0.55rem">community chai</a>'
     + '<button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">'
     + '<span></span><span></span><span></span>'
     + '</button>'
@@ -26,7 +25,6 @@
     + '<a href="archive.html" class="nav-link">has been</a>'
     + '<a href="upcoming.html" class="nav-link">will be</a>'
     + '<a href="about.html" class="nav-link">about</a>'
-    + '<a href="community-chai.html" class="nav-link">community chai</a>'
     + '</div>';
 
   /* Insert immediately after this <script> tag */
