@@ -8,7 +8,7 @@
   var html = '<nav class="nav">'
     + '<a href="' + logo.href + '" class="nav-logo"><img src="' + logo.src + '" alt="' + logo.alt + '"></a>'
     + '<div class="nav-right">'
-    + '<a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform?usp=sf_link" target="_blank" class="nav-btn">Sign up for updates →</a>'
+    + '<button type="button" data-tally-open="68yj7k" data-tally-layout="modal" data-tally-width="480" class="nav-btn">Sign up for updates →</button>'
     + '<a href="index.html" class="nav-link nav-desktop" style="margin-left:0.55rem">home</a>'
     + '<a href="festival.html" class="nav-link nav-desktop" style="margin-left:0.55rem">festival</a>'
     + '<a href="archive.html" class="nav-link nav-desktop" style="margin-left:0.55rem">has been</a>'
@@ -30,6 +30,12 @@
   /* Insert immediately after this <script> tag */
   var scripts = document.getElementsByTagName('script');
   scripts[scripts.length - 1].insertAdjacentHTML('afterend', html);
+
+  /* Tally popup embed */
+  var ts = document.createElement('script');
+  ts.src = 'https://tally.so/widgets/embed.js';
+  ts.async = true;
+  document.head.appendChild(ts);
 
   /* Hamburger toggle */
   document.addEventListener('DOMContentLoaded', function () {
