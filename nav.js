@@ -1,19 +1,20 @@
-/* Shared nav — injected synchronously at the <script> tag's position */ /* v2 */
+/* Shared nav — injected synchronously at the <script> tag's position */ /* v3 */
 (function () {
   var file = window.location.pathname.split('/').pop();
   var page = (file || '').replace('.html', '') || 'index';
 
-  function cls(p) { return page === p ? ' class="active"' : ''; }
+  var logo = window.NAV_LOGO || { src: './images/logo.png', alt: 'Dub&Dal logo', href: 'index.html' };
 
   var html = '<nav class="nav">'
-    + '<a href="index.html" class="nav-logo"><img src="./images/logo.png" alt="Dub&Dal logo"></a>'
+    + '<a href="' + logo.href + '" class="nav-logo"><img src="' + logo.src + '" alt="' + logo.alt + '"></a>'
     + '<div class="nav-right">'
-    + '<a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform?usp=sf_link" target="_blank" class="nav-btn">Sign up for updates \u2192</a>'
+    + '<a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform?usp=sf_link" target="_blank" class="nav-btn">Sign up for updates →</a>'
     + '<a href="index.html" class="nav-link nav-desktop" style="margin-left:0.55rem">home</a>'
     + '<a href="festival.html" class="nav-link nav-desktop" style="margin-left:0.55rem">festival</a>'
     + '<a href="archive.html" class="nav-link nav-desktop" style="margin-left:0.55rem">has been</a>'
     + '<a href="upcoming.html" class="nav-link nav-desktop" style="margin-left:0.55rem">will be</a>'
     + '<a href="about.html" class="nav-link nav-desktop" style="margin-left:0.55rem">about</a>'
+    + '<a href="community-chai.html" class="nav-link nav-desktop" style="margin-left:0.55rem">community chai</a>'
     + '<button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">'
     + '<span></span><span></span><span></span>'
     + '</button>'
@@ -24,7 +25,8 @@
     + '<a href="festival.html" class="nav-link">festival</a>'
     + '<a href="archive.html" class="nav-link">has been</a>'
     + '<a href="upcoming.html" class="nav-link">will be</a>'
-    + '<a href="about.html" class="nav-link">About</a>'
+    + '<a href="about.html" class="nav-link">about</a>'
+    + '<a href="community-chai.html" class="nav-link">community chai</a>'
     + '</div>';
 
   /* Insert immediately after this <script> tag */
