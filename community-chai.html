@@ -81,13 +81,17 @@
 
     .cc-links { margin-top: 0.8rem; }
     .cc-links-placeholder {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; text-align: left;
       font-size: .9rem; font-style: italic; color: #ede5d0;
       background: var(--gold);
       padding: .75rem 1rem;
       border-radius: .5rem;
       margin-bottom: .6rem;
+      border: none; cursor: pointer; font-family: inherit;
     }
     .cc-links-placeholder a { color: inherit; text-decoration: underline; font-weight: 700; }
+    .cc-links-placeholder:hover { background: var(--gold2); }
     .cc-links-lbl {
       font-size: .62rem; font-weight: 500; letter-spacing: .2em;
       text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
@@ -134,7 +138,10 @@
 
   <div class="cc-links">
     <div class="cc-links-lbl">Upcoming</div>
-    <div class="cc-links-placeholder">31/7 at <a href="https://maps.app.goo.gl/4uGxboG5Uj88q1SN6" target="_blank">Studio dB</a> 18-00, details coming soon</div>
+    <button type="button" class="cc-links-placeholder" data-tally-open="VLAPDa" data-tally-layout="modal" data-tally-width="480">
+      <span>31/7 at <a href="https://maps.app.goo.gl/4uGxboG5Uj88q1SN6" target="_blank" onclick="event.stopPropagation()">Studio dB</a> 18:00</span>
+      <span>Sign up →</span>
+    </button>
 
     <div class="cc-links-lbl" style="margin-top:1.5rem">Past events</div>
 
