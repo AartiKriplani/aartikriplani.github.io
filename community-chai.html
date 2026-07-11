@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Chai</title>
+  <link rel="icon" type="image/png" href="./images/CommunityChai/CommunityChai-small.PNG">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── Community Chai colour tokens (override Dub&Dal defaults) ── */
+    :root {
+      --bg:    #ede5d0;
+      --s1:    #e4dcc8;
+      --s2:    #d9d1bc;
+      --gold:  #8c1c2b;
+      --gold2: #a8253a;
+      --cream: #1a1814;
+      --dim:   #6b5e4e;
+      --bord:  rgba(140,28,43,.14);
+      --bord2: rgba(140,28,43,.30);
+    }
+
+    /* Override hardcoded rgba values in shared .left-section CSS */
+    .left-section {
+      border-color: rgba(140,28,43,.45);
+      box-shadow: 0 20px 52px rgba(140,28,43,.12);
+    }
+    .left-section:hover { box-shadow: 0 18px 42px rgba(140,28,43,.20); }
+    .left-section.panel-s1::before { color: rgba(140,28,43,.10); }
+    .left-section.panel-s2::before { color: rgba(26,24,20,.07); }
+    .left-section:hover::before    { opacity: .5; }
+
+    /* Nav overrides for light background */
+    .nav {
+      background: rgba(237,229,208,.97);
+      border-bottom-color: var(--bord);
+    }
+    .nav-hamburger span { background: var(--cream); }
+    .nav-drawer { background: rgba(237,229,208,.98); }
+
+    /* Logo area */
+    .cc-logo {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: calc(var(--nav) + 1.5rem) 1.5rem .75rem;
+      flex-shrink: 0;
+    }
+    .cc-logo img { width: 54px; height: 54px; object-fit: contain; }
+    .cc-logo-text {
+      font-weight: 900; font-style: italic;
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      line-height: .95; letter-spacing: -.02em;
+      color: var(--cream);
+    }
+    .cc-logo-text span { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="./images/logo.png" alt="Dub&Dal logo">
+  </a>
+  <div class="nav-right">
+    <a href="community-chai.html" class="nav-link nav-desktop" style="margin-left:.55rem">community chai</a>
+    <a href="index.html" class="nav-link nav-desktop" style="margin-left:.55rem">dub&amp;dal</a>
+    <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-drawer" aria-hidden="true">
+  <a href="community-chai.html" class="nav-link">community chai</a>
+  <a href="index.html" class="nav-link">dub&amp;dal</a>
+</div>
+
+<!-- ═══ TWO-COLUMN LAYOUT ═══ -->
+<div class="page-body">
+
+  <div class="cc-logo">
+    <img src="./images/CommunityChai/CommunityChai-small.PNG" alt="Community Chai logo">
+    <div class="cc-logo-text">Community<br><span>Chai</span></div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- LEFT COLUMN -->
+    <div class="column" id="left" style="padding-bottom:1rem">
+
+      <div class="left-section panel-s1" data-title="GATHER" onclick="openDrawer('gather-drawer')">
+        <div class="l-lbl">Upcoming</div>
+        <div class="l-title">Gath<span class="g">er</span></div>
+        <div class="l-rule"></div>
+        <div class="l-body">Chai circles, shared tables and warm company. Find out where we're meeting next.</div>
+        <div class="left-more">See events →</div>
+      </div>
+
+      <div class="left-section panel-s1" data-title="BREW" onclick="openDrawer('brew-drawer')">
+        <div class="l-lbl">The ritual</div>
+        <div class="l-title">Brew<span class="g">ing</span></div>
+        <div class="l-rule"></div>
+        <div class="l-body">Our approach to chai — slow, spiced, shared. Recipes and the philosophy behind the pot.</div>
+        <div class="left-more">Explore →</div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="column" id="right" style="padding-bottom:1rem">
+
+      <div class="left-section panel-s2" data-title="ABOUT" onclick="openDrawer('about-drawer')">
+        <div class="l-lbl">Who we are</div>
+        <div class="l-title">About <span class="g">us</span></div>
+        <div class="l-rule"></div>
+        <div class="l-body">Community Chai is a space for connection, rooted in the warmth of a shared cup. Open to everyone.</div>
+        <div class="left-more">Learn more →</div>
+      </div>
+
+      <div class="left-section panel-s2" data-title="JOIN" onclick="openDrawer('join-drawer')">
+        <div class="l-lbl">Stay in touch</div>
+        <div class="l-title">Join the <span class="g">circle</span></div>
+        <div class="l-rule"></div>
+        <div class="l-body">Sign up for updates, recipes and invitations to our next gathering.</div>
+        <div class="left-more">Sign up →</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DRAWERS (open from right) ═══ -->
+
+<div id="gather-drawer" class="drawer-right">
+  <div class="drawer-header">
+    <button onclick="closeDrawer('gather-drawer')" class="back-btn">Hide x</button>
+  </div>
+  <div class="drawer-content">
+    <div style="padding:1.5rem 0">
+      <div class="l-lbl">Upcoming gatherings</div>
+      <div style="font-weight:900;font-style:italic;font-size:clamp(1.6rem,4vw,2.4rem);line-height:.95;letter-spacing:-.02em;color:var(--cream);margin-bottom:1.25rem">Where we meet</div>
+      <p style="font-size:.88rem;font-weight:300;line-height:1.75;color:var(--dim)">Events and locations coming soon. Sign up to be the first to know.</p>
+    </div>
+  </div>
+</div>
+
+<div id="brew-drawer" class="drawer-right">
+  <div class="drawer-header">
+    <button onclick="closeDrawer('brew-drawer')" class="back-btn">Hide x</button>
+  </div>
+  <div class="drawer-content">
+    <div style="padding:1.5rem 0">
+      <div class="l-lbl">The ritual</div>
+      <div style="font-weight:900;font-style:italic;font-size:clamp(1.6rem,4vw,2.4rem);line-height:.95;letter-spacing:-.02em;color:var(--cream);margin-bottom:1.25rem">Brewing chai</div>
+      <p style="font-size:.88rem;font-weight:300;line-height:1.75;color:var(--dim)">Recipes, spice guides and the slow art of making chai. More coming soon.</p>
+    </div>
+  </div>
+</div>
+
+<div id="about-drawer" class="drawer">
+  <div class="drawer-header">
+    <button onclick="closeDrawer('about-drawer')" class="back-btn">Hide x</button>
+  </div>
+  <div class="drawer-content">
+    <div style="padding:1.5rem 0">
+      <div class="l-lbl">Who we are</div>
+      <div style="font-weight:900;font-style:italic;font-size:clamp(1.6rem,4vw,2.4rem);line-height:.95;letter-spacing:-.02em;color:var(--cream);margin-bottom:1.25rem">About Community Chai</div>
+      <p style="font-size:.88rem;font-weight:300;line-height:1.75;color:var(--dim)">Community Chai is a subproject of Dub&amp;Dal — a space rooted in the warmth and communal spirit of South Asian chai culture. More coming soon.</p>
+    </div>
+  </div>
+</div>
+
+<div id="join-drawer" class="drawer">
+  <div class="drawer-header">
+    <button onclick="closeDrawer('join-drawer')" class="back-btn">Hide x</button>
+  </div>
+  <div class="drawer-content">
+    <div style="padding:1.5rem 0">
+      <div class="l-lbl">Stay in touch</div>
+      <div style="font-weight:900;font-style:italic;font-size:clamp(1.6rem,4vw,2.4rem);line-height:.95;letter-spacing:-.02em;color:var(--cream);margin-bottom:1.25rem">Join the circle</div>
+      <p style="font-size:.88rem;font-weight:300;line-height:1.75;color:var(--dim);margin-bottom:1.5rem">Sign up for updates on chai circles, recipes and gatherings.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScNAVNF-T3ds_7682n1PDqXos3s9rk-F0iG7sz9WoXpETbCnQ/viewform?usp=sf_link"
+         target="_blank"
+         style="display:inline-block;background:var(--gold);color:var(--bg);padding:.6rem 1.4rem;font-weight:900;font-style:italic;font-size:.9rem;text-decoration:none;transition:background .2s">
+        Sign up for updates →
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="f-bot">© 2026 Community Chai</div>
+
+<script src="drawer.js"></script>
+<script>
+  /* ── Hamburger ── */
+  (function () {
+    var btn = document.querySelector('.nav-hamburger');
+    var drawer = document.querySelector('.nav-drawer');
+    if (!btn || !drawer) return;
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.classList.toggle('open', !open);
+      drawer.classList.toggle('open', !open);
+      drawer.setAttribute('aria-hidden', String(open));
+    });
+    drawer.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.classList.remove('open');
+        drawer.classList.remove('open');
+        drawer.setAttribute('aria-hidden', 'true');
+      });
+    });
+  })();
+
+</script>
+
+</body>
+</html>

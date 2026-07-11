@@ -2,14 +2,7 @@
 (function () {
   var style = document.createElement('style');
   style.textContent = [
-    /* Drawer shell — same as festival.html's .drawer; duplicating is harmless */
-    '.drawer{position:fixed;top:0;left:-100%;width:100%;height:100vh;background:var(--bg,#0c0a07);z-index:1000;transition:left .3s ease;overflow:hidden}',
-    '.drawer.open{left:0}',
-    '.drawer-header{position:sticky;top:0;background:var(--bg,#0c0a07);padding:1rem;border-bottom:1px solid var(--bord,rgba(212,146,14,.16));z-index:1001;display:flex;flex-direction:row;justify-content:flex-end}',
-    '.back-btn{background:var(--gold,#d4920e);color:var(--bg,#0c0a07);border:none;padding:.5rem 1rem;font-family:"Alegreya Sans",serif;font-weight:700;font-style:italic;cursor:pointer;border-radius:4px}',
-    '.drawer-content{height:calc(100vh - 80px);overflow-y:auto;padding:1rem;padding-bottom:max(4rem,env(safe-area-inset-bottom) + 2rem)}',
-    '@media(min-width:768px){.drawer{width:50%;left:-50%}}',
-    /* Merch inner content */
+    /* Merch inner content — drawer shell comes from styles.css */
     '.merch-lbl{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold,#d4920e);margin-bottom:.75rem}',
     '.merch-heading{font-weight:900;font-style:italic;font-size:clamp(1.6rem,4vw,2.4rem);line-height:.95;letter-spacing:-.02em;color:var(--cream,#f0e6cc);margin-bottom:1.25rem}',
     '.merch-body{font-size:.88rem;font-weight:300;line-height:1.72;color:rgba(240,230,204,.82);margin-bottom:1.5rem;max-width:38rem}',
@@ -28,10 +21,12 @@
   ].join('');
   document.head.appendChild(style);
 
+  var drawerClass = (window.MERCH_DRAWER_SIDE === 'right') ? 'drawer-right' : 'drawer';
+
   document.body.insertAdjacentHTML('beforeend',
-    '<div id="merch-drawer" class="drawer">' +
+    '<div id="merch-drawer" class="' + drawerClass + '">' +
       '<div class="drawer-header">' +
-        '<button onclick="closeMerchDrawer()" class="back-btn">Hide x</button>' +
+        '<button onclick="closeDrawer(\'merch-drawer\')" class="back-btn">Hide x</button>' +
       '</div>' +
       '<div class="drawer-content">' +
         '<div class="merch-lbl">Raising funds for Palestine 🇵🇸</div>' +
@@ -82,11 +77,6 @@
     if (e.key === 'Escape') modal.classList.remove('open');
   });
 
-  window.openMerchDrawer = function () {
-    if (window.closeAllDrawers) window.closeAllDrawers();
-    document.getElementById('merch-drawer').classList.add('open');
-  };
-  window.closeMerchDrawer = function () {
-    document.getElementById('merch-drawer').classList.remove('open');
-  };
+  window.openMerchDrawer = function () { openDrawer('merch-drawer'); };
+  window.closeMerchDrawer = function () { closeDrawer('merch-drawer'); };
 })();
