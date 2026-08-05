@@ -198,6 +198,25 @@
 .modal-text a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--bord2); transition: border-color .2s; }
 .modal-text a:hover { border-color: var(--gold); }
 
+.tt-table { display: flex; flex-direction: column; margin: .3rem 0; }
+.tt-row {
+  display: flex; align-items: baseline; gap: .5rem;
+  padding: .22rem 0; border-bottom: 1px solid var(--bord);
+  line-height: 1.35;
+}
+.tt-row:last-child { border-bottom: none; }
+.tt-time {
+  flex: 0 0 auto; min-width: 4.2rem;
+  font-size: .66rem; font-weight: 700; letter-spacing: .01em;
+  color: var(--gold);
+}
+.tt-act { flex: 1; font-size: .78rem; color: rgba(240,230,204,.75); }
+@media (max-width: 480px) {
+  .tt-row { gap: .4rem; }
+  .tt-time { min-width: 3.7rem; font-size: .62rem; }
+  .tt-act { font-size: .74rem; }
+}
+
 .modal-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .25rem; }
 .modal-tag {
   font-size: .6rem; font-weight: 700; letter-spacing: .1em;
@@ -244,15 +263,18 @@
       data-tags="Performance-Lecture,Live,South Asian, 16-01h, 15-20€"
       data-img="./images/Daytimers.jpg"
       data-text="Celebrating roots and community in collaboration with DayTimers Berlin who share the same mission as ours. This one's for our South Asian roots, we're opening the floor to performers and artists from the diaspora to the motherland, creating a space for everyone to feel at home.
-      Proudly Presenting:
-      * Switched on India by Varun Desai from Kolkatta (performance-lecture, live)
-      * Khxdeej b2b Pia Collada (Goa meets Berlin)
-      * sinhwave (from Hyderabad)
-      * yungfya
-      * Mudassir Sheikh & Neroli (live)
-      * O.M. Theorem (live) - Dub&Dal resident
-      * Panel Talk - Diversity in underground music scenes
-      16:00 to 01:00
+
+<div class=&quot;tt-table&quot;>
+<div class=&quot;tt-row&quot;><span class=&quot;tt-time&quot;>16:00-17:15</span><span class=&quot;tt-act&quot;>Panel discussion - Diversity in underground music scenes</span></div>
+<div class=&quot;tt-row&quot;><span class=&quot;tt-time&quot;>17:30-19:00</span><span class=&quot;tt-act&quot;>Sinhwave</span></div>
+<div class=&quot;tt-row&quot;><span class=&quot;tt-time&quot;>19:00-20:00</span><span class=&quot;tt-act&quot;>Mudassir Sheikh and Neroli (live)</span></div>
+<div class=&quot;tt-row&quot;><span class=&quot;tt-time&quot;>20:00-21:00</span><span class=&quot;tt-act&quot;>Switched on India by Varun Desai (live)</span></div>
+<div class=&quot;tt-row&quot;><span class=&quot;tt-time&quot;>21:00-22:30</span><span class=&quot;tt-act&quot;>Yungfya</span></div>
+<div class=&quot;tt-row&quot;><span class=&quot;tt-time&quot;>22:30-23:30</span><span class=&quot;tt-act&quot;>O.M.Theorem ft Arko (live)</span></div>
+<div class=&quot;tt-row&quot;><span class=&quot;tt-time&quot;>23:30-01:00</span><span class=&quot;tt-act&quot;>Khxdeej b2b Pia</span></div>
+<div class=&quot;tt-row&quot;><span class=&quot;tt-time&quot;>18:00 onwards</span><span class=&quot;tt-act&quot;>Thali with 7 dishes from East Punjab (India) and West Punjab (Pakistan) until it lasts</span></div>
+</div>
+
       Sliding scale donations 15-20€, cash only
       You must be a member to enter, you can become a member at the door by paying an annual membership fee of 5€ (cash only)
       ">
