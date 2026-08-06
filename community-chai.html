@@ -114,6 +114,47 @@
       margin-bottom: .6rem;
     }
     .cc-link-btn:hover { background: var(--gold); color: #ede5d0; border-color: var(--gold); }
+
+    .cc-event {
+      background: rgba(237,229,208,.95);
+      border: 1px solid var(--bord2);
+      border-radius: .5rem;
+      margin-bottom: .6rem;
+      overflow: hidden;
+    }
+    .cc-event-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; text-align: left;
+      padding: .9rem 1.25rem;
+      font-weight: 700; font-style: italic; font-size: .95rem;
+      color: #ede5d0;
+      background: var(--gold);
+      border: none; cursor: pointer; font-family: inherit;
+      transition: background .2s;
+    }
+    .cc-event-toggle:hover { background: var(--gold2); }
+    .cc-event-caret {
+      flex-shrink: 0; margin-left: .75rem;
+      transition: transform .25s ease;
+    }
+    .cc-event[data-open="true"] .cc-event-caret { transform: rotate(90deg); }
+    .cc-event-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease;
+    }
+    .cc-event-panel-inner {
+      padding: 0 1.25rem 1.1rem;
+      font-size: .88rem; line-height: 1.7;
+      color: var(--cream); font-weight: 300;
+      border-top: 1px solid var(--bord);
+      padding-top: 1rem;
+    }
+    .cc-event-panel-inner p + p { margin-top: .75rem; }
+    .cc-event-link {
+      display: inline-block; margin-top: .85rem;
+      color: var(--gold); font-weight: 700; text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -138,13 +179,29 @@
 
   <div class="cc-links">
     <div class="cc-links-lbl">Upcoming</div>
-    <button type="button" class="cc-links-placeholder" data-tally-open="VLAPDa" data-tally-layout="modal" data-tally-width="480">
-      <span>31/7 at <a href="https://maps.app.goo.gl/4uGxboG5Uj88q1SN6" target="_blank" onclick="event.stopPropagation()">Studio dB</a> 18:00</span>
-      <span>Sign up →</span>
-    </button>
+    <div class="cc-event" id="cc-event-thf">
+      <button type="button" class="cc-event-toggle" aria-expanded="false" aria-controls="cc-event-thf-panel" onclick="toggleCcEvent('cc-event-thf')">
+        <span>15/8 with Torhauskochkollektiv, 16-20h at <a href="https://maps.app.goo.gl/Yu5gr3Fd8ye4i4mX9" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="color:inherit;text-decoration:underline">Torhaus</a></span>
+        <span class="cc-event-caret">→</span>
+      </button>
+      <div class="cc-event-panel" id="cc-event-thf-panel">
+        <div class="cc-event-panel-inner">
+          <p>We're collaborating with <a href="https://torhauskochkollektiv.org/" target="_blank" rel="noopener noreferrer" class="cc-event-link">Torhaus Koch Kollektiv</a>, merging our monthly with their monthly Küfa [Communal cooking with rescued food, open to all]</p>
+          <p>Starting as usual at 16:00 with cooking, we go live on air as Radio ToKoKo at 18:00, hosted by Aarti, who is part of both collectives. She will play revolutionary songs, sounds of protest and activism and interview two guests from India:</p>
+          <p>Deborshi Chakraborthy, scholar and guest speaker, on <a href="https://untoldmag.org/india-cockroach-revolt-party/" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline">How India's Youth Uprising Is Cracking Modi's Electoral Autocracy</a>. </p>
+          <p>Arshi Javaid, Berlin-based Kashmiri scholar and author/editor of <a href="https://www.amazon.de/-/en/Yaadgah-Memories-Srinagar-Arshi-Javaid/dp/B0FFGBTD2D" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline">Yaadgah: Memories of Srinagar</a>, an anthology of essays and images tracing memory, loss and everyday life in Srinagar's old city.</p>
+          <p>Join us for an afternoon that blends chai, community radio, food-activism, and good company.</p>
+          <p><a href="https://maps.app.goo.gl/Yu5gr3Fd8ye4i4mX9" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline">Come to Torhaus</a>, 16-20h
+          or tune in to <a href="https://thfradio.de/en" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline">THF Radio</a> 18-20h </p>
+        </div>
+      </div>
+    </div>
 
     <div class="cc-links-lbl" style="margin-top:1.5rem">Past events</div>
 
+    <a href="https://maps.app.goo.gl/4uGxboG5Uj88q1SN6" target="_blank" class="cc-link-btn">
+      Community Chai at Studio dB - 31/7 <span>→</span>
+    </a>
     <a href="https://forms.gle/tJPvDJkdfkxwKXYRA" target="_blank" class="cc-link-btn">
       Community Chai at ikii - 25/6 <span>→</span>
     </a>
@@ -190,6 +247,25 @@
 </div>
 
 <div class="f-bot" style="position:relative;z-index:1">© 2026 Community Chai</div>
+
+<script>
+function toggleCcEvent(id) {
+  const wrap  = document.getElementById(id);
+  const panel = document.getElementById(id + '-panel');
+  const btn   = wrap.querySelector('.cc-event-toggle');
+  const open  = wrap.dataset.open === 'true';
+
+  if (open) {
+    panel.style.maxHeight = '0px';
+    wrap.dataset.open = 'false';
+    btn.setAttribute('aria-expanded', 'false');
+  } else {
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    wrap.dataset.open = 'true';
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+</script>
 
 </body>
 </html>
