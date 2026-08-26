@@ -17,6 +17,10 @@
             object-fit: contain; object-position: center;
             display: block;
         }
+        /* banner is a mobile-only touch — desktop has the cards for that */
+        @media (min-width: 901px) {
+            .banner { display: none; }
+        }
         /* cards on index are links — reset anchor styling */
         .left-section { text-decoration: none; display: block; color: inherit; }
 
@@ -119,6 +123,14 @@
             background: linear-gradient(to top, rgba(12,10,7,.95) 0%, rgba(12,10,7,.55) 60%, transparent 100%);
             padding: 2.2rem 2rem 1.6rem;
         }
+
+        /* on mobile the two columns sit side by side, so cards get narrow —
+           stretch them taller so the images stay properly visible */
+        @media (max-width: 900px) {
+            .wb-panel, .hb-panel, .pal-panel, .about-panel {
+                aspect-ratio: 3/5;
+            }
+        }
     </style>
 </head>
 <body>
@@ -126,6 +138,9 @@
 <script src="nav.js"></script>
 
 <div class="page-body">
+  <div class="banner">
+    <img src="./images/DD hands yellow.PNG" alt="Dub&Dal">
+</div>
 
 <div class="wrap">
     <div class="column" id="left" style="padding-bottom: 1rem;">
