@@ -19,6 +19,106 @@
         }
         /* cards on index are links — reset anchor styling */
         .left-section { text-decoration: none; display: block; color: inherit; }
+
+        /* "Will Be" upcoming-events carousel — full-size image, auto-rotating, title on bottom */
+        .wb-panel {
+            padding: 0;
+            aspect-ratio: 4/5;
+        }
+        .wb-carousel {
+            position: absolute; inset: 0;
+        }
+        .wb-slide {
+            position: absolute; inset: 0;
+            opacity: 0;
+            animation: wbFade 9s ease-in-out infinite;
+        }
+        .wb-slide:nth-child(2) { animation-delay: 4.5s; }
+        .wb-slide img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center;
+            filter: saturate(.85) brightness(.8);
+        }
+        .wb-overlay {
+            position: absolute; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(12,10,7,.95) 0%, rgba(12,10,7,.55) 60%, transparent 100%);
+            padding: 2.2rem 2rem 1.6rem;
+        }
+        @keyframes wbFade {
+            0%, 100% { opacity: 0; }
+            4%, 46%  { opacity: 1; }
+            50%      { opacity: 0; }
+        }
+
+        /* "Has Been" 2026 archive carousel — same mechanics, 5 images */
+        .hb-panel {
+            padding: 0;
+            aspect-ratio: 4/5;
+        }
+        .hb-carousel {
+            position: absolute; inset: 0;
+        }
+        .hb-slide {
+            position: absolute; inset: 0;
+            opacity: 0;
+            animation: hbFade 22.5s ease-in-out infinite;
+        }
+        .hb-slide:nth-child(1) { animation-delay: 0s; }
+        .hb-slide:nth-child(2) { animation-delay: 4.5s; }
+        .hb-slide:nth-child(3) { animation-delay: 9s; }
+        .hb-slide:nth-child(4) { animation-delay: 13.5s; }
+        .hb-slide:nth-child(5) { animation-delay: 18s; }
+        .hb-slide img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center;
+            filter: saturate(.85) brightness(.8);
+        }
+        .hb-overlay {
+            position: absolute; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(12,10,7,.95) 0%, rgba(12,10,7,.55) 60%, transparent 100%);
+            padding: 2.2rem 2rem 1.6rem;
+        }
+        @keyframes hbFade {
+            0%, 100%   { opacity: 0; }
+            1.6%, 18.4% { opacity: 1; }
+            20%        { opacity: 0; }
+        }
+
+        /* "Raising Funds for Palestine" card — full-size image, title on bottom */
+        .pal-panel {
+            padding: 0;
+            aspect-ratio: 1597/2400;
+        }
+        .pal-panel img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center;
+            filter: saturate(.85) brightness(.8);
+        }
+        .pal-overlay {
+            position: absolute; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(12,10,7,.95) 0%, rgba(12,10,7,.55) 60%, transparent 100%);
+            padding: 2.2rem 2rem 1.6rem;
+        }
+
+        /* "About Dub&Dal" card — full-size image, title on bottom */
+        .about-panel {
+            padding: 0;
+            aspect-ratio: 1286/1714;
+        }
+        .about-panel img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center;
+            filter: saturate(.85) brightness(.8);
+        }
+        .about-overlay {
+            position: absolute; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(12,10,7,.95) 0%, rgba(12,10,7,.55) 60%, transparent 100%);
+            padding: 2.2rem 2rem 1.6rem;
+        }
     </style>
 </head>
 <body>
@@ -26,47 +126,57 @@
 <script src="nav.js"></script>
 
 <div class="page-body">
-<div class="banner">
-    <img src="./images/DD hands yellow.PNG" alt="Dub&Dal">
-</div>
 
 <div class="wrap">
     <div class="column" id="left" style="padding-bottom: 1rem;">
 
-        <a href="upcoming.html" class="left-section panel-s1" data-title="WILL BE">
-            <div class="l-lbl">Upcoming gatherings</div>
-            <div class="l-title">Will <span class="g">Be</span></div>
-            <div class="l-rule"></div>
-            <div class="l-body"> 28th August in Vilnius, Lithunia <br> 29th August in Riga, Latvia </div>
-            <div class="left-more">See upcoming →</div>
+        <a href="upcoming.html" class="left-section panel-s1 wb-panel" data-title="WILL BE">
+            <div class="wb-carousel">
+                <div class="wb-slide"><img src="./images/Vilnius.jpg" alt="Vilnius poster" loading="lazy"></div>
+                <div class="wb-slide"><img src="./images/Riga.jpg" alt="Riga poster" loading="lazy"></div>
+            </div>
+            <div class="wb-overlay">
+                <div class="l-lbl">Upcoming gatherings</div>
+                <div class="l-title">Will <span class="g">Be</span></div>
+                <div class="left-more">See upcoming →</div>
+            </div>
         </a>
 
-        <div class="left-section panel-s1" data-title="PALESTINE" onclick="openMerchDrawer()">
-            <div class="l-lbl">Fundraiser</div>
-            <div class="l-title">Raising Funds for<br><span class="g">Palestine 🇵🇸</span></div>
-            <div class="l-rule"></div>
-            <div class="l-body">100% organic cotton T-shirts. Sliding scale 20–30€. 50% of proceeds go to support initiatives in Palestine. Pick up in Berlin or at events.</div>
-            <div class="left-more">View T-shirts →</div>
+        <div class="left-section panel-s1 pal-panel" data-title="PALESTINE" onclick="openMerchDrawer()">
+            <img src="./images/GretaTshirt.jpg" alt="Palestine fundraiser T-shirt" loading="lazy">
+            <div class="pal-overlay">
+                <div class="l-lbl">Fundraiser</div>
+                <div class="l-title">Raising Funds for<br><span class="g">Palestine 🇵🇸</span></div>
+                <div class="left-more">View T-shirts →</div>
+            </div>
         </div>
 
     </div>
 
     <div class="column" id="right" style="padding-bottom: 0.95rem;">
 
-        <a href="archive.html" class="left-section panel-s2" data-title="HAS BEEN">
-            <div class="l-lbl">Past gatherings</div>
-            <div class="l-title">Has <span class="g">Been</span></div>
-            <div class="l-rule"></div>
-            <div class="l-body">We've spent some lovely days and nights together with our community in Berlin 🇩🇪 Bergen 🇳🇴 and Liege 🇧🇪</div>
-            <div class="left-more">See archive →</div>
+        <a href="archive.html" class="left-section panel-s2 hb-panel" data-title="HAS BEEN">
+            <div class="hb-carousel">
+                <div class="hb-slide"><img src="./images/festival.JPG" alt="Dub&Dal Festival poster" loading="lazy"></div>
+                <div class="hb-slide"><img src="./images/LaNatureCurators.png" alt="Dub&Dal at La Nature festival" loading="lazy"></div>
+                <div class="hb-slide"><img src="./images/OutlookSource.png" alt="Dub&Dal at Outlook Festival" loading="lazy"></div>
+                <div class="hb-slide"><img src="./images/Daytimers.jpg" alt="Dub&Dal meets DayTimers Berlin" loading="lazy"></div>
+                <div class="hb-slide"><img src="./images/renate.jpg" alt="Dub&Dal at Renate" loading="lazy"></div>
+            </div>
+            <div class="hb-overlay">
+                <div class="l-lbl">Past gatherings</div>
+                <div class="l-title">Has <span class="g">Been</span></div>
+                <div class="left-more">See archive →</div>
+            </div>
         </a>
 
-        <a href="about.html" class="left-section panel-s2" data-title="ABOUT">
-            <div class="l-lbl">Who we are</div>
-            <div class="l-title">About <span class="g">Dub&amp;Dal</span></div>
-            <div class="l-rule"></div>
-            <div class="l-body">Celebrating roots and community, creating spaces around the world that feel like home but are accessible to everyone</div>
-            <div class="left-more">Learn more →</div>
+        <a href="about.html" class="left-section panel-s2 about-panel" data-title="ABOUT">
+            <img src="./images/Thali.jpg" alt="Dub&Dal Thali">
+            <div class="about-overlay">
+                <div class="l-lbl">Who we are</div>
+                <div class="l-title">About <span class="g">Dub&amp;Dal</span></div>
+                <div class="left-more">Learn more →</div>
+            </div>
         </a>
 
     </div>
